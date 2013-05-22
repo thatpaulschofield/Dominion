@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{495F1640-5633-4CB2-9041-A222B7C9889C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Dominion</RootNamespace>
+    <AssemblyName>Dominion</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AI\Node.cs" />
+    <Compile Include="AI\Function.cs" />
+    <Compile Include="AI\Functions\Boolean\And.cs" />
+    <Compile Include="AI\Functions\Boolean\Equals.cs" />
+    <Compile Include="AI\Functions\If.cs" />
+    <Compile Include="AI\Functions\Boolean\Not.cs" />
+    <Compile Include="AI\NodeVisitor.cs" />
+    <Compile Include="AI\Terminal.cs" />
+    <Compile Include="AI\Terminals\Constant.cs" />
+    <Compile Include="Turn.cs" />
+    <Compile Include="TurnScope.cs" />
+    <Compile Include="Cards\BasicSet\Action.cs" />
+    <Compile Include="Cards\BasicSet\BasicCards.cs" />
+    <Compile Include="Cards\Card.cs" />
+    <Compile Include="Cards\CardFactory.cs" />
+    <Compile Include="Cards\BasicSet\Cards.cs" />
+    <Compile Include="CardSet.cs" />
+    <Compile Include="Cards\BasicSet\Treasures\CopperFactory.cs" />
+    <Compile Include="Cards\BasicSet\Treasures\GoldFactory.cs" />
+    <Compile Include="Cards\BasicSet\Treasures\SilverFactory.cs" />
+    <Compile Include="Cards\BasicSet\VictoryCards\DuchyFactory.cs" />
+    <Compile Include="Cards\BasicSet\VictoryCards\EstateFactory.cs" />
+    <Compile Include="Cards\BasicSet\VictoryCards\ProvinceFactory.cs" />
+    <Compile Include="Cards\CardType.cs" />
+    <Compile Include="Deck.cs" />
+    <Compile Include="NaivePlayerController.cs" />
+    <Compile Include="DiscardPile.cs" />
+    <Compile Include="Game.cs" />
+    <Compile Include="GameEvents\ActionPhase.cs" />
+    <Compile Include="GameEvents\BuyPhase.cs" />
+    <Compile Include="GameEvents\GameEvent.cs" />
+    <Compile Include="GameEvents\GameEventResponse.cs" />
+    <Compile Include="GameEvents\PlayActionResponse.cs" />
+    <Compile Include="GameEvents\SkipActionPhaseResponse.cs" />
+    <Compile Include="GameEvents\SkipBuyPhaseResponse.cs" />
+    <Compile Include="Hand.cs" />
+    <Compile Include="IntExtensions.cs" />
+    <Compile Include="Player.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Supply.cs" />
+    <Compile Include="SupplyEmptyException.cs" />
+    <Compile Include="SupplyPile.cs" />
+    <Compile Include="Cards\BasicSet\Treasures\Treasure.cs" />
+    <Compile Include="Cards\BasicSet\VictoryCards\Victory.cs" />
+    <Compile Include="Cards\BasicSet\Actions\Village.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
