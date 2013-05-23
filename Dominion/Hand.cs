@@ -1,3 +1,4 @@
+using System.Linq;
 using Dominion.Cards;
 
 namespace Dominion
@@ -6,31 +7,30 @@ namespace Dominion
     {
         public void Draw(Card card)
         {
-            this.Add(card);
-        }
-
-        private new void Add(Card card)
-        {
-            base.Add(card);
-        }
-
-        private new void Remove(Card card)
-        {
-            base.Remove(card);
+            _innerList.Add(card);
         }
 
         public void Discard(Card card, DiscardPile discardPile)
         {
             if (this.Contains(card))
             {
-                Remove(card);
+                _innerList.Remove(card);
                 discardPile.Discard(card);
             }
         }
 
         public void Discard(DiscardPile discardPile)
         {
-            this.ForEach(c => Discard(c, discardPile));
+            _innerList.ForEach(c => Discard(c, discardPile));
+        }
+
+        public void PlayCard(Card cardToPlay, CardSet cardsInPlay)
+        {
+            if (this.Contains(cardToPlay))
+            {
+                _innerList.Remove(cardToPlay);
+                cardsInPlay.Add(cardToPlay);
+            }
         }
     }
 }

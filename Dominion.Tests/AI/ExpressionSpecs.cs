@@ -21,6 +21,14 @@ public class blah
     [TestFixture]
     public class ExpressionSpecs
     {
+        private Player player;
+        [SetUp]
+        public void SetUp()
+        {
+            var discardPile = new DiscardPile();
+            var deck = new Deck(7.Coppers(), 3.Estates());
+            player = new Player(deck, discardPile, new NaivePlayerController());
+        }
         [Test]
         public void True_should_equal_not_false()
         {
@@ -32,7 +40,7 @@ public class blah
                         Child1 = new Constant<bool>(false)
                     }
             };
-            expression.Evaluate(new TurnScope(new Supply(), new DiscardPile())).ShouldBeTrue();
+            expression.Evaluate(new TurnScope(player, new Supply(), new DiscardPile())).ShouldBeTrue();
         }
 
         [Test]
@@ -43,7 +51,7 @@ public class blah
                 Child1 = new Constant<bool>(true),
                 Child2 = new Constant<bool>(false)
             };
-            expression.Evaluate(new TurnScope(new Supply(), new DiscardPile())).ShouldBeFalse();
+            expression.Evaluate(new TurnScope(player, new Supply(), new DiscardPile())).ShouldBeFalse();
         }
 
         [Test]
@@ -54,7 +62,7 @@ public class blah
                     Child1 = new Constant<bool>(true),
                     Child2 = new Constant<bool>(true)
                 };
-            expression.Evaluate(new TurnScope(new Supply(), new DiscardPile())).ShouldBeTrue();
+            expression.Evaluate(new TurnScope(player, new Supply(), new DiscardPile())).ShouldBeTrue();
         }
 
         [Test]
@@ -65,7 +73,7 @@ public class blah
                     Child1 = new Constant<int>(6),
                     Child2 = new Constant<int>(6)
                 };
-            equals.Evaluate(new TurnScope(new Supply(), new DiscardPile())).ShouldBeTrue();
+            equals.Evaluate(new TurnScope(player, new Supply(), new DiscardPile())).ShouldBeTrue();
         }
         
         [Test]
@@ -79,7 +87,7 @@ public class blah
                         Child2 = new Constant<int>(6)
                     }
                 };
-            expression.Evaluate(new TurnScope(new Supply(), new DiscardPile())).ShouldBeTrue();
+            expression.Evaluate(new TurnScope(player, new Supply(), new DiscardPile())).ShouldBeTrue();
         }
 
         [Test]
@@ -90,7 +98,7 @@ public class blah
                     Child1 = new Constant<int>(5),
                     Child2 = new Constant<int>(6)
                 };
-            expression.Evaluate(new TurnScope(new Supply(), new DiscardPile())).ShouldBeFalse();
+            expression.Evaluate(new TurnScope(player, new Supply(), new DiscardPile())).ShouldBeFalse();
         }
     }
 }

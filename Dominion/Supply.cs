@@ -20,5 +20,12 @@ namespace Dominion
         {
             return this[cardType].Draw();
         }
+
+        public CardSet FindCardsEligibleForPurchase(TurnScope turnScope)
+        {
+            return new CardSet(
+                this.Select(x => x.Value.Type.Create())
+                .Where(t => t.Cost <= turnScope.PotentialCoins));
+        }
     }
 }

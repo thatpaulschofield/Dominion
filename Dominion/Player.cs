@@ -1,13 +1,10 @@
 using System;
+using System.Linq;
 using Dominion.AI;
 using Dominion.GameEvents;
 
 namespace Dominion
 {
-    public interface IPlayerController
-    {
-        GameEventResponse HandleGameEvent(GameEvent @event);
-    }
     public class Player
     {
         private readonly IPlayerController _strategy;
@@ -53,6 +50,11 @@ namespace Dominion
         public void BeginCleanupPhase(TurnScope turnScope)
         {
             turnScope.CleanUp();
+        }
+
+        public void PlayTreasures(CardSet treasuresToPlay, CardSet cardsInPlay)
+        {
+            treasuresToPlay.ToList().ForEach(t => this.Hand.PlayCard(t, cardsInPlay));
         }
     }
 }

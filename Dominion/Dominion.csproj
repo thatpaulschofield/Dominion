@@ -48,6 +48,8 @@
     <Compile Include="AI\NodeVisitor.cs" />
     <Compile Include="AI\Terminal.cs" />
     <Compile Include="AI\Terminals\Constant.cs" />
+    <Compile Include="GameEvents\BuyCardResponse.cs" />
+    <Compile Include="IPlayerController.cs" />
     <Compile Include="Turn.cs" />
     <Compile Include="TurnScope.cs" />
     <Compile Include="Cards\BasicSet\Action.cs" />
@@ -85,7 +87,9 @@
     <Compile Include="Cards\BasicSet\VictoryCards\Victory.cs" />
     <Compile Include="Cards\BasicSet\Actions\Village.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Phases\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

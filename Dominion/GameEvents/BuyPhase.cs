@@ -1,4 +1,5 @@
-﻿using Dominion.AI;
+﻿using System.Linq;
+using Dominion.AI;
 using Dominion.Cards;
 
 namespace Dominion.GameEvents
@@ -8,39 +9,27 @@ namespace Dominion.GameEvents
         private readonly TurnScope _turnScope;
         private readonly CardSet _availablePurchases;
 
-        public BuyPhase(TurnScope turnScope, CardSet availablePurchases)
+        public BuyPhase(TurnScope turnScope)
         {
             _turnScope = turnScope;
-            _availablePurchases = availablePurchases;
+
+            _availablePurchases = _turnScope.Supply.FindCardsEligibleForPurchase(turnScope);
         }
 
-        public GameEventResponse BuyCard(Card card)
+        public GameEventResponse BuyCard(Card card, CardSet treasuresToPlay)
         {
             if (_availablePurchases.Contains(card))
-                return new BuyCardResponse(_turnScope, card);
+                return new BuyCardResponse(_turnScope, card, treasuresToPlay);
 
             return new SkipBuyPhaseResponse(_turnScope);
         }
 
         public override GameEventResponse GetDefaultResponse()
         {
-            return new BuyCardResponse(_turnScope, _availablePurchases[0]);
-        }
-    }
+            if (_availablePurchases.Any())
+                return new BuyCardResponse(_turnScope, _availablePurchases[0], _turnScope.Player.Hand.Treasures());
 
-    public class BuyCardResponse : GameEventResponse
-    {
-        public Card CardToPurchase { get; private set; }
-
-        public BuyCardResponse(TurnScope turnScope, Card cardToPurchase) : base(turnScope)
-        {
-            CardToPurchase = cardToPurchase;
-        }
-
-        public override void Execute()
-        {
-            _turnScope.Discard(_turnScope.Supply.AcquireCard(CardToPurchase.CardType));
-            
+            return new SkipBuyPhaseResponse(_turnScope);
         }
     }
 }

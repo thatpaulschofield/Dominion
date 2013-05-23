@@ -13,20 +13,26 @@ namespace Dominion.Tests.GameEvents
         [Test]
         public void When_an_illegal_card_is_selected_buy_phase_ends()
         {
-            var turnScope = new TurnScope(new Supply(), new DiscardPile());
-            var buyPhase = new BuyPhase(turnScope,
-                                        new CardSet(Action.Village, Treasure.Copper));
-            var response = buyPhase.BuyCard(Victory.Province);
+            var discardPile = new DiscardPile();
+            var deck = new Deck(7.Coppers(), 3.Estates());
+            var player = new Player(deck, discardPile, new NaivePlayerController());
+            var turnScope = new TurnScope(player, new Supply(new SupplyPile(1, Action.Village), new SupplyPile(1, Treasure.Copper)), new DiscardPile());
+            var buyPhase = new BuyPhase(turnScope);
+            var hand = new Hand();
+            var response = buyPhase.BuyCard(Victory.Province, player.Hand.Treasures());
             response.ShouldBeType<SkipBuyPhaseResponse>();
         }
 
         [Test]
         public void When_a_valid_card_is_selected_the_card_will_be_purchased()
         {
-            var turnScope = new TurnScope(new Supply(), new DiscardPile());
-            var buyPhase = new BuyPhase(turnScope,
-                                        new CardSet(Action.Village, Treasure.Copper));
-            var response = buyPhase.BuyCard(Action.Village);
+            var discardPile = new DiscardPile();
+            var deck = new Deck(7.Coppers(), 3.Estates());
+            var player = new Player(deck, discardPile, new NaivePlayerController());
+            player.DrawNewHand();
+            var turnScope = new TurnScope(player, new Supply(new SupplyPile(1, Action.Village), new SupplyPile(1, Treasure.Copper)), new DiscardPile());
+            var buyPhase = new BuyPhase(turnScope);
+            var response = buyPhase.BuyCard(Action.Village, player.Hand.Treasures());
             response.ShouldBeType<BuyCardResponse>();
             ((BuyCardResponse)response).CardToPurchase.ShouldEqual(Action.Village);
         }

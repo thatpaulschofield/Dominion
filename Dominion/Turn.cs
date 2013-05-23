@@ -17,7 +17,7 @@ namespace Dominion
         public void Begin()
         {
             _player.BeginActionPhase(new ActionPhase(_scope, new CardSet()));
-            _player.BeginBuyPhase(new BuyPhase(_scope, new CardSet(Action.Village)));
+            _player.BeginBuyPhase(new BuyPhase(_scope));
             _player.BeginCleanupPhase(_scope);
         }
     }

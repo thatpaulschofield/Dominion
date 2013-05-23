@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Dominion.Cards;
 using Dominion.Cards.BasicSet;
 using Dominion.Cards.BasicSet.Treasures;
@@ -21,12 +22,15 @@ namespace Dominion
 
         public static CardSet BuildSet(int count, CardType card)
         {
-            var cards = new CardSet();
+            return new CardSet(count.Of(card));
+        }
+
+        public static IEnumerable<Card> Of(this int count, CardType card)
+        {
             for (int i = 0; i < count; i++)
             {
-                cards.Add(card.Create());
+                yield return card.Create();
             }
-            return cards;
         }
 
         public static void Times(this int count, Action action)

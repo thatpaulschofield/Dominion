@@ -6,7 +6,7 @@ namespace Dominion.GameEvents
     {
         protected readonly TurnScope _turnScope;
 
-        public GameEventResponse(TurnScope turnScope)
+        protected GameEventResponse(TurnScope turnScope)
         {
             _turnScope = turnScope;
         }

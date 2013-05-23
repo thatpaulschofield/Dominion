@@ -10,7 +10,6 @@ namespace Dominion.GameEvents
 
         public override void Execute()
         {
-            
         }
     }
 }

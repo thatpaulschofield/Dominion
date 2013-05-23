@@ -11,16 +11,17 @@ using Should;
 namespace Dominion.Tests.PlayerSpecs
 {
     [TestFixture]
-    class blah
+    class PlayerSpecs
     {
         [Test]
-        public void foo()
+        public void Naive_player_should_purchase_first_available_card()
         {
             var discardPile = new DiscardPile();
             var deck = new Deck(7.Coppers(), 3.Estates());
             var player = new Player(deck, discardPile, new NaivePlayerController());
+            player.DrawNewHand();
             var supply = new Supply(new SupplyPile(1, Action.Village));
-            var scope = new TurnScope(supply, discardPile);
+            var scope = new TurnScope(player, supply, discardPile);
             var turn = new Turn(player, scope);
             turn.Begin();
             player.DiscardPile.ShouldContain(Action.Village);

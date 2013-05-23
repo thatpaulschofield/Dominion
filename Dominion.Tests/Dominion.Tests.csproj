@@ -50,7 +50,7 @@
     <Compile Include="GameEvents\ActionPhaseSpecs.cs" />
     <Compile Include="GameEvents\BuyPhaseSpecs.cs" />
     <Compile Include="GameSpecs.cs" />
-    <Compile Include="PlayerSpecs\blah.cs" />
+    <Compile Include="PlayerSpecs\PlayerSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TreasureSpecs.cs" />
     <Compile Include="When_creating_a_new_game.cs" />

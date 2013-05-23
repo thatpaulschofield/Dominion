@@ -1,4 +1,5 @@
-﻿using Dominion.Cards.BasicSet;
+﻿using System.Linq;
+using Dominion.Cards.BasicSet;
 using Dominion.Cards.BasicSet.VictoryCards;
 using NUnit.Framework;
 using Should;
@@ -21,8 +22,8 @@ namespace Dominion.Tests
             game.Players.Count.ShouldEqual(players, "Wrong number of players");
             game.Players.ForEach(p =>
                 {
-                    p.Hand.Count.ShouldEqual(5, "Wrong number of cards in hand");
-                    p.Deck.Count.ShouldEqual(5, "Wrong number of cards in deck");
+                    p.Hand.Count().ShouldEqual(5, "Wrong number of cards in hand");
+                    p.Deck.Count().ShouldEqual(5, "Wrong number of cards in deck");
                 });
 
         }
