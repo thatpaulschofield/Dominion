@@ -14,6 +14,12 @@ namespace Dominion
         {
             Console.WriteLine("\t[{0}]", @event.TurnScope);
             Console.WriteLine("\t[{0}]", @event);
+
+            if (@event is GameEndedEvent)
+            {
+                Console.WriteLine("Press a key to continue...");
+                Console.ReadKey();
+            }
         }
 
         void IHandleEvents<IMessage>.Handle(IMessage @event)

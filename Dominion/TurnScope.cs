@@ -39,11 +39,6 @@ namespace Dominion
             get { return _player; }
         }
 
-        public int PotentialCoins
-        {
-            get { return Coins + this.Player.Hand.Treasures().Sum(c => c.Coins); }
-        }
-
         public Hand Hand { get { return Player.Hand; } }
 
         public void Discard(CardSet cardsToDiscard)
@@ -82,7 +77,6 @@ namespace Dominion
         public void PlayTreasures(CardSet treasuresToPlay)
         {
             _player.PlayTreasures(treasuresToPlay, this);
-            //_turnState = _turnState.AddCoins(treasuresToPlay.Sum(c => c.Coins));
         }
 
         public int Actions { get { return _turnState.Actions; }}

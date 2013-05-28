@@ -1,17 +1,15 @@
 namespace Dominion.Cards.BasicSet.Actions
 {
-    public class Village : TypedCard<Village>
+    public class Moat : TypedCard<Moat>
     {
-        public Village()
-            : base(isAction: true, cost: 3, name: "Village")
+        public Moat()
+            : base(isAction: true, isAttack: true, cost: 2, name: "Moat")
         {
         }
 
         public override void PlayAsAction(ITurnScope turnScope)
         {
-            turnScope.ChangeState(1.TurnActions());
             turnScope.Player.Draw(2, turnScope);
         }
     }
 }
-

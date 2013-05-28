@@ -46,7 +46,6 @@ namespace Dominion.Tests.PlayerSpecs
                 {
                     TurnNumber = 1,
                     Supply = supply,
-                    PotentialCoins = 5,
                     TreasuresInHand = 5.Coppers()
                 };
             _player = game.Players.ToList()[0];

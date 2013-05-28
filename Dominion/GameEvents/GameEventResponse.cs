@@ -1,6 +1,4 @@
-﻿using Dominion.AI;
-
-namespace Dominion.GameEvents
+﻿namespace Dominion.GameEvents
 {
     public abstract class GameEventResponse : GameMessage
     {

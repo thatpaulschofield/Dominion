@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Dominion.AI;
 using Dominion.Cards;
 
 namespace Dominion.GameEvents

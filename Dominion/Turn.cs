@@ -1,5 +1,4 @@
-﻿using Dominion.Cards.BasicSet;
-using Dominion.GameEvents;
+﻿using Dominion.GameEvents;
 
 namespace Dominion
 {
