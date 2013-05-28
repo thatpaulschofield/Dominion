@@ -4,7 +4,7 @@ namespace Dominion
 {
     public class NaivePlayerController : IPlayerController
     {
-        public GameEventResponse HandleGameEvent(GameEvent @event)
+        public GameEventResponse HandleGameEvent(IMessage @event)
         {
             return @event.GetDefaultResponse();
         }

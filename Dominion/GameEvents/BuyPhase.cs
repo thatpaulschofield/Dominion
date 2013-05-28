@@ -1,35 +1,47 @@
-﻿using System.Linq;
-using Dominion.AI;
+﻿using System;
+using System.Linq;
 using Dominion.Cards;
 
 namespace Dominion.GameEvents
 {
-    public class BuyPhase : GameEvent
+    public class BuyPhase : GameCommand
     {
-        private readonly TurnScope _turnScope;
-        private readonly CardSet _availablePurchases;
-
-        public BuyPhase(TurnScope turnScope)
+        public BuyPhase(ITurnScope turnScope) : base(turnScope)
         {
-            _turnScope = turnScope;
-
-            _availablePurchases = _turnScope.Supply.FindCardsEligibleForPurchase(turnScope);
-        }
-
-        public GameEventResponse BuyCard(Card card, CardSet treasuresToPlay)
-        {
-            if (_availablePurchases.Contains(card))
-                return new BuyCardResponse(_turnScope, card, treasuresToPlay);
-
-            return new SkipBuyPhaseResponse(_turnScope);
+            Description = String.Format("{0}, select a card to buy", turnScope.Player.Name);
+            GetAvailableResponses = () =>
+                    (from card in TurnScope.Supply.FindCardsEligibleForPurchase(turnScope).OrderByDescending(c => c.Cost)
+                     select new BuyCardResponse(turnScope, card)
+                         {
+                             Description = String.Format("Buy a {0} ({1})  {2} remaining", card.Name, card.Cost, TurnScope.Supply[card].Count)
+                         }).Union(new GameEventResponse[] { new DeclineToPurchaseResponse(turnScope) })
+                        ;
         }
 
         public override GameEventResponse GetDefaultResponse()
         {
-            if (_availablePurchases.Any())
-                return new BuyCardResponse(_turnScope, _availablePurchases[0], _turnScope.Player.Hand.Treasures());
+            if (GetAvailableResponses().Any())
+            {
+                var cardToPurchase = CardsAvailable().VictoryCards()
+                                                        .OrderByDescending(v => v.VictoryPoints)
+                                                        .FirstOrDefault()
+                                     ?? CardsAvailable().Treasures().OrderByDescending(t => t.Coins).FirstOrDefault()
+                                     ?? CardsAvailable()[0];
+                return new BuyCardResponse(TurnScope, cardToPurchase);
+            }
 
-            return new SkipBuyPhaseResponse(_turnScope);
+            return new SkipBuyPhaseResponse(TurnScope);
+        }
+
+        private CardSet CardsAvailable()
+        {
+            return new CardSet(GetAvailableResponses().Cast<BuyCardResponse>().Select(r => r.CardToPurchase));
+        }
+
+        public override string ToString()
+        {
+            string purchases = CardsAvailable().Aggregate("", (x, c) => x + " - " + c.Name);
+            return String.Format("Buy phase for player {0}. Available purchases: [{1}]", TurnScope.Player.Name, purchases);
         }
     }
 }

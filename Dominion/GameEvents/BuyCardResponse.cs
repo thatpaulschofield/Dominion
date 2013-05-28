@@ -1,21 +1,25 @@
-﻿using Dominion.Cards;
+﻿using System;
+using Dominion.Cards;
 
 namespace Dominion.GameEvents
 {
     public class BuyCardResponse : GameEventResponse
     {
         public Card CardToPurchase { get; private set; }
-        public CardSet TreasuresToPlay { get; private set; }
 
-        public BuyCardResponse(TurnScope turnScope, Card cardToPurchase, CardSet treasuresToPlay) : base(turnScope)
+        public BuyCardResponse(ITurnScope turnScope, Card cardToPurchase) : base(turnScope)
         {
             CardToPurchase = cardToPurchase;
-            TreasuresToPlay = treasuresToPlay;
         }
 
         public override void Execute()
         {
-            _turnScope.PerformBuy(CardToPurchase.CardType, TreasuresToPlay);
+            TurnScope.PerformBuy(CardToPurchase.CardType);
+        }
+
+        public override string ToString()
+        {
+            return String.Format("Player {0} intends to buy card {1}", TurnScope.Player.Name, CardToPurchase.Name);
         }
     }
 }

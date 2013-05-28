@@ -1,7 +1,13 @@
-﻿namespace Dominion.GameEvents
+﻿using System;
+using System.Collections.Generic;
+
+namespace Dominion.GameEvents
 {
-    public abstract class GameEvent
+    public interface IMessage
     {
-        public abstract GameEventResponse GetDefaultResponse();
+        GameEventResponse GetDefaultResponse();
+        ITurnScope TurnScope { get; }
+        Func<IEnumerable<GameEventResponse>> GetAvailableResponses { get; }
+        string Description { get; }
     }
 }

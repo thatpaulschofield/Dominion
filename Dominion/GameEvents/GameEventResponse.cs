@@ -2,14 +2,16 @@
 
 namespace Dominion.GameEvents
 {
-    public abstract class GameEventResponse
+    public abstract class GameEventResponse : GameMessage
     {
-        protected readonly TurnScope _turnScope;
+        protected readonly ITurnScope TurnScope;
 
-        protected GameEventResponse(TurnScope turnScope)
+        protected GameEventResponse(ITurnScope turnScope) : base(turnScope)
         {
-            _turnScope = turnScope;
+            TurnScope = turnScope;
         }
+
+        public string Description { get; set; }
 
         public abstract void Execute();
     }

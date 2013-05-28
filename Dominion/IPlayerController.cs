@@ -4,6 +4,6 @@ namespace Dominion
 {
     public interface IPlayerController
     {
-        GameEventResponse HandleGameEvent(GameEvent @event);
+        GameEventResponse HandleGameEvent(IMessage @event);
     }
 }

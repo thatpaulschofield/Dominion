@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="StructureMap">
+      <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,8 +51,53 @@
     <Compile Include="AI\NodeVisitor.cs" />
     <Compile Include="AI\Terminal.cs" />
     <Compile Include="AI\Terminals\Constant.cs" />
+    <Compile Include="CardDrawnEvent.cs" />
+    <Compile Include="Cards\BasicSet\Actions\Cellar.cs" />
+    <Compile Include="Cards\BasicSet\Actions\TypedCard.cs" />
+    <Compile Include="Cards\DeckSet.cs" />
+    <Compile Include="Cards\ICardFactory.cs" />
+    <Compile Include="Configuration\DominionRegistry.cs" />
+    <Compile Include="ConsoleEventLogger.cs" />
+    <Compile Include="ConsoleEventResponse.cs" />
+    <Compile Include="ConsolePlayerController.cs" />
+    <Compile Include="EndGameCondition.cs" />
+    <Compile Include="EndGameScope.cs" />
+    <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="EventAggregator.cs" />
+    <Compile Include="GameBuilder.cs" />
+    <Compile Include="GameEndedEvent.cs" />
     <Compile Include="GameEvents\BuyCardResponse.cs" />
+    <Compile Include="GameEvents\DeckDepletedEvent.cs" />
+    <Compile Include="GameEvents\DeclineToPurchaseResponse.cs" />
+    <Compile Include="GameEvents\GameCommand.cs" />
+    <Compile Include="GameEvents\GameMessage.cs" />
+    <Compile Include="GameEvents\ICommand.cs" />
+    <Compile Include="GameEvents\NullResponse.cs" />
+    <Compile Include="GameEvents\PlayAllTreasuresResponse.cs" />
+    <Compile Include="GameEvents\PlayerGainedCardEvent.cs" />
+    <Compile Include="GameEvents\PlayNoTreasuresResponse.cs" />
+    <Compile Include="GameEvents\SelectTreasuresToPlayCommand.cs" />
+    <Compile Include="GameEvents\ShuffleDeckResponse.cs" />
+    <Compile Include="GameSpec.cs" />
+    <Compile Include="IEvent.cs" />
+    <Compile Include="IEventAggregator.cs" />
+    <Compile Include="IGameBuilder.cs" />
+    <Compile Include="IHandleEvents.cs" />
     <Compile Include="IPlayerController.cs" />
+    <Compile Include="ITurnScope.cs" />
+    <Compile Include="Money.cs" />
+    <Compile Include="OutOfBuysException.cs" />
+    <Compile Include="PlayerBuilder.cs" />
+    <Compile Include="PlayerControllers\AiPlayerController.cs" />
+    <Compile Include="PlayerScore.cs" />
+    <Compile Include="PlayerSpec.cs" />
+    <Compile Include="ProvinceStackDepletedEndGameCondition.cs" />
+    <Compile Include="ShuffledDeckEvent.cs" />
+    <Compile Include="SupplyBuilder.cs" />
+    <Compile Include="SupplyPileBuilder.cs" />
+    <Compile Include="SupplyPileDepletedEvent.cs" />
+    <Compile Include="ThreeSupplyPilesDepletedEndGameCondition.cs" />
+    <Compile Include="TreasurePlayedEvent.cs" />
     <Compile Include="Turn.cs" />
     <Compile Include="TurnScope.cs" />
     <Compile Include="Cards\BasicSet\Action.cs" />
@@ -86,9 +134,10 @@
     <Compile Include="Cards\BasicSet\Treasures\Treasure.cs" />
     <Compile Include="Cards\BasicSet\VictoryCards\Victory.cs" />
     <Compile Include="Cards\BasicSet\Actions\Village.cs" />
+    <Compile Include="TurnState.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Phases\" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

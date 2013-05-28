@@ -4,7 +4,7 @@ namespace Dominion.GameEvents
 {
     public class SkipBuyPhaseResponse : GameEventResponse
     {
-        public SkipBuyPhaseResponse(TurnScope turnScope) : base(turnScope)
+        public SkipBuyPhaseResponse(ITurnScope turnScope) : base(turnScope)
         {
         }
 

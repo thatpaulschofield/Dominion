@@ -16,16 +16,20 @@ namespace Dominion
             piles.ToList().ForEach(p => this.Add(p.Type, p));
         }
 
-        public Card AcquireCard(CardType cardType)
+        public Card AcquireCard(CardType cardType, ITurnScope turnScope)
         {
-            return this[cardType].Draw();
+            return this[cardType].Draw(turnScope);
         }
 
-        public CardSet FindCardsEligibleForPurchase(TurnScope turnScope)
+        public CardSet FindCardsEligibleForPurchase(ITurnScope turnScope)
         {
-            return new CardSet(
-                this.Select(x => x.Value.Type.Create())
-                .Where(t => t.Cost <= turnScope.PotentialCoins));
+            var eligibleCards =
+                this.Select(x => x.Value)
+                    .Where(t => 
+                        t.Type.Create().Cost <= turnScope.Coins && t.Count > 0)
+                    .Select(z => z.Type.Create());
+                
+            return new CardSet(eligibleCards);
         }
     }
 }
