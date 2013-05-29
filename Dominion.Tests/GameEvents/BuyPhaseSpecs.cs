@@ -16,12 +16,12 @@ namespace Dominion.Tests.GameEvents
             var eventAggregator = new MockEventAggregator();
             var discardPile = new DiscardPile();
             var deck = new Deck(7.Coppers(), 3.Estates());
-            var player = new Player(deck, discardPile, new NaivePlayerController(), new MockEventAggregator());
+            var player = new Player(deck, discardPile, new NaivePlayerController(), eventAggregator);
             var supply = new Supply(
 
                 new SupplyPile(1, Action.Village, eventAggregator));
 
-            var turnScope = new MockTurnScope {TreasuresInHand = player.Hand, Coins = 5, Player = player, Supply = supply};
+            var turnScope = new MockTurnScope {TreasuresInHand = player.Hand, Coins = 0, Player = player, Supply = supply, EventAggregator = eventAggregator};
             var buyPhase = new BuyPhase(turnScope);
             player.BeginBuyPhase(buyPhase);
             eventAggregator.AssertMessageWasSent<SkipBuyPhaseResponse>();

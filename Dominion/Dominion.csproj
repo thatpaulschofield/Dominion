@@ -52,6 +52,7 @@
     <Compile Include="AI\Terminal.cs" />
     <Compile Include="AI\Terminals\Constant.cs" />
     <Compile Include="CardDrawnEvent.cs" />
+    <Compile Include="Cards\BasicSet\Actions\AttackCardPlayed.cs" />
     <Compile Include="Cards\BasicSet\Actions\Cellar.cs" />
     <Compile Include="Cards\BasicSet\Actions\Market.cs" />
     <Compile Include="Cards\BasicSet\Actions\Militia.cs" />
@@ -101,7 +102,7 @@
     <Compile Include="PlayerScore.cs" />
     <Compile Include="PlayerSpec.cs" />
     <Compile Include="ProvinceStackDepletedEndGameCondition.cs" />
-    <Compile Include="ShuffledDeckEvent.cs" />
+    <Compile Include="DeckReplenishedEvent.cs" />
     <Compile Include="SupplyBuilder.cs" />
     <Compile Include="SupplyPileBuilder.cs" />
     <Compile Include="SupplyPileDepletedEvent.cs" />

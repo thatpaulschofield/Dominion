@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Linq;
 using Dominion.Cards;
+using Dominion.GameEvents;
 using Dominion.Tests.GameEvents;
 using NUnit.Framework;
 using Should;
 using Action = Dominion.Cards.BasicSet.Action;
+using SpecsFor;
 
 namespace Dominion.Tests.PlayerSpecs
 {
@@ -13,28 +15,22 @@ namespace Dominion.Tests.PlayerSpecs
     {
         private Player _player;
         private MockTurnScope _scope;
+        private MockEventAggregator _eventAggregator;
 
         protected override void ConfigureContainer(StructureMap.IContainer container)
         {
-            try
-            {
-                base.ConfigureContainer(container);
-                container.Configure(c =>
+            base.ConfigureContainer(container);
+            container.Configure(cfg =>
                 {
-                    c.For<Game>().Singleton().Use(ctx => ctx.GetInstance<GameBuilder>().Initialize(1));
-                    c.For<Deck>().Singleton().Use(new Deck(7.Coppers(), 3.Estates()));
-                    c.For<IEventAggregator>().Singleton().Use<MockEventAggregator>();
-                    c.For<Supply>().Singleton().Use(cfg => new Supply(new SupplyPile(1, Action.Village, cfg.GetInstance<IEventAggregator>())));
-                    c.For<DiscardPile>().Singleton().Use<DiscardPile>();
-                    c.For<SupplyBuilder>().Singleton().Use<SupplyBuilder>().EnrichWith(x =>
-                        x.BasicGame().With(1.Of(Action.Village)));
+                    cfg.For<Player>().Use<Player>().Ctor<string>().Is("Test player");
+                    cfg.For<Deck>().Singleton().Use(new Deck(7.Coppers(), 3.Estates()));
+                    cfg.For<IEventAggregator>().Singleton().Use<MockEventAggregator>();
+                    cfg.For<Supply>().Singleton()
+                       .Use(c => new Supply(new SupplyPile(1, Action.Village, c.GetInstance<IEventAggregator>())));
+                    cfg.For<DiscardPile>().Singleton().Use<DiscardPile>();
+                    cfg.For<IPlayerController>().Use<NaivePlayerController>();
                 });
-            }
-            catch (Exception)
-            {
-                
-                throw;
-            }
+            _eventAggregator = container.GetInstance<IEventAggregator>() as MockEventAggregator;
         }
 
         protected override void Given()
@@ -45,12 +41,14 @@ namespace Dominion.Tests.PlayerSpecs
             _scope = new MockTurnScope
                 {
                     TurnNumber = 1,
+                    Player = SUT,
                     Supply = supply,
-                    TreasuresInHand = 5.Coppers()
+                    TreasuresInHand = 5.Coppers(),
+                    Coins = 5
                 };
             _player = game.Players.ToList()[0];
 
-            _player.BeginTurn(_scope);
+            _player.BeginBuyPhase(new BuyPhase(_scope));
         }
 
         [Test]
@@ -62,7 +60,13 @@ namespace Dominion.Tests.PlayerSpecs
         [Test]
         public void Naive_player_should_purchase_a_card()
         {
-            _scope.PurchasedCards.ShouldContain<Card>(Action.Village);
+            _eventAggregator.AssertMessageWasSent<BuyCardResponse>();
+        }
+
+        [Test]
+        public void Purchased_card_should_be_in_the_supply()
+        {
+            _eventAggregator.FindMessage<BuyCardResponse>().CardToPurchase.ShouldEqual<Card>(Action.Village);
         }
     }
 }

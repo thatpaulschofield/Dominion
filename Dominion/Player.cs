@@ -96,7 +96,7 @@ namespace Dominion
             DiscardPile.Into(Deck, turnScope);
             Deck = Deck.Shuffle();
             
-            _eventAggregator.Publish(new ShuffledDeckEvent(turnScope));
+            _eventAggregator.Publish(new DeckReplenishedEvent(turnScope));
         }
 
         #region IHandleEvents

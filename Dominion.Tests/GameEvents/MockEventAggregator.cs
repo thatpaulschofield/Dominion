@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Dominion.GameEvents;
 using Should;
@@ -32,12 +33,18 @@ namespace Dominion.Tests.GameEvents
 
         public void AssertMessageWasSent<T>()
         {
-            Contains<T>().ShouldBeTrue();
+            string typesSent = _publishedEvents.Aggregate("", (s, message) => s += (message.GetType().Name + " "));
+            Contains<T>().ShouldBeTrue(String.Format("Message type {0} was not sent, but should have been. Sent messages: [{1}]", typeof(T).Name, typesSent));
         }
 
         public T FindMessage<T>() where T:class
         {
             return _publishedEvents.FirstOrDefault(e => e.GetType() == typeof (T)) as T;
+        }
+
+        public void AssertMessageWasNotSent<T>()
+        {
+            Contains<T>().ShouldBeFalse(String.Format("Message type {0} was sent, but should not have been.", typeof(T).Name));
         }
     }
 }

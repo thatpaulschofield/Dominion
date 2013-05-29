@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Dominion.Cards;
 using Dominion.GameEvents;
+using Dominion.Tests.GameEvents;
 
 namespace Dominion.Tests
 {
@@ -9,6 +10,7 @@ namespace Dominion.Tests
         public MockTurnScope()
         {
             TurnNumber = 1;
+            EventAggregator = new MockEventAggregator();
         }
         public IList<Card> PurchasedCards = new List<Card>();
         public Supply Supply { get; set; }
@@ -20,6 +22,7 @@ namespace Dominion.Tests
         public Hand Hand { get; set; }
         public int Actions  { get; private set; }
         public int Buys { get; private set; }
+        public IEventAggregator EventAggregator { get; set; }
 
         public void Discard(CardSet cardsToDiscard)
         {
@@ -41,7 +44,7 @@ namespace Dominion.Tests
 
         public void Publish(GameMessage @event)
         {
-            
+            EventAggregator.Publish(@event);
         }
 
         public void PlayAction(Card actionCard)

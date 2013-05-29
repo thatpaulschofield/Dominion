@@ -3,9 +3,9 @@ using Dominion.GameEvents;
 
 namespace Dominion
 {
-    public class ShuffledDeckEvent : GameMessage
+    public class DeckReplenishedEvent : GameMessage
     {
-        public ShuffledDeckEvent(ITurnScope turnScope):base(turnScope)
+        public DeckReplenishedEvent(ITurnScope turnScope):base(turnScope)
         {
             
         }

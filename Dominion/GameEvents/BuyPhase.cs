@@ -20,7 +20,7 @@ namespace Dominion.GameEvents
 
         public override GameEventResponse GetDefaultResponse()
         {
-            if (GetAvailableResponses().Any())
+            if (CardsAvailable().Any())
             {
                 var cardToPurchase = CardsAvailable().VictoryCards()
                                                         .OrderByDescending(v => v.VictoryPoints)
@@ -35,7 +35,9 @@ namespace Dominion.GameEvents
 
         private CardSet CardsAvailable()
         {
-            return new CardSet(GetAvailableResponses().Cast<BuyCardResponse>().Select(r => r.CardToPurchase));
+            return new CardSet(GetAvailableResponses()
+                .Where(r => r is BuyCardResponse)
+                .Cast<BuyCardResponse>().Select(r => r.CardToPurchase));
         }
 
         public override string ToString()
