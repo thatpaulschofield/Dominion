@@ -15,7 +15,7 @@ namespace Dominion.Cards.BasicSet.Actions
         {
             while (scope.ReceivingPlayer.Hand.Count() > 3)
             {
-                scope.ReceivingPlayer.Handle(new DiscardCommand(scope, "You must discard down to 3 cards [Militia]."), scope);
+                scope.ReceivingPlayer.Handle(new DiscardReactionCommand(scope, "You must discard down to 3 cards [Militia]."), scope);
             }
         }
     }

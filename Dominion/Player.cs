@@ -162,7 +162,7 @@ namespace Dominion
 
         public void Handle(IGameMessage message, ITurnScope turnScope)
         {
-            _controller.HandleGameEvent(message, turnScope);
+            _controller.HandleGameEvent(message, turnScope).Execute();
             Hand.Handle(message, turnScope);
         }
     }

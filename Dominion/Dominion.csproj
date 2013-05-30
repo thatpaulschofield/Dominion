@@ -51,13 +51,16 @@
     <Compile Include="AI\NodeVisitor.cs" />
     <Compile Include="AI\Terminal.cs" />
     <Compile Include="AI\Terminals\Constant.cs" />
+    <Compile Include="Cards\BasicSet\Actions\DoneDiscardingResponse.cs" />
+    <Compile Include="Cards\BasicSet\Actions\OptionalDiscardResponse.cs" />
+    <Compile Include="Cards\BasicSet\Actions\OptionallyDiscard.cs" />
     <Compile Include="Cards\FirstGame.cs" />
     <Compile Include="GameEvents\CardDrawnEvent.cs" />
     <Compile Include="Cards\BasicSet\Actions\AttackCardPlayed.cs" />
     <Compile Include="Cards\BasicSet\Actions\CanRevealCardEvent.cs" />
     <Compile Include="Cards\BasicSet\Actions\Cellar.cs" />
     <Compile Include="Cards\BasicSet\Actions\DiscardCardResponse.cs" />
-    <Compile Include="Cards\BasicSet\Actions\DiscardCommand.cs" />
+    <Compile Include="Cards\BasicSet\Actions\DiscardReactionCommand.cs" />
     <Compile Include="Cards\BasicSet\Actions\ExternalEventFilter.cs" />
     <Compile Include="Cards\BasicSet\Actions\IAttackEffect.cs" />
     <Compile Include="Cards\BasicSet\Actions\IFilterExternalGameEvents.cs" />

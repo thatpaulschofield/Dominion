@@ -10,7 +10,7 @@ namespace Dominion.Cards.BasicSet.Actions
 
         public override void PlayAsAction(ITurnScope turnScope)
         {
-            
+            turnScope.Player.Handle(new OptionallyDiscard(turnScope), turnScope);
         }
 
         public override bool Equals(object obj)
