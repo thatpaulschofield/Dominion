@@ -6,7 +6,7 @@ namespace Dominion
 {
     public class DiscardPile : CardSet
     {
-        public void Discard(Card card, ITurnScope turnScope)
+        public void Discard(Card card, IActionScope turnScope)
         {
             this.Add(card, turnScope);
             turnScope.Publish(new DiscardedEvent(card, turnScope));
@@ -22,7 +22,7 @@ namespace Dominion
     {
         private readonly Card _card;
 
-        public DiscardedEvent(Card card, ITurnScope turnScope) : base(turnScope)
+        public DiscardedEvent(Card card, IActionScope turnScope) : base(turnScope)
         {
             _card = card;
         }

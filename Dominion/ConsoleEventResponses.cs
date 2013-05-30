@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Dominion.GameEvents;
+using System.Linq;
 
 namespace Dominion
 {
@@ -8,7 +9,7 @@ namespace Dominion
     {
         private readonly List<ConsoleEventResponse> _responses = new List<ConsoleEventResponse>();
 
-        public ConsoleEventResponses(IEnumerable<GameEventResponse> availableResponses)
+        public ConsoleEventResponses(IEnumerable<IEventResponse> availableResponses)
         {
             int i = 0;
             foreach (var availableResponse in availableResponses)
@@ -26,6 +27,11 @@ namespace Dominion
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _responses.GetEnumerator();
+        }
+
+        public override string ToString()
+        {
+            return "[" +_responses.Aggregate("", (accumulate, response) => accumulate + response.Description + " ") + "]";
         }
     }
 }

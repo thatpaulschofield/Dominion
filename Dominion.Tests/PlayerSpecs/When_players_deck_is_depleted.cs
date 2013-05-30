@@ -28,7 +28,7 @@ namespace Dominion.Tests.PlayerSpecs
 
         protected override void When()
         {
-            SUT.Handle(new DeckDepletedEvent(new MockTurnScope { Player = SUT }));
+            SUT.Handle(new DeckDepletedEvent(new MockTurnScope { Player = SUT, EventAggregator = _eventAggregator}));
         }
 
         [Test]

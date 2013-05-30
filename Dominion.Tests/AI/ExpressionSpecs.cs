@@ -31,7 +31,7 @@ namespace Dominion.Tests.AI
             var discardPile = new DiscardPile();
             var deck = new Deck(7.Coppers(), 3.Estates());
             _eventAggregator = new MockEventAggregator();
-            player = new Player(deck, discardPile, new NaivePlayerController(), new MockEventAggregator());
+            player = new Player(deck, discardPile, new NaivePlayerController());
         }
 
         [Test]

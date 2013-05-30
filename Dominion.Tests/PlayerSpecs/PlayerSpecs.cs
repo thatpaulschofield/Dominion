@@ -44,7 +44,8 @@ namespace Dominion.Tests.PlayerSpecs
                     Player = SUT,
                     Supply = supply,
                     TreasuresInHand = 5.Coppers(),
-                    Coins = 5
+                    Coins = 5,
+                    EventAggregator = _eventAggregator
                 };
             _player = game.Players.ToList()[0];
 

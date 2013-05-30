@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Dominion.Cards.BasicSet;
 using Dominion.Cards.BasicSet.VictoryCards;
+using Dominion.GameEvents;
 
 namespace Dominion
 {
@@ -51,20 +52,14 @@ namespace Dominion
 
         private void GameEnd()
         {
-            var scores = ScorePlayers();
-        }
-
-        private IEnumerable<PlayerScore> ScorePlayers()
-        {
             var scores = new List<PlayerScore>();
-                var scope = new EndGameScope();
+            var scope = new EndGameScope();
             foreach (var player in Players)
             {
                 player.EndGameCleanup(scope);
                 scores.Add(new PlayerScore(player, player.CountScore(scope)));
             }
             _eventAggregator.Publish(new GameEndedEvent(scores, scope));
-            return scores;
         }
 
         public int TurnNumber { get; private set; }
@@ -82,7 +77,8 @@ namespace Dominion
 
         private void PlayTurn(Player player)
         {
-            player.BeginTurn(this);
+            using (player.BeginTurn(this))
+            {}
         }
 
         protected bool GameOver
@@ -92,7 +88,12 @@ namespace Dominion
 
         public TurnScope StartTurn(Player player)
         {
-            return new TurnScope(player, Supply, TurnNumber, _eventAggregator);
+            return new TurnScope(player, Supply, TurnNumber, _eventAggregator, PassivePlayers(player));
+        }
+
+        private IEnumerable<Player> PassivePlayers(Player player)
+        {
+            return Players.Where(p => !ReferenceEquals(p, player));
         }
     }
 }

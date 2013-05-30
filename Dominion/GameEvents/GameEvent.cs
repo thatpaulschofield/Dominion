@@ -5,9 +5,11 @@ namespace Dominion.GameEvents
 {
     public interface IMessage
     {
-        GameEventResponse GetDefaultResponse();
-        ITurnScope TurnScope { get; }
-        Func<IEnumerable<GameEventResponse>> GetAvailableResponses { get; }
+        IEventResponse GetDefaultResponse();
+        IActionScope ActionScope { get; }
+        Func<IEnumerable<IEventResponse>> GetAvailableResponses { get; }
+        IEnumerable<IEventResponse> GetAvailableReactions(IReactionScope scope);
         string Description { get; }
+        bool IsExternalToPlayer(Player player);
     }
 }

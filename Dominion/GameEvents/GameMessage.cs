@@ -4,28 +4,43 @@ using System.Linq;
 
 namespace Dominion.GameEvents
 {
-    public abstract class GameMessage : IMessage
+    public abstract class GameMessage : IGameMessage
     {
-        protected IList<GameEventResponse> _availableResponses = new List<GameEventResponse>();
-        protected GameMessage(ITurnScope turnScope)
+        protected IList<IEventResponse> _availableResponses = new List<IEventResponse>();
+        protected GameMessage(IActionScope scope)
         {
-            TurnScope = turnScope;
+            ActionScope = scope;
             GetAvailableResponses = () => _availableResponses;
         }
 
-        public virtual GameEventResponse GetDefaultResponse()
+        public virtual IEventResponse GetDefaultResponse()
         {
             if (GetAvailableResponses().Any())
                 return GetAvailableResponses().First();
             else
             {
-                return new NullResponse(TurnScope);
+                return new NullResponse(ActionScope);
             }
         }
 
-        public ITurnScope TurnScope { get; private set; }
-        public Func<IEnumerable<GameEventResponse>> GetAvailableResponses { get; protected set; }
+        public IActionScope ActionScope { get; private set; }
+
+        public Func<IEnumerable<IEventResponse>> GetAvailableResponses { get; protected set; }
+
+        public virtual IEnumerable<IEventResponse> GetAvailableReactions(IReactionScope scope)
+        {
+            return new List<IEventResponse>();
+        }
 
         public string Description { get; protected set; }
+        public bool IsExternalToPlayer(Player player)
+        {
+            return !ReferenceEquals(player, ActionScope.Player);
+        }
+
+        public override string ToString()
+        {
+            return Description;
+        }
     }
 }

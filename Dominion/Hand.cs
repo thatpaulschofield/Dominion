@@ -1,46 +1,41 @@
 using System.Linq;
 using Dominion.Cards;
+using Dominion.Cards.BasicSet.Actions;
+using Dominion.GameEvents;
 
 namespace Dominion
 {
-    public class Hand : CardSet
+    public class Hand : CardSet, IHandleExternalEvents, IHandleInternalEvents
     {
-        private readonly IEventAggregator _eventAggregator;
-
-        public Hand(IEventAggregator eventAggregator)
-        {
-            _eventAggregator = eventAggregator;
-        }
-
         public void Draw(Card card)
         {
-            _innerList.Add(card);
+            InnerList.Add(card);
         }
 
-        protected override void OnCardAdded(Card card, ITurnScope turnScope)
+        protected override void OnCardAdded(Card card, IActionScope turnScope)
         {
-            _eventAggregator.Publish(new CardDrawnEvent(card, turnScope));
+            turnScope.Publish(new CardDrawnEvent(card, turnScope));
         }
 
-        public void Discard(Card card, DiscardPile discardPile, ITurnScope turnScope)
+        public void Discard(Card card, DiscardPile discardPile, IActionScope scope)
         {
             if (this.Contains(card))
             {
-                _innerList.Remove(card);
-                discardPile.Discard(card, turnScope);
+                InnerList.Remove(card);
+                discardPile.Discard(card, scope);
             }
         }
 
         public void Discard(DiscardPile discardPile, ITurnScope turnScope)
         {
-            _innerList.ToList().ForEach(c => Discard(c, discardPile, turnScope));
+            InnerList.ToList().ForEach(c => Discard(c, discardPile, turnScope));
         }
 
         public void PlayCard(Card cardToPlay, CardSet cardsInPlay, ITurnScope turnScope)
         {
             if (this.Contains(cardToPlay))
             {
-                _innerList.Remove(cardToPlay);
+                InnerList.Remove(cardToPlay);
                 cardsInPlay.Add(cardToPlay, turnScope);
             }
         }
@@ -57,10 +52,26 @@ namespace Dominion
         {
             if (this.Contains(treasure))
             {
-                _innerList.Remove(treasure);
+                InnerList.Remove(treasure);
                 turnScope.PlayTreasure(treasure);
             }
         }
 
+        public void RevealCard(Card card, IReactionScope externalEventScope, Player player)
+        {
+            card.Reveal(externalEventScope, player);
+        }
+
+        #region IHandleEvents
+        public void Handle(IGameMessage @event, IReactionScope scope)
+        {
+            this.OfType<IHandleExternalEvents>().ForEach(card => card.Handle(@event, scope));
+        }
+
+        public void Handle(IGameMessage @event, ITurnScope scope)
+        {
+            this.OfType<IHandleInternalEvents>().ForEach(card => card.Handle(@event, scope));
+        }
+        #endregion
     }
 }

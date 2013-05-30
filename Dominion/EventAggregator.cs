@@ -17,7 +17,12 @@ namespace Dominion
             _subscribers.Add(handler);
         }
 
-        public void Publish(GameMessage @event)
+        public void Unregister(IHandleEvents handler)
+        {
+            _subscribers.Remove(handler);
+        }
+
+        public void Publish(IGameMessage @event)
         {
             _subscribers.ForEach(
                 s =>
@@ -26,6 +31,5 @@ namespace Dominion
                             s.Handle(@event);
                     });
         }
-
     }
 }

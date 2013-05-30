@@ -11,5 +11,10 @@
         {
             TurnScope.PlayTreasures(TurnScope.TreasuresInHand);
         }
+
+        public override string ToString()
+        {
+            return Description;
+        }
     }
 }

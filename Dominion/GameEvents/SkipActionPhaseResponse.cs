@@ -17,7 +17,7 @@ namespace Dominion.GameEvents
 
         public override string ToString()
         {
-            return String.Format("Player {0} intends to skip action phase.", base.TurnScope.Player.Name);
+            return String.Format("{0} intends to skip action phase.", base.TurnScope.Player.Name);
         }
     }
 }

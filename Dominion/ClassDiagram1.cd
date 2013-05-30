@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Dominion.GameEvents.ActionPhase" Collapsed="true">
+    <Position X="4.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAACAAAAAAAAEIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameEvents\ActionPhase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dominion.GameEvents.BuyCardResponse" Collapsed="true">
+    <Position X="18" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEAAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameEvents\BuyCardResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dominion.GameEvents.BuyPhase" Collapsed="true">
+    <Position X="6.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAQAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameEvents\BuyPhase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dominion.GameEvents.DeckDepletedEvent" Collapsed="true">
+    <Position X="11.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameEvents\DeckDepletedEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dominion.GameEvents.DeclineToPurchaseResponse" Collapsed="true">
+    <Position X="29.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameEvents\DeclineToPurchaseResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dominion.GameEvents.GameCommand" Collapsed="true">
+    <Position X="7.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameEvents\GameCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Dominion.GameEvents.GameEventResponse" Collapsed="true">
+    <Position X="24.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAgAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameEvents\GameEventResponse.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Dominion.GameEvents.GameMessage" Collapsed="true">
+    <Position X="20.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gCAAAACAAAAgAAAAAAUAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameEvents\GameMessage.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Dominion.GameEvents.GameReactionMessage" Collapsed="true">
+    <Position X="36" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>GameEvents\GameReactionMessage.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="Dominion.GameEvents.NullResponse" Collapsed="true">
+    <Position X="22.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameEvents\NullResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dominion.GameEvents.PlayActionResponse" Collapsed="true">
+    <Position X="24.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAQEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameEvents\PlayActionResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dominion.GameEvents.PlayAllTreasuresResponse" Collapsed="true">
+    <Position X="31.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameEvents\PlayAllTreasuresResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dominion.GameEvents.PlayerGainedCardEvent" Collapsed="true">
+    <Position X="13.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameEvents\PlayerGainedCardEvent.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dominion.GameEvents.PlayNoTreasuresResponse" Collapsed="true">
+    <Position X="20.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameEvents\PlayNoTreasuresResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dominion.GameEvents.SelectTreasuresToPlayCommand" Collapsed="true">
+    <Position X="9" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameEvents\SelectTreasuresToPlayCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dominion.GameEvents.ShuffleDeckResponse" Collapsed="true">
+    <Position X="27" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameEvents\ShuffleDeckResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dominion.GameEvents.SkipActionPhaseResponse" Collapsed="true">
+    <Position X="33.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameEvents\SkipActionPhaseResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dominion.GameEvents.SkipBuyPhaseResponse" Collapsed="true">
+    <Position X="15.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameEvents\SkipBuyPhaseResponse.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="Dominion.GameEvents.ICommand" Collapsed="true">
+    <Position X="5.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameEvents\ICommand.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Dominion.GameEvents.IEventResponse" Collapsed="true">
+    <Position X="3" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameEvents\IEventResponse.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="Dominion.GameEvents.IMessage" Collapsed="true">
+    <Position X="4.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAACAAAAgAAAAAAUAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GameEvents\GameEvent.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

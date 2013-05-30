@@ -1,30 +1,28 @@
 using System;
 using System.Linq;
-using Dominion.AI;
+using Dominion.Cards;
+using Dominion.Cards.BasicSet.Actions;
 using Dominion.GameEvents;
 
 namespace Dominion
 {
-    public class Player : IHandleEvents<IMessage>
+    public class Player : IHandleInternalEvents, IHandleExternalEvents
     {
         private readonly IPlayerController _controller;
-        private readonly IEventAggregator _eventAggregator;
 
-        public Player(IPlayerController controller, IEventAggregator eventAggregator) 
-            : this(Game.DealStartupDeck(), new DiscardPile(), controller, eventAggregator)
+        public Player(IPlayerController controller) 
+            : this(Game.DealStartupDeck(), new DiscardPile(), controller)
         {
         }
 
-        public Player(Deck deck, DiscardPile discardPile, IPlayerController strategy, IEventAggregator eventAggregator, string name = "Player")
+        public Player(Deck deck, DiscardPile discardPile, IPlayerController strategy, string name = "Player")
         {
             _controller = strategy;
-            _eventAggregator = eventAggregator;
             Name = name;
-            _eventAggregator.Register(this);
             if (deck == null)
                 throw new ArgumentNullException("Must pass non-null instance of Deck");
 
-            Hand = new Hand(eventAggregator);
+            Hand = new Hand();
             DiscardPile = discardPile;
             Deck = deck.Shuffle();
         }
@@ -49,17 +47,16 @@ namespace Dominion
 
         public void BeginActionPhase(ActionPhase phase)
         {
-             var response = _controller.HandleGameEvent(phase);
+             var response = _controller.HandleGameEvent(phase, phase.TurnScope);
             response.Execute();
-            _eventAggregator.Publish(response);
+            phase.ActionScope.Publish(response);
         }
 
         public void BeginBuyPhase(BuyPhase buyPhase)
         {
-            _controller.HandleGameEvent(new SelectTreasuresToPlayCommand(buyPhase.TurnScope)).Execute();
-            var response = _controller.HandleGameEvent(buyPhase);
+            var response = _controller.HandleGameEvent(buyPhase, buyPhase.TurnScope);
             response.Execute();
-            _eventAggregator.Publish(response);
+            buyPhase.ActionScope.Publish(response);
         }
 
         public void BeginCleanupPhase(ITurnScope turnScope)
@@ -86,17 +83,17 @@ namespace Dominion
             return turn;
         }
 
-        public void Discard(CardSet cardsToDiscard, ITurnScope turnScope)
+        public void Discard(CardSet cardsToDiscard, IActionScope turnScope)
         {
-            cardsToDiscard.DiscardInto(DiscardPile, turnScope);
+            cardsToDiscard.ForEach(card => Hand.Discard(card, DiscardPile, turnScope));
         }
 
-        public void ShuffleDiscardPileIntoDeck(ITurnScope turnScope)
+        public void ShuffleDiscardPileIntoDeck(IActionScope turnScope)
         {
             DiscardPile.Into(Deck, turnScope);
             Deck = Deck.Shuffle();
             
-            _eventAggregator.Publish(new DeckReplenishedEvent(turnScope));
+            turnScope.Publish(new DeckReplenishedEvent(turnScope));
         }
 
         #region IHandleEvents
@@ -108,7 +105,7 @@ namespace Dominion
             this.ShuffleDiscardPileIntoDeck(@event.TurnScope);
         }
 
-        public void Handle(IMessage @event)
+        public void Handle(IGameMessage @event, IReactionScope scope)
         {
             if (@event is DeckDepletedEvent)
             {
@@ -116,10 +113,20 @@ namespace Dominion
                 return;
             }
 
-            _controller.HandleGameEvent(@event);
+            if (@event is IAttackEffect)
+                HandleAttack(@event as IAttackEffect, scope);
+
+            Hand.Handle(@event, scope);
+
+            _controller.HandleGameEvent(@event, scope).Execute();
         }
 
-        public bool CanHandle(IMessage @event)
+        private void HandleAttack(IAttackEffect attackEffect, IReactionScope scope)
+        {
+            attackEffect.Resolve(scope);
+        }
+
+        public bool CanHandle(IGameMessage @event)
         {
             return true;
         }
@@ -141,6 +148,22 @@ namespace Dominion
         public void Draw(int cards, ITurnScope turnScope)
         {
             Deck.Draw(cards, turnScope).Into(Hand, turnScope);
+        }
+
+        public IEventResponse HandleCommand(ICommand command)
+        {
+            return _controller.HandleGameEvent(command, command.TurnScope);
+        }
+
+        public void RevealCard(Card card, IReactionScope externalEventScope)
+        {
+            Hand.RevealCard(card, externalEventScope, this);
+        }
+
+        public void Handle(IGameMessage message, ITurnScope turnScope)
+        {
+            _controller.HandleGameEvent(message, turnScope);
+            Hand.Handle(message, turnScope);
         }
     }
 }

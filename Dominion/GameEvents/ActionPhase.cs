@@ -24,7 +24,7 @@ namespace Dominion.GameEvents
             return new SkipActionPhaseResponse(TurnScope);
         }
 
-        public override GameEventResponse GetDefaultResponse()
+        public override IEventResponse GetDefaultResponse()
         {
             if (AvailableActions.Any())
                 return new PlayActionResponse(TurnScope, AvailableActions[0]);
@@ -35,7 +35,7 @@ namespace Dominion.GameEvents
         public override string ToString()
         {
             string actions = AvailableActions.Aggregate("", (x, c) => x + " - " + c.Name);
-            return String.Format("Action phase for player {0}. Available actions: [{1}]", TurnScope.Player.Name, actions);
+            return String.Format("Action phase for {0}. Available actions: [{1}]", TurnScope.Player.Name, actions);
         }
     }
 }

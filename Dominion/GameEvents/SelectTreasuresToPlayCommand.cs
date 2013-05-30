@@ -2,7 +2,7 @@
 
 namespace Dominion.GameEvents
 {
-    public class SelectTreasuresToPlayCommand : GameMessage
+    public class SelectTreasuresToPlayCommand : GameCommand
     {
         public SelectTreasuresToPlayCommand(ITurnScope turnScope) : base(turnScope)
         {
@@ -13,7 +13,7 @@ namespace Dominion.GameEvents
 
         public override string ToString()
         {
-            return String.Empty;
+            return TurnScope.TreasuresInHand.ToString();
         }
     }
 }

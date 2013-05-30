@@ -8,19 +8,24 @@ namespace Dominion.Tests.GameEvents
 {
     public class MockEventAggregator : IEventAggregator
     {
-        private readonly List<GameMessage> _publishedEvents = new List<GameMessage>();
+        private readonly List<IGameMessage> _publishedEvents = new List<IGameMessage>();
 
         public void Register(IHandleEvents handler)
         {
             
         }
 
-        public void Publish(GameMessage @event)
+        public void Unregister(IHandleEvents handler)
+        {
+            
+        }
+
+        public void Publish(IGameMessage @event)
         {
             _publishedEvents.Add(@event);
         }
 
-        public IEnumerable<GameMessage> PublishedEvents
+        public IEnumerable<IGameMessage> PublishedEvents
         {
             get { return _publishedEvents.AsReadOnly(); }
         }

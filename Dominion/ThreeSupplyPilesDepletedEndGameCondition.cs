@@ -24,12 +24,12 @@ namespace Dominion
             _depletedStacksCount++;
         }
 
-        public void Handle(IMessage @event)
+        public void Handle(IGameMessage @event)
         {
             Handle(@event as SupplyPileDepletedEvent);
         }
 
-        public bool CanHandle(IMessage @event)
+        public bool CanHandle(IGameMessage @event)
         {
             return @event is SupplyPileDepletedEvent;
         }

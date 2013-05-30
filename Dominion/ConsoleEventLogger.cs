@@ -3,16 +3,16 @@ using Dominion.GameEvents;
 
 namespace Dominion
 {
-    public class ConsoleEventLogger : IHandleEvents<IMessage>
+    public class ConsoleEventLogger : IHandleEvents
     {
         public ConsoleEventLogger(IEventAggregator eventAggregator)
         {
             eventAggregator.Register(this);
         }
 
-        public void Handle(IMessage @event)
+        public void Handle(IGameMessage @event)
         {
-            Console.WriteLine("\t[{0}]", @event.TurnScope);
+            Console.WriteLine("\t[{0}]", @event.ActionScope);
             Console.WriteLine("\t[{0}]", @event);
 
             if (@event is GameEndedEvent)
@@ -22,12 +22,7 @@ namespace Dominion
             }
         }
 
-        void IHandleEvents<IMessage>.Handle(IMessage @event)
-        {
-            this.Handle(@event);
-        }
-
-        public bool CanHandle(IMessage @event)
+        public bool CanHandle(IGameMessage @event)
         {
             return true;
         }

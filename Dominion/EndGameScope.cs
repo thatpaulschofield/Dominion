@@ -1,4 +1,5 @@
-﻿using Dominion.Cards;
+﻿using System.Collections.Generic;
+using Dominion.Cards;
 using Dominion.GameEvents;
 
 namespace Dominion
@@ -14,6 +15,8 @@ namespace Dominion
         public Hand Hand { get; private set; }
         public int Actions { get; private set; }
         public int Buys { get; private set; }
+        public IEnumerable<Player> PassivePlayers { get; private set; }
+        public IEnumerable<IReactionScope> ReactionScopes { get; private set; }
 
         public void Discard(CardSet cardsToDiscard)
         {
@@ -28,7 +31,7 @@ namespace Dominion
         {
         }
 
-        public void Publish(GameMessage @event)
+        public void Publish(IGameMessage @event)
         {
         }
 
@@ -52,6 +55,11 @@ namespace Dominion
 
         public void CleanUp()
         {
+        }
+
+        public void Dispose()
+        {
+            
         }
     }
 }

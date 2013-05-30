@@ -5,13 +5,13 @@ namespace Dominion
 {
     public class DeckReplenishedEvent : GameMessage
     {
-        public DeckReplenishedEvent(ITurnScope turnScope):base(turnScope)
+        public DeckReplenishedEvent(IActionScope turnScope):base(turnScope)
         {
             
         }
         public override string ToString()
         {
-            return String.Format("{0} shuffled deck.", TurnScope.Player.Name);
+            return String.Format("{0} shuffled deck.", ActionScope.Player.Name);
         }
     }
 }

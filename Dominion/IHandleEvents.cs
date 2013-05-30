@@ -9,7 +9,7 @@ namespace Dominion
 
     public interface IHandleEvents
     {
-        void Handle(IMessage @event);
-        bool CanHandle(IMessage @event);
+        void Handle(IGameMessage @event);
+        bool CanHandle(IGameMessage @event);
     }
 }

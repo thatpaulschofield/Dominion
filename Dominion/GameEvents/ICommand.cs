@@ -1,7 +1,8 @@
 ﻿namespace Dominion.GameEvents
 {
-    public interface ICommand : IMessage
+    public interface ICommand : IGameMessage
     {
-        IHandleEvents Recipient { get; }
+        IHandleInternalEvents Recipient { get; }
+        ITurnScope TurnScope { get; }
     }
 }

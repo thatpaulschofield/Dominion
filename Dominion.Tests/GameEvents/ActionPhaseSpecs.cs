@@ -17,7 +17,7 @@ namespace Dominion.Tests.GameEvents
             var eventAggregator = new MockEventAggregator();
             var discardPile = new DiscardPile();
             var deck = new Deck(7.Coppers(), 3.Estates());
-            var player = new Player(deck, discardPile, new NaivePlayerController(), eventAggregator);
+            var player = new Player(deck, discardPile, new NaivePlayerController());
             var turnScope = new TurnScope(player, new Supply(), eventAggregator);
             var actionPhase = new ActionPhase(turnScope,
                 new CardSet(Action.Village, Action.Village));
@@ -31,7 +31,7 @@ namespace Dominion.Tests.GameEvents
             var eventAggregator = new MockEventAggregator();
             var discardPile = new DiscardPile();
             var deck = new Deck(7.Coppers(), 3.Estates());
-            var player = new Player(deck, discardPile, new NaivePlayerController(), eventAggregator);
+            var player = new Player(deck, discardPile, new NaivePlayerController());
             var turnScope = new TurnScope(player, new Supply(), eventAggregator);
             var actionPhase = new ActionPhase(turnScope,
                 new CardSet(Action.Village, Action.Village));

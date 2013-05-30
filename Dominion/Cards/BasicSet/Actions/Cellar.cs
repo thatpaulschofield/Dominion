@@ -1,11 +1,16 @@
 namespace Dominion.Cards.BasicSet.Actions
 {
-    public class Cellar : Card
+    public class Cellar : TypedCard<Cellar>
     {
         public Cellar()
-            : base(Action.Cellar, cost: 2, name: "Cellar")
+            : base(isAction: true, cost: 2, name: "Cellar")
         {
 
+        }
+
+        public override void PlayAsAction(ITurnScope turnScope)
+        {
+            
         }
 
         public override bool Equals(object obj)

@@ -5,14 +5,14 @@ using System.Text;
 
 namespace Dominion.GameEvents
 {
-    internal class NullResponse : GameEventResponse
+    public class NullResponse : GameMessage, IEventResponse
     {
-        public NullResponse(ITurnScope turnScope) : base(turnScope)
+        public NullResponse(IActionScope turnScope) : base(turnScope)
         {
             Description = "No option was available...";
         }
 
-        public override void Execute()
+        public void Execute()
         {
             
         }

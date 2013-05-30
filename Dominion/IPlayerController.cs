@@ -1,9 +1,11 @@
+using Dominion.Cards.BasicSet.Actions;
 using Dominion.GameEvents;
 
 namespace Dominion
 {
     public interface IPlayerController
     {
-        GameEventResponse HandleGameEvent(IMessage @event);
+        IEventResponse HandleGameEvent(IGameMessage @event, ITurnScope scope);
+        IEventResponse HandleGameEvent(IGameMessage @event, IReactionScope scope);
     }
 }

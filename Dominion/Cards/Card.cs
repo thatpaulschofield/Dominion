@@ -1,4 +1,5 @@
 using System;
+using Dominion.GameEvents;
 
 namespace Dominion.Cards
 {
@@ -67,6 +68,28 @@ namespace Dominion.Cards
         public static implicit operator CardType(Card card)
         {
             return card.CardType;
+        }
+
+        #region IHandleEvents
+        public virtual void Handle(IMessage @event)
+        {
+            
+        }
+
+        public virtual bool CanHandle(IMessage @event)
+        {
+            return false;
+        }
+        #endregion
+
+        public void Reveal(IReactionScope externalEventScope, Player player)
+        {
+            OnRevealed(externalEventScope, player);
+        }
+
+        public virtual void OnRevealed(IReactionScope externalEventScope, Player player)
+        {
+            
         }
     }
 }

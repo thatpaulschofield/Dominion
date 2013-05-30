@@ -7,14 +7,15 @@ namespace Dominion
     {
         private readonly Card _card;
 
-        public CardDrawnEvent(Card card, ITurnScope scope) : base(scope)
+        public CardDrawnEvent(Card card, IActionScope scope)
+            : base(scope)
         {
             _card = card;
         }
 
         public override string ToString()
         {
-            return string.Format("Player {0} drew a {1}", TurnScope.Player.Name, _card.Name);
+            return string.Format("{0} drew a {1}", ActionScope.Player.Name, _card.Name);
         }
     }
 }

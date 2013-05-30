@@ -1,24 +1,35 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Dominion.Cards;
 using Dominion.GameEvents;
 
 namespace Dominion
 {
-    public class TurnScope : ITurnScope
+    public class TurnScope : ITurnScope, IHandleEvents
     {
-        private readonly CardSet _cardsToDiscard = new CardSet();
         private readonly Player _player;
         private readonly IEventAggregator _eventAggregator;
+        private readonly List<IReactionScope> _reactionScopes = new List<IReactionScope>();
 
         private readonly CardSet _cardsInPlay = new CardSet();
         private TurnState _turnState;
 
-        public TurnScope(Player player, Supply supply, IEventAggregator eventAggregator) : this(player, supply, 1, eventAggregator)
+        public TurnScope(Player player, Supply supply, int turnNumber, IEventAggregator eventAggregator,
+                         IEnumerable<Player> reactingPlayers) : this(player, supply, turnNumber, eventAggregator)
+        {
+            reactingPlayers.ForEach(p => _reactionScopes.Add(new ReactionScope(eventAggregator, player, p, this)));
+        }
+
+        public TurnScope(Player player, Supply supply, IEventAggregator eventAggregator)
+            : this(player, supply, 1, eventAggregator)
         {
         }
 
-        public TurnScope(Player player, Supply supply, int turnNumber, IEventAggregator eventAggregator)
+        public TurnScope(Player player, 
+            Supply supply, 
+            int turnNumber, 
+            IEventAggregator eventAggregator)
         {
             _turnState = new TurnState(1, 1, 0);
             if (supply == null)
@@ -26,6 +37,7 @@ namespace Dominion
 
             _player = player;
             _eventAggregator = eventAggregator;
+            _eventAggregator.Register(this);
             Supply = supply;
             TurnNumber = turnNumber;
         }
@@ -33,6 +45,8 @@ namespace Dominion
         public Supply Supply { get; private set; }
 
         public int TurnNumber { get; private set; }
+
+        public IEnumerable<IReactionScope> ReactionScopes { get { return _reactionScopes; } }
 
         public Player Player
         {
@@ -43,7 +57,7 @@ namespace Dominion
 
         public void Discard(CardSet cardsToDiscard)
         {
-            _cardsToDiscard.AddRange(cardsToDiscard);
+            cardsToDiscard.Into(_player.DiscardPile, this);
         }
 
         public void ChangeState(TurnState delta)
@@ -60,9 +74,10 @@ namespace Dominion
         {
             Discard(_cardsInPlay);
             _player.DiscardHand(this);
-            _player.Discard(_cardsToDiscard, this);
             _player.DrawNewHand(this);
         }
+
+        public int TotalCardCount { get { return _cardsInPlay.Count() + _player.Hand.Count() + _player.DiscardPile.Count() + _player.Deck.Count(); } }
 
         public void PerformBuy(CardType cardToPurchase)
         {
@@ -87,7 +102,7 @@ namespace Dominion
 
         public CardSet TreasuresInHand { get { return Player.Hand.Treasures(); } }
 
-        public void Publish(GameMessage @event)
+        public void Publish(IGameMessage @event)
         {
             _eventAggregator.Publish(@event);
         }
@@ -109,7 +124,23 @@ namespace Dominion
 
         public override string ToString()
         {
-            return String.Format("Player {0}: {1} Actions, {2} Buys, ({3}) Coins. H: {4}, P: {5}, D: {6}", Player.Name, Actions, Buys, Coins, Hand.Count(), _cardsInPlay.Count(), _player.Deck.Count());
+            return String.Format("Player {0}: {1} Actions, {2} Buys, ({3}) Coins. H: {4}, P: {5}, Di: {6}, Dk {7}", Player.Name, Actions, Buys, Coins, Hand.Count(), _cardsInPlay.Count(), _player.DiscardPile.Count(), _player.Deck.Count());
+        }
+
+        public void Dispose()
+        {
+            _eventAggregator.Unregister(this);
+            _reactionScopes.ForEach(s => s.Dispose());
+        }
+
+        public void Handle(IGameMessage @event)
+        {
+            Player.Handle(@event, this);
+        }
+
+        public bool CanHandle(IGameMessage @event)
+        {
+            return true;
         }
     }
 }

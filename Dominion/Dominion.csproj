@@ -51,14 +51,24 @@
     <Compile Include="AI\NodeVisitor.cs" />
     <Compile Include="AI\Terminal.cs" />
     <Compile Include="AI\Terminals\Constant.cs" />
-    <Compile Include="CardDrawnEvent.cs" />
+    <Compile Include="Cards\FirstGame.cs" />
+    <Compile Include="GameEvents\CardDrawnEvent.cs" />
     <Compile Include="Cards\BasicSet\Actions\AttackCardPlayed.cs" />
+    <Compile Include="Cards\BasicSet\Actions\CanRevealCardEvent.cs" />
     <Compile Include="Cards\BasicSet\Actions\Cellar.cs" />
+    <Compile Include="Cards\BasicSet\Actions\DiscardCardResponse.cs" />
+    <Compile Include="Cards\BasicSet\Actions\DiscardCommand.cs" />
+    <Compile Include="Cards\BasicSet\Actions\ExternalEventFilter.cs" />
+    <Compile Include="Cards\BasicSet\Actions\IAttackEffect.cs" />
+    <Compile Include="Cards\BasicSet\Actions\IFilterExternalGameEvents.cs" />
+    <Compile Include="Cards\BasicSet\Actions\IHandleExternalEvents.cs" />
     <Compile Include="Cards\BasicSet\Actions\Market.cs" />
     <Compile Include="Cards\BasicSet\Actions\Militia.cs" />
+    <Compile Include="Cards\BasicSet\Actions\MilitiaAttackEffect.cs" />
     <Compile Include="Cards\BasicSet\Actions\Mine.cs" />
     <Compile Include="Cards\BasicSet\Actions\Moat.cs" />
     <Compile Include="Cards\BasicSet\Actions\Remodel.cs" />
+    <Compile Include="Cards\BasicSet\Actions\RevealCardResponse.cs" />
     <Compile Include="Cards\BasicSet\Actions\Smithy.cs" />
     <Compile Include="Cards\BasicSet\Actions\TypedCard.cs" />
     <Compile Include="Cards\BasicSet\Actions\Woodcutter.cs" />
@@ -70,18 +80,26 @@
     <Compile Include="ConsoleEventResponse.cs" />
     <Compile Include="ConsoleEventResponses.cs" />
     <Compile Include="ConsolePlayerController.cs" />
+    <Compile Include="DeckBuilder.cs" />
     <Compile Include="EndGameCondition.cs" />
     <Compile Include="EndGameScope.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="EventAggregator.cs" />
+    <Compile Include="EventFilterPipeline.cs" />
+    <Compile Include="ExternalEventScope.cs" />
     <Compile Include="GameBuilder.cs" />
     <Compile Include="GameEndedEvent.cs" />
     <Compile Include="GameEvents\BuyCardResponse.cs" />
     <Compile Include="GameEvents\DeckDepletedEvent.cs" />
     <Compile Include="GameEvents\DeclineToPurchaseResponse.cs" />
     <Compile Include="GameEvents\GameCommand.cs" />
+    <Compile Include="GameEvents\GameEventReaction.cs" />
     <Compile Include="GameEvents\GameMessage.cs" />
+    <Compile Include="GameEvents\GameReactionMessage.cs" />
     <Compile Include="GameEvents\ICommand.cs" />
+    <Compile Include="GameEvents\IEventReaction.cs" />
+    <Compile Include="GameEvents\IEventResponse.cs" />
+    <Compile Include="GameEvents\IGameMessage.cs" />
     <Compile Include="GameEvents\NullResponse.cs" />
     <Compile Include="GameEvents\PlayAllTreasuresResponse.cs" />
     <Compile Include="GameEvents\PlayerGainedCardEvent.cs" />
@@ -91,8 +109,10 @@
     <Compile Include="GameSpec.cs" />
     <Compile Include="IEvent.cs" />
     <Compile Include="IEventAggregator.cs" />
+    <Compile Include="IExternalEventScope.cs" />
     <Compile Include="IGameBuilder.cs" />
     <Compile Include="IHandleEvents.cs" />
+    <Compile Include="IHandleInternalEvents.cs" />
     <Compile Include="IPlayerController.cs" />
     <Compile Include="ITurnScope.cs" />
     <Compile Include="Money.cs" />
@@ -115,7 +135,7 @@
     <Compile Include="Cards\Card.cs" />
     <Compile Include="Cards\CardFactory.cs" />
     <Compile Include="Cards\BasicSet\Cards.cs" />
-    <Compile Include="CardSet.cs" />
+    <Compile Include="Cards\CardSet.cs" />
     <Compile Include="Cards\BasicSet\Treasures\CopperFactory.cs" />
     <Compile Include="Cards\BasicSet\Treasures\GoldFactory.cs" />
     <Compile Include="Cards\BasicSet\Treasures\SilverFactory.cs" />
@@ -147,6 +167,7 @@
     <Compile Include="TurnState.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

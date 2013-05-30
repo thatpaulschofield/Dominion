@@ -14,12 +14,11 @@ namespace Dominion.Cards.BasicSet
 
         public class Actions
         {
-            public static CardType Village = new CardType(new CardFactory<Village>());
+            public static CardType Village = new CardType<Village>();
 
-            public static CardType Cellar = new CardType(new CardFactory<Cellar>());
+            public static CardType Cellar = new CardType<Cellar>();
 
+            public static CardType Militia = new CardType<Militia>();
         }
-
-        
     }
 }

@@ -5,6 +5,7 @@ namespace Dominion
     public interface IEventAggregator
     {
         void Register(IHandleEvents handler);
-        void Publish(GameMessage @event);
+        void Unregister(IHandleEvents handler);
+        void Publish(IGameMessage @event);
     }
 }

@@ -11,6 +11,7 @@ namespace Dominion.Tests
         {
             TurnNumber = 1;
             EventAggregator = new MockEventAggregator();
+            PassivePlayers = new List<Player>();
         }
         public IList<Card> PurchasedCards = new List<Card>();
         public Supply Supply { get; set; }
@@ -22,6 +23,8 @@ namespace Dominion.Tests
         public Hand Hand { get; set; }
         public int Actions  { get; private set; }
         public int Buys { get; private set; }
+        public IEnumerable<IReactionScope> ReactionScopes { get; private set; }
+        public IEnumerable<Player> PassivePlayers { get; private set; }
         public IEventAggregator EventAggregator { get; set; }
 
         public void Discard(CardSet cardsToDiscard)
@@ -42,7 +45,7 @@ namespace Dominion.Tests
         {
         }
 
-        public void Publish(GameMessage @event)
+        public void Publish(IGameMessage @event)
         {
             EventAggregator.Publish(@event);
         }
@@ -67,6 +70,11 @@ namespace Dominion.Tests
         }
 
         public void CleanUp()
+        {
+            
+        }
+
+        public void Dispose()
         {
             
         }

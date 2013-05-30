@@ -1,4 +1,6 @@
-﻿namespace Dominion.AI.Terminals
+﻿using Dominion.Cards;
+
+namespace Dominion.AI.Terminals
 {
 
     public class CardsAvailableForPurchase : Terminal<CardSet>

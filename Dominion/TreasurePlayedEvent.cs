@@ -15,7 +15,7 @@ namespace Dominion
 
         public override string ToString()
         {
-            return String.Format("{0} played\n{1}", _card, TurnScope);
+            return String.Format("{0} played\n{1}", _card, ActionScope);
         }
     }
 }

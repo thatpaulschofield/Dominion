@@ -1,22 +1,30 @@
-﻿using Dominion.Cards;
+﻿using System;
+using System.Collections.Generic;
+using Dominion.Cards;
 using Dominion.GameEvents;
 
 namespace Dominion
 {
-    public interface ITurnScope
+    public interface IActionScope
     {
-        Supply Supply { get; }
         Player Player { get; }
         Hand Hand { get; }
+        void PerformBuy(CardType cardType);
+        void Publish(IGameMessage message);
+    }
+
+    public interface ITurnScope : IActionScope, IDisposable
+    {
+        Supply Supply { get; }
         CardSet TreasuresInHand { get; }
         int TurnNumber { get; }
         int Coins { get; }
         int Actions { get; }
         int Buys { get; }
+        IEnumerable<IReactionScope> ReactionScopes { get; } 
         void Discard(CardSet cardsToDiscard);
-        void PerformBuy(CardType cardToPurchase);
         void PlayTreasures(CardSet treasuresToPlay);
-        void Publish(GameMessage @event);
+        void Publish(IGameMessage @event);
         void PlayAction(Card actionCard);
         void PlayTreasure(Card treasureCard);
         void ChangeState(TurnState delta);

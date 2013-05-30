@@ -63,7 +63,7 @@ namespace Dominion
             var players = new List<Player>();
             for (int i = 0; i < playerCount; i++)
             {
-                players.Add(new Player(Game.DealStartupDeck(), new DiscardPile(), new NaivePlayerController(), _eventAggregator));
+                players.Add(new Player(Game.DealStartupDeck(), new DiscardPile(), new NaivePlayerController()));
             }
             return players;
         }

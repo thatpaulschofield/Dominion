@@ -26,7 +26,7 @@
 
         private Player Build()
         {
-            return new Player(_deckBuilder, new DiscardPile(), _controller, _eventAggregator, _playerName);
+            return new Player(_deckBuilder, new DiscardPile(), _controller, name: _playerName);
         }
 
         public PlayerBuilder WithName(string playerName)

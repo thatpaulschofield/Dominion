@@ -18,7 +18,7 @@ namespace Dominion.GameEvents
                         ;
         }
 
-        public override GameEventResponse GetDefaultResponse()
+        public override IEventResponse GetDefaultResponse()
         {
             if (CardsAvailable().Any())
             {
@@ -43,7 +43,7 @@ namespace Dominion.GameEvents
         public override string ToString()
         {
             string purchases = CardsAvailable().Aggregate("", (x, c) => x + " - " + c.Name);
-            return String.Format("Buy phase for player {0}. Available purchases: [{1}]", TurnScope.Player.Name, purchases);
+            return String.Format("{0}: Buys ({1}), available cards: [{2}]", TurnScope.Player.Name, TurnScope.Buys, purchases);
         }
     }
 }

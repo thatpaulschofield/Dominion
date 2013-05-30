@@ -22,7 +22,7 @@ namespace Dominion.GameEvents
 
         public override string ToString()
         {
-            return String.Format("Player {0} playing action {1}", TurnScope.Player.Name, Card.Name);
+            return String.Format("{0} playing action {1}", TurnScope.Player.Name, Card.Name);
         }
     }
 }

@@ -2,22 +2,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Dominion.Cards;
 
-namespace Dominion
+namespace Dominion.Cards
 {
     public class CardSet : IEnumerable<Card>
     {
-        protected List<Card> _innerList;
+        protected List<Card> InnerList;
 
         public CardSet()
         {
-            _innerList = new List<Card>();
+            InnerList = new List<Card>();
         }
 
         public CardSet(IEnumerable<Card> cards) : this()
         {
-            _innerList.AddRange(cards);
+            InnerList.AddRange(cards);
         }
 
         public CardSet(params Card[] cards) : this(cards.ToList())
@@ -36,7 +35,7 @@ namespace Dominion
 
         public Card this[int index]
         {
-            get { return _innerList[index]; }
+            get { return InnerList[index]; }
         }
 
         public CardSet this[CardType type]
@@ -46,12 +45,12 @@ namespace Dominion
 
         public void AddRange(IEnumerable<Card> cards)
         {
-            _innerList.AddRange(cards);
+            InnerList.AddRange(cards);
         }
 
-        public void Into(CardSet targetCardSet, ITurnScope turnScope)
+        public void Into(CardSet targetCardSet, IActionScope turnScope)
         {
-            _innerList.ToList().ForEach(
+            InnerList.ToList().ForEach(
                 c =>
                     {
                         targetCardSet.Add(c, turnScope);
@@ -59,7 +58,7 @@ namespace Dominion
                     });
         }
 
-        public void DiscardInto(DiscardPile discardPile, ITurnScope turnScope)
+        public void DiscardInto(DiscardPile discardPile, IActionScope turnScope)
         {
             this.ToList().ForEach(card =>
                 {
@@ -70,31 +69,31 @@ namespace Dominion
 
         public IEnumerator<Card> GetEnumerator()
         {
-            return _innerList.GetEnumerator();
+            return InnerList.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return _innerList.GetEnumerator();
+            return InnerList.GetEnumerator();
         }
 
-        public void Add(Card card, ITurnScope turnScope)
+        public void Add(Card card, IActionScope turnScope)
         {
             if (card == null)
                 return;
 
-            _innerList.Add(card);
+            InnerList.Add(card);
             OnCardAdded(card, turnScope);
         }
 
-        protected virtual void OnCardAdded(Card card, ITurnScope turnScope)
+        protected virtual void OnCardAdded(Card card, IActionScope turnScope)
         {
             
         }
 
         public void Remove(Card card)
         {
-            _innerList.Remove(card);
+            InnerList.Remove(card);
             OnCardRemoved(card);
         }
 
