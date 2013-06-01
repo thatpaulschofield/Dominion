@@ -1,4 +1,5 @@
 using Dominion.Cards.BasicSet.Actions;
+using Dominion.Cards.BasicSet.Actions.MineAction;
 
 namespace Dominion.Cards
 {

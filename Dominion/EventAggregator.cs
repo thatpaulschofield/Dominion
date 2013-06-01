@@ -28,7 +28,9 @@ namespace Dominion
                 s =>
                     {
                         if (s.CanHandle(@event))
+                        {
                             s.Handle(@event);
+                        }
                     });
         }
     }

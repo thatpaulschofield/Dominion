@@ -13,6 +13,7 @@ namespace Dominion.GameEvents
         public override void Execute()
         {
             TurnScope.ChangeState((-TurnScope.Actions).TurnActions());
+            TurnScope.Publish(this);
         }
 
         public override string ToString()

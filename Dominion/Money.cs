@@ -2,7 +2,7 @@
 
 namespace Dominion
 {
-    public class Money : IComparable<Money>
+    public struct Money : IComparable<Money>
     {
         private readonly int _coins;
 
@@ -18,7 +18,7 @@ namespace Dominion
 
         public override string ToString()
         {
-            return _coins.ToString();
+            return String.Format("({0})", _coins);
         }
 
         public static implicit operator Int32(Money money)
@@ -33,10 +33,13 @@ namespace Dominion
 
         public override bool Equals(object obj)
         {
-            var other = obj as Money;
-            if (other == null)
+            if (obj is Money)
+            {
+                var other = (Money) obj;
+                return this.GetHashCode() == other.GetHashCode();
+            }
+            else
                 return false;
-            return this.GetHashCode() == other.GetHashCode();
         }
 
         public override int GetHashCode()

@@ -62,6 +62,17 @@ namespace Dominion
             card.Reveal(externalEventScope, player);
         }
 
+        public void TrashCard(Card card, TrashPile trash, TurnScope turnScope)
+        {
+            MoveCardIntoSet(card, trash, turnScope);
+        }
+
+        private void MoveCardIntoSet(Card card, CardSet destination, TurnScope turnScope)
+        {
+            this.Remove(card);
+            destination.Add(card, turnScope);
+        }
+
         #region IHandleEvents
         public void Handle(IGameMessage @event, IReactionScope scope)
         {

@@ -18,6 +18,11 @@ namespace Dominion
         public IEnumerable<Player> PassivePlayers { get; private set; }
         public IEnumerable<IReactionScope> ReactionScopes { get; private set; }
 
+        public EndGameScope()
+        {
+            State = new StateStack();
+        }
+
         public void Discard(CardSet cardsToDiscard)
         {
             
@@ -34,6 +39,9 @@ namespace Dominion
         public void Publish(IGameMessage @event)
         {
         }
+
+        public StateStack State { get; private set; }
+        public ITurnScope GetTurnScope { get; private set; }
 
         public void PlayAction(Card actionCard)
         {
@@ -55,6 +63,21 @@ namespace Dominion
 
         public void CleanUp()
         {
+        }
+
+        public void TrashCard(Card card)
+        {
+            
+        }
+
+        public void GainCardFromSupply(CardType card)
+        {
+            
+        }
+
+        public T GetInstance<T>()
+        {
+            throw new System.NotImplementedException();
         }
 
         public void Dispose()

@@ -84,6 +84,7 @@ namespace Dominion.Cards
 
         public void Reveal(IReactionScope externalEventScope, Player player)
         {
+            externalEventScope.Publish(new PlayerRevealedCardEvent(externalEventScope, this));
             OnRevealed(externalEventScope, player);
         }
 

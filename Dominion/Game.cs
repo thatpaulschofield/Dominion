@@ -4,25 +4,34 @@ using System.Linq;
 using Dominion.Cards.BasicSet;
 using Dominion.Cards.BasicSet.VictoryCards;
 using Dominion.GameEvents;
+using StructureMap;
 
 namespace Dominion
 {
     public class Game
     {
         private readonly IEventAggregator _eventAggregator;
+        private readonly IContainer _container;
         private IEnumerator<Player> _playerIterator;
         private List<Player> _players;
         private readonly List<EndGameCondition> _endGameConditions = new List<EndGameCondition>();
+        private TrashPile _trash = new TrashPile();
 
-        public Game(IEventAggregator eventAggregator, Supply supply, IEnumerable<Player> players)
+        public Game(IEventAggregator eventAggregator, Supply supply, IEnumerable<Player> players) : this(eventAggregator, supply, players, new Container())
+        {
+        }
+
+        public Game(IEventAggregator eventAggregator, Supply supply, IEnumerable<Player> players, IContainer container)
         {
             TurnNumber = 1;
             _eventAggregator = eventAggregator;
+            _container = container;
             Supply = supply;
             Players = players;
             _playerIterator = Players.GetEnumerator();
             _endGameConditions.Add(new ProvinceStackDepletedEndGameCondition(eventAggregator));
             _endGameConditions.Add(new ThreeSupplyPilesDepletedEndGameCondition(eventAggregator));
+
         }
 
         public static Deck DealStartupDeck()
@@ -88,7 +97,7 @@ namespace Dominion
 
         public TurnScope StartTurn(Player player)
         {
-            return new TurnScope(player, Supply, TurnNumber, _eventAggregator, PassivePlayers(player));
+            return new TurnScope(player, Supply, TurnNumber, _eventAggregator, PassivePlayers(player), _trash, _container.GetNestedContainer());
         }
 
         private IEnumerable<Player> PassivePlayers(Player player)

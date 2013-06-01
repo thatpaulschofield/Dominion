@@ -5,14 +5,6 @@ using Dominion.GameEvents;
 
 namespace Dominion
 {
-    public interface IActionScope
-    {
-        Player Player { get; }
-        Hand Hand { get; }
-        void PerformBuy(CardType cardType);
-        void Publish(IGameMessage message);
-    }
-
     public interface ITurnScope : IActionScope, IDisposable
     {
         Supply Supply { get; }
@@ -31,5 +23,8 @@ namespace Dominion
         void ChangeState(params TurnState[] deltas);
         void CleanUp();
         string ToString();
+        void TrashCard(Card card);
+        void GainCardFromSupply(CardType card);
+        T GetInstance<T>();
     }
 }

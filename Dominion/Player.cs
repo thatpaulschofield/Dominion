@@ -49,14 +49,14 @@ namespace Dominion
         {
              var response = _controller.HandleGameEvent(phase, phase.TurnScope);
             response.Execute();
-            phase.ActionScope.Publish(response);
+            //phase.ActionScope.Publish(response);
         }
 
         public void BeginBuyPhase(BuyPhase buyPhase)
         {
             var response = _controller.HandleGameEvent(buyPhase, buyPhase.TurnScope);
             response.Execute();
-            buyPhase.ActionScope.Publish(response);
+            //buyPhase.ActionScope.Publish(response);
         }
 
         public void BeginCleanupPhase(ITurnScope turnScope)
@@ -162,8 +162,17 @@ namespace Dominion
 
         public void Handle(IGameMessage message, ITurnScope turnScope)
         {
+            if (message is IPlayerScoped && turnScope.Player != this)
+                return;
+
             _controller.HandleGameEvent(message, turnScope).Execute();
             Hand.Handle(message, turnScope);
         }
+
+        public void GainCardFromSupply(Card card, TurnScope turnScope)
+        {
+            this.Discard(card, turnScope);
+        }
+
     }
 }

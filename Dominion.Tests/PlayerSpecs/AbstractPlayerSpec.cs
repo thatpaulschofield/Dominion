@@ -5,7 +5,7 @@ using StructureMap;
 
 namespace Dominion.Tests.PlayerSpecs
 {
-    internal abstract class AbstractGameSpec : SpecsFor<Game>
+    public abstract class AbstractGameSpec : SpecsFor<Game>
     {
         protected IContainer Container;
 

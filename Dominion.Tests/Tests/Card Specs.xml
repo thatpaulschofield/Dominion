@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<Test name="Card Specs" lifecycle="Acceptance">
+  <Card>
+    <CheckingCardCost isStep="True">
+      <Cards>
+        <Card cardName="Village" isStep="True" />
+      </Cards>
+      <table>
+        <row isStep="True" cardName="Cellar" Cost="2" />
+        <row isStep="True" cardName="Copper" Cost="0" />
+        <row isStep="True" cardName="Curse" Cost="0" />
+        <row isStep="True" cardName="Duchy" Cost="5" />
+        <row isStep="True" cardName="Estate" Cost="2" />
+        <row isStep="True" cardName="Gold" Cost="6" />
+        <row isStep="True" cardName="Market" Cost="5" />
+        <row isStep="True" cardName="Militia" Cost="4" />
+        <row isStep="True" cardName="Mine" Cost="5" />
+        <row isStep="True" cardName="Moat" Cost="2" />
+        <row isStep="True" cardName="Province" Cost="8" />
+        <row isStep="True" cardName="Silver" Cost="3" />
+        <row isStep="True" cardName="Smithy" Cost="3" />
+        <row isStep="True" cardName="Village" Cost="3" />
+      </table>
+    </CheckingCardCost>
+    <CheckingAction isStep="True">
+      <table>
+        <row isStep="True" cardName="Cellar" IsAction="true" />
+        <row isStep="True" cardName="Copper" IsAction="false" />
+        <row isStep="True" cardName="Curse" IsAction="false" />
+        <row isStep="True" cardName="Duchy" IsAction="false" />
+        <row isStep="True" cardName="Estate" IsAction="false" />
+        <row isStep="True" cardName="Gold" IsAction="false" />
+        <row isStep="True" cardName="Market" IsAction="true" />
+        <row isStep="True" cardName="Militia" IsAction="true" />
+        <row isStep="True" cardName="Mine" IsAction="true" />
+        <row isStep="True" cardName="Moat" IsAction="true" />
+        <row isStep="True" cardName="Province" IsAction="false" />
+        <row isStep="True" cardName="Silver" IsAction="false" />
+        <row isStep="True" cardName="Smithy" IsAction="true" />
+        <row isStep="True" cardName="Village" IsAction="true" />
+      </table>
+    </CheckingAction>
+    <CheckingIsTreasure isStep="True">
+      <table>
+        <row isStep="True" cardName="Cellar" IsTreasure="false" />
+        <row isStep="True" cardName="Copper" IsTreasure="true" />
+        <row isStep="True" cardName="Curse" IsTreasure="false" />
+        <row isStep="True" cardName="Duchy" IsTreasure="false" />
+        <row isStep="True" cardName="Estate" IsTreasure="false" />
+        <row isStep="True" cardName="Gold" IsTreasure="true" />
+        <row isStep="True" cardName="Market" IsTreasure="false" />
+        <row isStep="True" cardName="Militia" IsTreasure="false" />
+        <row isStep="True" cardName="Mine" IsTreasure="false" />
+        <row isStep="True" cardName="Moat" IsTreasure="false" />
+        <row isStep="True" cardName="Province" IsTreasure="false" />
+        <row isStep="True" cardName="Silver" IsTreasure="true" />
+        <row isStep="True" cardName="Smithy" IsTreasure="false" />
+        <row isStep="True" cardName="Village" IsTreasure="false" />
+      </table>
+    </CheckingIsTreasure>
+  </Card>
+</Test>

@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Dominion.Cards;
 using Dominion.GameEvents;
+using StructureMap;
 
 namespace Dominion
 {
     public class TurnScope : ITurnScope, IHandleEvents
     {
+        private readonly TrashPile _trash;
+        private readonly IContainer _container;
         private readonly Player _player;
         private readonly IEventAggregator _eventAggregator;
         private readonly List<IReactionScope> _reactionScopes = new List<IReactionScope>();
@@ -15,9 +18,18 @@ namespace Dominion
         private readonly CardSet _cardsInPlay = new CardSet();
         private TurnState _turnState;
 
-        public TurnScope(Player player, Supply supply, int turnNumber, IEventAggregator eventAggregator,
-                         IEnumerable<Player> reactingPlayers) : this(player, supply, turnNumber, eventAggregator)
+        public TurnScope(Player player, 
+            Supply supply, 
+            int turnNumber, 
+            IEventAggregator eventAggregator, 
+            IEnumerable<Player> reactingPlayers, 
+            TrashPile trash, 
+            IContainer container) 
+            : this(player, supply, turnNumber, eventAggregator)
         {
+            _trash = trash;
+            container.Configure(cfg => cfg.For<ITurnScope>().Use(this));
+            _container = container;
             reactingPlayers.ForEach(p => _reactionScopes.Add(new ReactionScope(eventAggregator, player, p, this)));
         }
 
@@ -40,9 +52,12 @@ namespace Dominion
             _eventAggregator.Register(this);
             Supply = supply;
             TurnNumber = turnNumber;
+            State = new StateStack();
         }
 
         public Supply Supply { get; private set; }
+        public StateStack State { get; private set; }
+        public ITurnScope GetTurnScope { get { return this; } }
 
         public int TurnNumber { get; private set; }
 
@@ -127,6 +142,21 @@ namespace Dominion
             return String.Format("Player {0}: {1} Actions, {2} Buys, ({3}) Coins. H: {4}, P: {5}, Di: {6}, Dk {7}", Player.Name, Actions, Buys, Coins, Hand.Count(), _cardsInPlay.Count(), _player.DiscardPile.Count(), _player.Deck.Count());
         }
 
+        public void TrashCard(Card card)
+        {
+            Player.Hand.TrashCard(card, _trash, this);
+        }
+
+        public void GainCardFromSupply(CardType card)
+        {
+            Player.GainCardFromSupply(card, this);
+        }
+
+        public T GetInstance<T>()
+        {
+            return _container.GetInstance<T>();
+        }
+
         public void Dispose()
         {
             _eventAggregator.Unregister(this);
@@ -142,5 +172,10 @@ namespace Dominion
         {
             return true;
         }
+    }
+
+    public class TrashPile : CardSet
+    {
+        
     }
 }

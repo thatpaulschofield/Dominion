@@ -11,5 +11,10 @@
         public int Score { get; private set; }
 
         public string Player { get; private set; }
+
+        public override string ToString()
+        {
+            return Player + ": " + Score + " victory points";
+        }
     }
 }

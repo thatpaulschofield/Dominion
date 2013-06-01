@@ -1,4 +1,5 @@
-﻿using Dominion.Configuration;
+﻿using Dominion.Cards.BasicSet.Actions.MineAction;
+using Dominion.Configuration;
 using StructureMap;
 
 namespace Dominion.Console
@@ -10,12 +11,18 @@ namespace Dominion.Console
             var container = new Container();
             container.Configure(cfg =>
                 {
+                    cfg.AddRegistry<DominionRegistry>();
                     cfg.Scan(scan =>
                         {
+                            //scan.TheCallingAssembly();
+                            scan.AssemblyContainingType<Game>();
                             scan.WithDefaultConventions();
-                            scan.RegisterConcreteTypesAgainstTheFirstInterface();
+                            //scan.AddAllTypesOf(typeof (GameEventResponse<>));
+
+                            //scan.AddAllTypesOf<Saga>();
+                            //scan.ConnectImplementationsToTypesClosing(typeof (IStartedBy<>));
                         });
-                    cfg.AddRegistry<DominionRegistry>();
+                    
                 });
 
             return container;

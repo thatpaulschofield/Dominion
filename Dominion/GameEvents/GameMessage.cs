@@ -33,6 +33,8 @@ namespace Dominion.GameEvents
         }
 
         public string Description { get; protected set; }
+        public ITurnScope TurnScope { get { return ActionScope.GetTurnScope; } }
+
         public bool IsExternalToPlayer(Player player)
         {
             return !ReferenceEquals(player, ActionScope.Player);
@@ -42,5 +44,9 @@ namespace Dominion.GameEvents
         {
             return Description;
         }
+
+        public Guid Id { get; set; }
+        public Guid CorrelationId { get; set; }
+        public Guid OriginalEventId { get; set; }
     }
 }

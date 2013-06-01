@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Stateless">
+      <HintPath>..\packages\stateless-4.0.2.3.1.1\lib\net40\Stateless.dll</HintPath>
+    </Reference>
     <Reference Include="StructureMap">
       <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
     </Reference>
@@ -52,8 +55,25 @@
     <Compile Include="AI\Terminal.cs" />
     <Compile Include="AI\Terminals\Constant.cs" />
     <Compile Include="Cards\BasicSet\Actions\DoneDiscardingResponse.cs" />
+    <Compile Include="Cards\BasicSet\Actions\EnumerableExtensions.cs" />
+    <Compile Include="Cards\BasicSet\Actions\IPlayerScoped.cs" />
+    <Compile Include="Cards\BasicSet\Actions\MineAction\ActionDsl.cs" />
+    <Compile Include="Cards\BasicSet\Actions\MineAction\CardState.cs" />
+    <Compile Include="Cards\BasicSet\Actions\MineAction\CardStateDsl.cs" />
+    <Compile Include="Cards\BasicSet\Actions\MineAction\CardTrashedForMineEvent.cs" />
+    <Compile Include="Cards\BasicSet\Actions\MineAction\DeclinedToTrashCardForMineEvent.cs" />
+    <Compile Include="Cards\BasicSet\Actions\MineAction\GainCardResponse.cs" />
+    <Compile Include="Cards\BasicSet\Actions\MineAction\GameEventResponse.cs" />
+    <Compile Include="Cards\BasicSet\Actions\MineAction\IStartedBy.cs" />
+    <Compile Include="Cards\BasicSet\Actions\MineAction\MinePlayedMessage.cs" />
+    <Compile Include="Cards\BasicSet\Actions\MineAction\MineSaga.cs" />
+    <Compile Include="Cards\BasicSet\Actions\MineAction\Saga.cs" />
+    <Compile Include="Cards\BasicSet\Actions\MineAction\StateMachineGameMessage.cs" />
+    <Compile Include="Cards\BasicSet\Actions\MineAction\StateTransition.cs" />
+    <Compile Include="Cards\BasicSet\Actions\MineAction\TrashCardForMineResponse.cs" />
     <Compile Include="Cards\BasicSet\Actions\OptionalDiscardResponse.cs" />
     <Compile Include="Cards\BasicSet\Actions\OptionallyDiscard.cs" />
+    <Compile Include="Cards\BasicSet\Actions\PickTreasureToTrashState.cs" />
     <Compile Include="Cards\FirstGame.cs" />
     <Compile Include="GameEvents\CardDrawnEvent.cs" />
     <Compile Include="Cards\BasicSet\Actions\AttackCardPlayed.cs" />
@@ -68,7 +88,7 @@
     <Compile Include="Cards\BasicSet\Actions\Market.cs" />
     <Compile Include="Cards\BasicSet\Actions\Militia.cs" />
     <Compile Include="Cards\BasicSet\Actions\MilitiaAttackEffect.cs" />
-    <Compile Include="Cards\BasicSet\Actions\Mine.cs" />
+    <Compile Include="Cards\BasicSet\Actions\MineAction\Mine.cs" />
     <Compile Include="Cards\BasicSet\Actions\Moat.cs" />
     <Compile Include="Cards\BasicSet\Actions\Remodel.cs" />
     <Compile Include="Cards\BasicSet\Actions\RevealCardResponse.cs" />
@@ -89,7 +109,7 @@
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="EventAggregator.cs" />
     <Compile Include="EventFilterPipeline.cs" />
-    <Compile Include="ExternalEventScope.cs" />
+    <Compile Include="ReactionScope.cs" />
     <Compile Include="GameBuilder.cs" />
     <Compile Include="GameEndedEvent.cs" />
     <Compile Include="GameEvents\BuyCardResponse.cs" />
@@ -106,16 +126,19 @@
     <Compile Include="GameEvents\NullResponse.cs" />
     <Compile Include="GameEvents\PlayAllTreasuresResponse.cs" />
     <Compile Include="GameEvents\PlayerGainedCardEvent.cs" />
+    <Compile Include="GameEvents\PlayerRevealedCardEvent.cs" />
     <Compile Include="GameEvents\PlayNoTreasuresResponse.cs" />
     <Compile Include="GameEvents\SelectTreasuresToPlayCommand.cs" />
     <Compile Include="GameEvents\ShuffleDeckResponse.cs" />
     <Compile Include="GameSpec.cs" />
+    <Compile Include="IActionScope.cs" />
     <Compile Include="IEvent.cs" />
     <Compile Include="IEventAggregator.cs" />
     <Compile Include="IExternalEventScope.cs" />
     <Compile Include="IGameBuilder.cs" />
     <Compile Include="IHandleEvents.cs" />
     <Compile Include="IHandleInternalEvents.cs" />
+    <Compile Include="Infrastructure\Bus.cs" />
     <Compile Include="IPlayerController.cs" />
     <Compile Include="ITurnScope.cs" />
     <Compile Include="Money.cs" />
@@ -126,6 +149,7 @@
     <Compile Include="PlayerSpec.cs" />
     <Compile Include="ProvinceStackDepletedEndGameCondition.cs" />
     <Compile Include="DeckReplenishedEvent.cs" />
+    <Compile Include="StateStack.cs" />
     <Compile Include="SupplyBuilder.cs" />
     <Compile Include="SupplyPileBuilder.cs" />
     <Compile Include="SupplyPileDepletedEvent.cs" />
@@ -152,7 +176,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="GameEvents\ActionPhase.cs" />
     <Compile Include="GameEvents\BuyPhase.cs" />
-    <Compile Include="GameEvents\GameEvent.cs" />
+    <Compile Include="GameEvents\IMessage.cs" />
     <Compile Include="GameEvents\GameEventResponse.cs" />
     <Compile Include="GameEvents\PlayActionResponse.cs" />
     <Compile Include="GameEvents\SkipActionPhaseResponse.cs" />
@@ -173,6 +197,7 @@
     <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

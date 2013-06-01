@@ -10,6 +10,7 @@ namespace Dominion.GameEvents
         Func<IEnumerable<IEventResponse>> GetAvailableResponses { get; }
         IEnumerable<IEventResponse> GetAvailableReactions(IReactionScope scope);
         string Description { get; }
+        ITurnScope TurnScope { get; }
         bool IsExternalToPlayer(Player player);
     }
 }

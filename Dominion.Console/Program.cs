@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Dominion.Cards;
+using Dominion.Infrastructure;
 using StructureMap;
 
 namespace Dominion.Console
@@ -26,6 +27,7 @@ namespace Dominion.Console
                 var gameBuilder = _container.GetInstance<GameBuilder>();
                 var gameSpec = new GameSpec().WithConsolePlayer("Bob").WithConsolePlayer("Ted");
 
+                _container.GetInstance<IBus>();
                 Game game = gameBuilder.Initialize(gameSpec);
                 game.Start();
             }

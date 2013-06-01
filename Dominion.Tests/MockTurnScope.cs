@@ -12,6 +12,7 @@ namespace Dominion.Tests
             TurnNumber = 1;
             EventAggregator = new MockEventAggregator();
             PassivePlayers = new List<Player>();
+            State = new StateStack();
         }
         public IList<Card> PurchasedCards = new List<Card>();
         public Supply Supply { get; set; }
@@ -50,6 +51,9 @@ namespace Dominion.Tests
             EventAggregator.Publish(@event);
         }
 
+        public StateStack State { get; private set; }
+        public ITurnScope GetTurnScope { get; private set; }
+
         public void PlayAction(Card actionCard)
         {
             
@@ -72,6 +76,21 @@ namespace Dominion.Tests
         public void CleanUp()
         {
             
+        }
+
+        public void TrashCard(Card card)
+        {
+            
+        }
+
+        public void GainCardFromSupply(CardType card)
+        {
+            
+        }
+
+        public T GetInstance<T>()
+        {
+            throw new System.NotImplementedException();
         }
 
         public void Dispose()
