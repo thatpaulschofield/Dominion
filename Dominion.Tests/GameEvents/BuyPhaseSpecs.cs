@@ -1,10 +1,7 @@
-﻿using Dominion.AI;
-using Dominion.Cards.BasicSet;
+﻿using Dominion.Cards.BasicSet;
 using Dominion.Cards.BasicSet.Treasures;
-using Dominion.Cards.BasicSet.VictoryCards;
 using Dominion.GameEvents;
 using NUnit.Framework;
-using Should;
 
 namespace Dominion.Tests.GameEvents
 {
@@ -21,7 +18,7 @@ namespace Dominion.Tests.GameEvents
 
                 new SupplyPile(1, Action.Village, eventAggregator));
 
-            var turnScope = new MockTurnScope {TreasuresInHand = player.Hand, Coins = 0, Player = player, Supply = supply, EventAggregator = eventAggregator};
+            var turnScope = new MockTurnScope {TreasuresInHand = player.Hand, Coins = 0, ActingPlayer = player, Supply = supply, EventAggregator = eventAggregator};
             var buyPhase = new BuyPhase(turnScope);
             player.BeginBuyPhase(buyPhase);
             eventAggregator.AssertMessageWasSent<SkipBuyPhaseResponse>();
@@ -38,7 +35,7 @@ namespace Dominion.Tests.GameEvents
             var turnScope = new TurnScope(player, new Supply(new SupplyPile(1, Action.Village, eventAggregator), new SupplyPile(1, Treasure.Copper, eventAggregator)), eventAggregator);
             var buyPhase = new BuyPhase(turnScope);
             player.BeginBuyPhase(buyPhase);
-            eventAggregator.AssertMessageWasSent<BuyCardResponse>();
+            eventAggregator.AssertMessageWasSent<PlayerGainedCardEvent>();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Dominion.Cards;
 using Dominion.GameEvents;
 using Dominion.Tests.GameEvents;
@@ -7,17 +8,18 @@ namespace Dominion.Tests
 {
     public class MockTurnScope : ITurnScope
     {
-        public MockTurnScope()
+        public MockTurnScope(IEventAggregator eventAggregator = null)
         {
             TurnNumber = 1;
-            EventAggregator = new MockEventAggregator();
+            EventAggregator = eventAggregator ?? new MockEventAggregator();
             PassivePlayers = new List<Player>();
-            State = new StateStack();
+            ActingPlayer = new MockPlayer();
         }
         public IList<Card> PurchasedCards = new List<Card>();
         public Supply Supply { get; set; }
+        public IActingPlayer ActingPlayer { get; set; }
         public int TurnNumber { get; set; }
-        public Player Player { get; set; }
+        //public IPlayer Player { get; set; }
         public int PotentialCoins { get; set; }
         public int Coins { get; set; }
         public CardSet TreasuresInHand { get; set; }
@@ -51,8 +53,7 @@ namespace Dominion.Tests
             EventAggregator.Publish(@event);
         }
 
-        public StateStack State { get; private set; }
-        public ITurnScope GetTurnScope { get; private set; }
+        public ITurnScope GetTurnScope { get { return this; } }
 
         public void PlayAction(Card actionCard)
         {
@@ -90,7 +91,12 @@ namespace Dominion.Tests
 
         public T GetInstance<T>()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
+        }
+
+        public CardSet FindCardsEligibleForPurchase(ITurnScope turnScope)
+        {
+            return new CardSet();
         }
 
         public void Dispose()

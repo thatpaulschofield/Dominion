@@ -1,4 +1,5 @@
 using System;
+using Dominion.GameEvents;
 
 namespace Dominion.Cards.BasicSet.Actions.MineAction
 {
@@ -15,8 +16,7 @@ namespace Dominion.Cards.BasicSet.Actions.MineAction
 
         public override void Execute()
         {
-            TurnScope.TrashCard(Item);
-            TurnScope.Publish(new CardTrashedForMineEvent(TurnScope, Item){ Id = Guid.NewGuid(), CorrelationId = this.OriginalEventId, OriginalEventId = this.OriginalEventId});
+            TurnScope.Publish(new CardSelectedToTrashForMineEvent(Item, TurnScope){ Id = Guid.NewGuid(), CorrelationId = this.OriginalEventId, OriginalEventId = this.OriginalEventId});
         }
     }
 }

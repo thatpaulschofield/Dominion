@@ -24,7 +24,7 @@ namespace Dominion.Tests.PlayerSpecs
         }
 
     }
-    internal abstract class AbstractPlayerSpec : SpecsFor<Player>
+    public abstract class AbstractPlayerSpec : SpecsFor<Player>
     {
         protected IContainer Container;
 

@@ -1,5 +1,6 @@
 using Dominion.Cards.BasicSet.Actions;
 using Dominion.Cards.BasicSet.Actions.MineAction;
+using Dominion.Cards.BasicSet.Actions.Remodel;
 
 namespace Dominion.Cards
 {

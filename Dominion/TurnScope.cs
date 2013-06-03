@@ -52,23 +52,20 @@ namespace Dominion
             _eventAggregator.Register(this);
             Supply = supply;
             TurnNumber = turnNumber;
-            State = new StateStack();
         }
 
         public Supply Supply { get; private set; }
-        public StateStack State { get; private set; }
         public ITurnScope GetTurnScope { get { return this; } }
 
+        public IActingPlayer ActingPlayer {
+            get { return _player; }
+        }
         public int TurnNumber { get; private set; }
 
         public IEnumerable<IReactionScope> ReactionScopes { get { return _reactionScopes; } }
 
-        public Player Player
-        {
-            get { return _player; }
-        }
 
-        public Hand Hand { get { return Player.Hand; } }
+        public Hand Hand { get { return ActingPlayer.Hand; } }
 
         public void Discard(CardSet cardsToDiscard)
         {
@@ -101,7 +98,7 @@ namespace Dominion
 
             Discard(Supply.AcquireCard(cardToPurchase, this));
             _turnState = _turnState.RegisterBuy(cardToPurchase.Create().Cost);
-            _eventAggregator.Publish(new PlayerGainedCardEvent(this));
+            _eventAggregator.Publish(new PlayerGainedCardEvent(cardToPurchase, this));
         }
 
         public void PlayTreasures(CardSet treasuresToPlay)
@@ -115,7 +112,7 @@ namespace Dominion
 
         public int Coins { get { return _turnState.Coins; } }
 
-        public CardSet TreasuresInHand { get { return Player.Hand.Treasures(); } }
+        public CardSet TreasuresInHand { get { return ActingPlayer.Hand.Treasures(); } }
 
         public void Publish(IGameMessage @event)
         {
@@ -139,22 +136,27 @@ namespace Dominion
 
         public override string ToString()
         {
-            return String.Format("Player {0}: {1} Actions, {2} Buys, ({3}) Coins. H: {4}, P: {5}, Di: {6}, Dk {7}", Player.Name, Actions, Buys, Coins, Hand.Count(), _cardsInPlay.Count(), _player.DiscardPile.Count(), _player.Deck.Count());
+            return String.Format("Player {0}: {1} Actions, {2} Buys, ({3}) Coins. H: {4}, P: {5}, Di: {6}, Dk {7}", ActingPlayer.Name, Actions, Buys, Coins, Hand.Count(), _cardsInPlay.Count(), _player.DiscardPile.Count(), _player.Deck.Count());
         }
 
         public void TrashCard(Card card)
         {
-            Player.Hand.TrashCard(card, _trash, this);
+            ActingPlayer.Hand.TrashCard(card, _trash, this);
         }
 
         public void GainCardFromSupply(CardType card)
         {
-            Player.GainCardFromSupply(card, this);
+            ActingPlayer.GainCardFromSupply(card, this);
         }
 
         public T GetInstance<T>()
         {
             return _container.GetInstance<T>();
+        }
+
+        public CardSet FindCardsEligibleForPurchase(ITurnScope turnScope)
+        {
+            return Supply.FindCardsEligibleForPurchase(turnScope);
         }
 
         public void Dispose()
@@ -165,7 +167,7 @@ namespace Dominion
 
         public void Handle(IGameMessage @event)
         {
-            Player.Handle(@event, this);
+            ActingPlayer.Handle(@event, this);
         }
 
         public bool CanHandle(IGameMessage @event)

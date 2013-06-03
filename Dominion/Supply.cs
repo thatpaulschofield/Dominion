@@ -24,13 +24,6 @@ namespace Dominion
         public CardSet FindCardsEligibleForPurchase(ITurnScope turnScope)
         {
             return FindCardsCostingUpTo(turnScope.Coins);
-            //var eligibleCards =
-            //    this.Select(x => x.Value)
-            //        .Where(t => 
-            //            t.Type.Create().Cost <= turnScope.Coins && t.Count > 0)
-            //        .Select(z => z.Type.Create());
-                
-            //return new CardSet(eligibleCards);
         }
 
         public CardSet FindCardsCostingUpTo(Money maxCost)

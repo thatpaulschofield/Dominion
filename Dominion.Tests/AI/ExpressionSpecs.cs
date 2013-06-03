@@ -1,24 +1,18 @@
-﻿using Dominion.AI;
+﻿using System.Collections.Generic;
+using Dominion.AI;
 using Dominion.AI.Functions;
 using Dominion.AI.Functions.Boolean;
-using Dominion.AI.Terminals;
+using Dominion.AI.Functions.Numeric;
+using Dominion.Ai.Nodes.Functions.Numeric;
+using Dominion.Ai.Nodes.Terminals;
+using Dominion.Cards.BasicSet.Treasures;
+using Dominion.GameEvents;
 using Dominion.Tests.GameEvents;
 using NUnit.Framework;
 using Should;
 
 namespace Dominion.Tests.AI
 {
-
-    [TestFixture]
-    public class blah
-    {
-        [Test]
-        public void bar()
-        {
-
-        }
-    }
-
     [TestFixture]
     public class ExpressionSpecs
     {
@@ -45,7 +39,7 @@ namespace Dominion.Tests.AI
                             Child1 = new Constant<bool>(false)
                         }
                 };
-            expression.Evaluate(new TurnScope(player, new Supply(), _eventAggregator)).ShouldBeTrue();
+            expression.Evaluate(new MockAiContext()).ShouldBeTrue();
         }
 
         [Test]
@@ -56,7 +50,7 @@ namespace Dominion.Tests.AI
                     Child1 = new Constant<bool>(true),
                     Child2 = new Constant<bool>(false)
                 };
-            expression.Evaluate(new TurnScope(player, new Supply(), _eventAggregator)).ShouldBeFalse();
+            expression.Evaluate(new MockAiContext()).ShouldBeFalse();
         }
 
         [Test]
@@ -67,7 +61,7 @@ namespace Dominion.Tests.AI
                     Child1 = new Constant<bool>(true),
                     Child2 = new Constant<bool>(true)
                 };
-            expression.Evaluate(new TurnScope(player, new Supply(), _eventAggregator)).ShouldBeTrue();
+            expression.Evaluate(new MockAiContext()).ShouldBeTrue();
         }
 
         [Test]
@@ -78,7 +72,7 @@ namespace Dominion.Tests.AI
                     Child1 = new Constant<int>(6),
                     Child2 = new Constant<int>(6)
                 };
-            equals.Evaluate(new TurnScope(player, new Supply(), _eventAggregator)).ShouldBeTrue();
+            equals.Evaluate(new MockAiContext()).ShouldBeTrue();
         }
 
         [Test]
@@ -92,7 +86,7 @@ namespace Dominion.Tests.AI
                             Child2 = new Constant<int>(6)
                         }
                 };
-            expression.Evaluate(new TurnScope(player, new Supply(), _eventAggregator)).ShouldBeTrue();
+            expression.Evaluate(new MockAiContext()).ShouldBeTrue();
         }
 
         [Test]
@@ -103,7 +97,103 @@ namespace Dominion.Tests.AI
                     Child1 = new Constant<int>(5),
                     Child2 = new Constant<int>(6)
                 };
-            expression.Evaluate(new TurnScope(player, new Supply(), _eventAggregator)).ShouldBeFalse();
+            expression.Evaluate(new MockAiContext()).ShouldBeFalse();
+        }
+
+        [Test]
+        public void One_should_be_less_than_two()
+        {
+            new LessThan<int>
+                {
+                    Child1 = new Constant<int>(1),
+                    Child2 = new Constant<int>(2)
+                }
+                .Evaluate(new MockAiContext()).ShouldBeTrue();
+        }
+
+
+        [Test]
+        public void Two_should_be_greater_than_one()
+        {
+            new GreaterThan<int>
+            {
+                Child1 = new Constant<int>(2),
+                Child2 = new Constant<int>(1)
+            }
+                .Evaluate(new MockAiContext()).ShouldBeTrue();
+        }
+
+        [Test]
+        public void Four_plus_four_should_be_greater_than_seven()
+        {
+            new GreaterThan<int>
+                {
+                    Child1 = new Plus
+                        {
+                            Child1 = new Constant<int>(4),
+                            Child2 = new Constant<int>(4)
+                        },
+                        Child2 = new Constant<int>(7)
+                }.Evaluate(new MockAiContext()).ShouldBeTrue();
+        }
+
+        [Test]
+        public void combining_two_sets_of_response_votes()
+        {
+            var response = new DeclineToPurchaseResponse(new MockTurnScope(new MockEventAggregator()));
+            var response2 = new BuyCardResponse(new MockTurnScope(new MockEventAggregator()), Treasure.Silver);
+            new CombineVotes()
+                {
+                    Child1 = new Constant<ResponseVotes>()
+                        {
+                            ValueAccessor = () => new ResponseVotes()
+                                .VoteFor(response, 1)
+                                .VoteFor(response2, 1)
+                        },
+                    Child2 = new Constant<ResponseVotes>()
+                        {
+                            ValueAccessor = () => new ResponseVotes()
+                                .VoteFor(response, 2)
+                        }
+                }.Evaluate(new MockAiContext()).Winner.ShouldEqual(response);
+
+        }
+
+        [Test]
+        public void If_true_returns_first_option()
+        {
+            new If<int>
+                {
+                    Child1 = new Constant<bool>(true),
+                    Child2 = new Constant<int>(1),
+                    Child3 = new Constant<int>(2)
+                }.Evaluate(new MockAiContext()).ShouldEqual(1);
+        }
+
+        [Test]
+        public void If_false_returns_second_option()
+        {
+            new If<int>
+            {
+                Child1 = new Constant<bool>(false),
+                Child2 = new Constant<int>(1),
+                Child3 = new Constant<int>(2)
+            }.Evaluate(new MockAiContext()).ShouldEqual(2);
+        }
+    }
+
+    public class MockAiContext : IAiContext
+    {
+        public MockAiContext()
+        {
+            AvailableResponses = new List<IEventResponse>();
+        }
+        public IEnumerable<IEventResponse> AvailableResponses { get; set; }
+        public ResponseVotes Votes { get; private set; }
+
+        public ResponseVotes VoteFor(IEventResponse first, int votes)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

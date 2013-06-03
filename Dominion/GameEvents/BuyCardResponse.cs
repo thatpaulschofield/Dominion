@@ -19,7 +19,7 @@ namespace Dominion.GameEvents
 
         public override string ToString()
         {
-            return String.Format("{0} intends to buy card {1}", TurnScope.Player.Name, CardToPurchase.Name);
+            return String.Format("{0} intends to buy card {1}", TurnScope.ActingPlayer.Name, CardToPurchase.Name);
         }
     }
 }

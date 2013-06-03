@@ -2,7 +2,7 @@
 {
     public interface ICommand : IGameMessage
     {
-        IHandleInternalEvents Recipient { get; }
         ITurnScope TurnScope { get; }
+        void Execute(IPlayer player);
     }
 }

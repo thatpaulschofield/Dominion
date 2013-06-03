@@ -22,7 +22,7 @@ namespace Dominion
         {
             if (!InnerList.Any())
             {
-                turnScope.Player.Handle(new DeckDepletedEvent(turnScope));
+                turnScope.ActingPlayer.Handle(new DeckDepletedEvent(turnScope), turnScope);
             }
             if (InnerList.Any())
             {

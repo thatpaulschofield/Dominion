@@ -1,3 +1,5 @@
+using Dominion.GameEvents;
+
 namespace Dominion.Cards.BasicSet.Actions.MineAction
 {
     public class GainCardResponse : GameEventResponse<Card>

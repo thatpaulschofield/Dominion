@@ -7,8 +7,8 @@ namespace Dominion
     internal class EndGameScope : ITurnScope
     {
         public Supply Supply { get; private set; }
+        public IActingPlayer ActingPlayer { get; private set; }
         public int TurnNumber { get; private set; }
-        public Player Player { get; private set; }
         public int PotentialCoins { get; private set; }
         public int Coins { get; private set; }
         public CardSet TreasuresInHand { get; private set; }
@@ -20,7 +20,6 @@ namespace Dominion
 
         public EndGameScope()
         {
-            State = new StateStack();
         }
 
         public void Discard(CardSet cardsToDiscard)
@@ -40,7 +39,6 @@ namespace Dominion
         {
         }
 
-        public StateStack State { get; private set; }
         public ITurnScope GetTurnScope { get; private set; }
 
         public void PlayAction(Card actionCard)
@@ -78,6 +76,11 @@ namespace Dominion
         public T GetInstance<T>()
         {
             throw new System.NotImplementedException();
+        }
+
+        public CardSet FindCardsEligibleForPurchase(ITurnScope turnScope)
+        {
+            return new CardSet();
         }
 
         public void Dispose()

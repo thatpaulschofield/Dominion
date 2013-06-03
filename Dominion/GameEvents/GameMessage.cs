@@ -37,7 +37,7 @@ namespace Dominion.GameEvents
 
         public bool IsExternalToPlayer(Player player)
         {
-            return !ReferenceEquals(player, ActionScope.Player);
+            return !ReferenceEquals(player, ActionScope.ActingPlayer);
         }
 
         public override string ToString()

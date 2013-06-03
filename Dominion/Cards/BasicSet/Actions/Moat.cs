@@ -11,7 +11,7 @@ namespace Dominion.Cards.BasicSet.Actions
 
         public override void PlayAsAction(ITurnScope turnScope)
         {
-            turnScope.Player.Draw(2, turnScope);
+            turnScope.ActingPlayer.Draw(2, turnScope);
         }
 
         public void Handle(IGameMessage @event, IReactionScope scope)

@@ -45,35 +45,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AI\Node.cs" />
-    <Compile Include="AI\Function.cs" />
-    <Compile Include="AI\Functions\Boolean\And.cs" />
-    <Compile Include="AI\Functions\Boolean\Equals.cs" />
-    <Compile Include="AI\Functions\If.cs" />
-    <Compile Include="AI\Functions\Boolean\Not.cs" />
-    <Compile Include="AI\NodeVisitor.cs" />
-    <Compile Include="AI\Terminal.cs" />
-    <Compile Include="AI\Terminals\Constant.cs" />
     <Compile Include="Cards\BasicSet\Actions\DoneDiscardingResponse.cs" />
     <Compile Include="Cards\BasicSet\Actions\EnumerableExtensions.cs" />
     <Compile Include="Cards\BasicSet\Actions\IPlayerScoped.cs" />
-    <Compile Include="Cards\BasicSet\Actions\MineAction\ActionDsl.cs" />
-    <Compile Include="Cards\BasicSet\Actions\MineAction\CardState.cs" />
-    <Compile Include="Cards\BasicSet\Actions\MineAction\CardStateDsl.cs" />
-    <Compile Include="Cards\BasicSet\Actions\MineAction\CardTrashedForMineEvent.cs" />
+    <Compile Include="Cards\BasicSet\Actions\MineAction\CardSelectedToTrashForMineEvent.cs" />
     <Compile Include="Cards\BasicSet\Actions\MineAction\DeclinedToTrashCardForMineEvent.cs" />
     <Compile Include="Cards\BasicSet\Actions\MineAction\GainCardResponse.cs" />
-    <Compile Include="Cards\BasicSet\Actions\MineAction\GameEventResponse.cs" />
-    <Compile Include="Cards\BasicSet\Actions\MineAction\IStartedBy.cs" />
+    <Compile Include="Cards\BasicSet\Actions\MineAction\TrashCardFromHandCommand.cs" />
+    <Compile Include="Cards\BasicSet\Actions\Remodel\CardSelectedToRemodelResponse.cs" />
+    <Compile Include="Cards\BasicSet\Actions\Remodel\CardSelectedToRemodelToResponse.cs" />
+    <Compile Include="Cards\BasicSet\Actions\Remodel\DeclinedToRemodelCardResponse.cs" />
+    <Compile Include="Cards\BasicSet\Actions\Remodel\PickCardToRemodelCommand.cs" />
+    <Compile Include="Cards\BasicSet\Actions\Remodel\PickCardToRemodelToCommand.cs" />
+    <Compile Include="Cards\BasicSet\Actions\Remodel\RemodelPlayedMessage.cs" />
+    <Compile Include="Cards\BasicSet\Actions\Remodel\RemodelSaga.cs" />
+    <Compile Include="Cards\BasicSet\Actions\Saga\IRespondTo.cs" />
+    <Compile Include="Cards\BasicSet\Actions\Saga\IStartedBy.cs" />
+    <Compile Include="Cards\BasicSet\Actions\Saga\MessageMap.cs" />
+    <Compile Include="Cards\BasicSet\Actions\Saga\MessageMaps.cs" />
     <Compile Include="Cards\BasicSet\Actions\MineAction\MinePlayedMessage.cs" />
     <Compile Include="Cards\BasicSet\Actions\MineAction\MineSaga.cs" />
-    <Compile Include="Cards\BasicSet\Actions\MineAction\Saga.cs" />
-    <Compile Include="Cards\BasicSet\Actions\MineAction\StateMachineGameMessage.cs" />
-    <Compile Include="Cards\BasicSet\Actions\MineAction\StateTransition.cs" />
+    <Compile Include="Cards\BasicSet\Actions\MineAction\PickTreasureToUpgradeToForMineCommand.cs" />
+    <Compile Include="Cards\BasicSet\Actions\Saga\Saga.cs" />
     <Compile Include="Cards\BasicSet\Actions\MineAction\TrashCardForMineResponse.cs" />
+    <Compile Include="Cards\BasicSet\Actions\MineAction\TreasurePickedToUpgradeToWithMine.cs" />
     <Compile Include="Cards\BasicSet\Actions\OptionalDiscardResponse.cs" />
     <Compile Include="Cards\BasicSet\Actions\OptionallyDiscard.cs" />
-    <Compile Include="Cards\BasicSet\Actions\PickTreasureToTrashState.cs" />
+    <Compile Include="Cards\BasicSet\Actions\PickTreasureToTrashForMineCommand.cs" />
     <Compile Include="Cards\FirstGame.cs" />
     <Compile Include="GameEvents\CardDrawnEvent.cs" />
     <Compile Include="Cards\BasicSet\Actions\AttackCardPlayed.cs" />
@@ -90,25 +88,25 @@
     <Compile Include="Cards\BasicSet\Actions\MilitiaAttackEffect.cs" />
     <Compile Include="Cards\BasicSet\Actions\MineAction\Mine.cs" />
     <Compile Include="Cards\BasicSet\Actions\Moat.cs" />
-    <Compile Include="Cards\BasicSet\Actions\Remodel.cs" />
+    <Compile Include="Cards\BasicSet\Actions\Remodel\Remodel.cs" />
     <Compile Include="Cards\BasicSet\Actions\RevealCardResponse.cs" />
     <Compile Include="Cards\BasicSet\Actions\Smithy.cs" />
     <Compile Include="Cards\BasicSet\Actions\TypedCard.cs" />
     <Compile Include="Cards\BasicSet\Actions\Woodcutter.cs" />
     <Compile Include="Cards\BasicSet\Actions\Workshop.cs" />
-    <Compile Include="Cards\DeckSet.cs" />
+    <Compile Include="Cards\DeckSets\DeckSet.cs" />
     <Compile Include="Cards\ICardFactory.cs" />
     <Compile Include="Configuration\DominionRegistry.cs" />
-    <Compile Include="ConsoleEventLogger.cs" />
-    <Compile Include="ConsoleEventResponse.cs" />
-    <Compile Include="ConsoleEventResponses.cs" />
-    <Compile Include="ConsolePlayerController.cs" />
     <Compile Include="DeckBuilder.cs" />
     <Compile Include="EndGameCondition.cs" />
     <Compile Include="EndGameScope.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="EventAggregator.cs" />
     <Compile Include="EventFilterPipeline.cs" />
+    <Compile Include="PlayerControllers\Console\ConsoleEventLogger.cs" />
+    <Compile Include="PlayerControllers\Console\ConsoleEventResponse.cs" />
+    <Compile Include="PlayerControllers\Console\ConsoleEventResponses.cs" />
+    <Compile Include="PlayerControllers\Console\ConsolePlayerController.cs" />
     <Compile Include="ReactionScope.cs" />
     <Compile Include="GameBuilder.cs" />
     <Compile Include="GameEndedEvent.cs" />
@@ -144,12 +142,10 @@
     <Compile Include="Money.cs" />
     <Compile Include="OutOfBuysException.cs" />
     <Compile Include="PlayerBuilder.cs" />
-    <Compile Include="PlayerControllers\AiPlayerController.cs" />
     <Compile Include="PlayerScore.cs" />
     <Compile Include="PlayerSpec.cs" />
     <Compile Include="ProvinceStackDepletedEndGameCondition.cs" />
     <Compile Include="DeckReplenishedEvent.cs" />
-    <Compile Include="StateStack.cs" />
     <Compile Include="SupplyBuilder.cs" />
     <Compile Include="SupplyPileBuilder.cs" />
     <Compile Include="SupplyPileDepletedEvent.cs" />
@@ -197,7 +193,9 @@
     <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="PlayerControllers\Ai\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

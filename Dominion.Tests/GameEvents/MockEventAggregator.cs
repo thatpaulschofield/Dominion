@@ -10,6 +10,10 @@ namespace Dominion.Tests.GameEvents
     {
         private readonly List<IGameMessage> _publishedEvents = new List<IGameMessage>();
 
+        public MockEventAggregator()
+        {
+        }
+
         public void Register(IHandleEvents handler)
         {
             
@@ -23,6 +27,7 @@ namespace Dominion.Tests.GameEvents
         public void Publish(IGameMessage @event)
         {
             _publishedEvents.Add(@event);
+            Console.WriteLine("MockEventAggregator: event published: {0}, {1}, {2}", @event.Id, @event.GetType().Name, @event);
         }
 
         public IEnumerable<IGameMessage> PublishedEvents
@@ -38,6 +43,7 @@ namespace Dominion.Tests.GameEvents
 
         public void AssertMessageWasSent<T>()
         {
+
             string typesSent = _publishedEvents.Aggregate("", (s, message) => s += (message.GetType().Name + " "));
             Contains<T>().ShouldBeTrue(String.Format("Message type {0} was not sent, but should have been. Sent messages: [{1}]", typeof(T).Name, typesSent));
         }

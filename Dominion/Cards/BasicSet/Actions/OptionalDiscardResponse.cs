@@ -17,8 +17,8 @@ namespace Dominion.Cards.BasicSet.Actions
         public override void Execute()
         {
             _optionallyDiscard.CardWasDiscarded();
-            TurnScope.Player.Discard(_card, TurnScope);
-            TurnScope.Player.Handle(_optionallyDiscard, TurnScope);
+            TurnScope.ActingPlayer.Discard(_card, TurnScope);
+            TurnScope.ActingPlayer.Handle(_optionallyDiscard, TurnScope);
         }
     }
 }

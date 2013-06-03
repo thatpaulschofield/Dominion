@@ -1,17 +1,15 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Dominion.Cards;
 using Dominion.GameEvents;
 using Dominion.Tests.GameEvents;
 using NUnit.Framework;
 using Should;
 using Action = Dominion.Cards.BasicSet.Action;
-using SpecsFor;
 
 namespace Dominion.Tests.PlayerSpecs
 {
     [TestFixture]
-    class PlayerSpecs : AbstractPlayerSpec
+    public class PlayerSpecs : AbstractPlayerSpec
     {
         private Player _player;
         private MockTurnScope _scope;
@@ -41,7 +39,7 @@ namespace Dominion.Tests.PlayerSpecs
             _scope = new MockTurnScope
                 {
                     TurnNumber = 1,
-                    Player = SUT,
+                    ActingPlayer = SUT,
                     Supply = supply,
                     TreasuresInHand = 5.Coppers(),
                     Coins = 5,
@@ -61,13 +59,13 @@ namespace Dominion.Tests.PlayerSpecs
         [Test]
         public void Naive_player_should_purchase_a_card()
         {
-            _eventAggregator.AssertMessageWasSent<BuyCardResponse>();
+            _scope.PurchasedCards.ShouldContain<Card>(Action.Village); ;
         }
 
         [Test]
         public void Purchased_card_should_be_in_the_supply()
         {
-            _eventAggregator.FindMessage<BuyCardResponse>().CardToPurchase.ShouldEqual<Card>(Action.Village);
+            _scope.PurchasedCards.ShouldContain<Card>(Action.Village);
         }
     }
 }

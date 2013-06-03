@@ -21,7 +21,6 @@ namespace Dominion
             _originatingTurnScope = originatingTurnScope;
             eventAggregator.Register(this);
             _eventPipeline = new EventFilterPipeline(_receivingPlayer);
-            State = new StateStack();
         }
 
         public ITurnScope OriginatingTurnScope { get; private set; }
@@ -32,7 +31,6 @@ namespace Dominion
             _eventAggregator.Publish(@event);
         }
 
-        public StateStack State { get; private set; }
         public ITurnScope GetTurnScope { get; private set; }
 
         public void RevealCard(Card card)
@@ -63,7 +61,7 @@ namespace Dominion
             _eventPipeline.RegisterEventFilter(filter);
         }
 
-        public Player Player {
+        public IActingPlayer ActingPlayer {
             get { return _receivingPlayer; }
         }
 

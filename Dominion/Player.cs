@@ -6,7 +6,7 @@ using Dominion.GameEvents;
 
 namespace Dominion
 {
-    public class Player : IHandleInternalEvents, IHandleExternalEvents
+    public class Player : IPlayer, IHandleExternalEvents
     {
         private readonly IPlayerController _controller;
 
@@ -99,7 +99,7 @@ namespace Dominion
         #region IHandleEvents
         public void Handle(DeckDepletedEvent @event)
         {
-            if (!Object.ReferenceEquals(@event.TurnScope.Player, this))
+            if (!Object.ReferenceEquals(@event.TurnScope.ActingPlayer, this))
                 return;
 
             this.ShuffleDiscardPileIntoDeck(@event.TurnScope);
@@ -118,7 +118,10 @@ namespace Dominion
 
             Hand.Handle(@event, scope);
 
-            _controller.HandleGameEvent(@event, scope).Execute();
+            if(@event.GetAvailableResponses().Count() == 1)
+                @event.GetDefaultResponse().Execute();
+            else
+                _controller.HandleGameEvent(@event, scope).Execute();
         }
 
         private void HandleAttack(IAttackEffect attackEffect, IReactionScope scope)
@@ -162,17 +165,64 @@ namespace Dominion
 
         public void Handle(IGameMessage message, ITurnScope turnScope)
         {
-            if (message is IPlayerScoped && turnScope.Player != this)
+            if (message is IPlayerScoped && turnScope.ActingPlayer != this)
                 return;
 
             _controller.HandleGameEvent(message, turnScope).Execute();
             Hand.Handle(message, turnScope);
         }
 
-        public void GainCardFromSupply(Card card, TurnScope turnScope)
+        public void GainCardFromSupply(Card card, ITurnScope turnScope)
         {
-            this.Discard(card, turnScope);
+            DiscardPile.Discard(card, turnScope);
         }
 
+        public void TrashCardFromHand(Card cardToTrash)
+        {
+            
+        }
+
+        public void GainCardFromSupply(Card cardToUpgradeTo)
+        {
+        }
+    }
+
+    public interface IPlayer : IActingPlayer, IReactingPlayer, IHandleInternalEvents
+    {
+        Hand Hand { get; }
+        Deck Deck { get; }
+        DiscardPile DiscardPile { get; }
+        void BeginActionPhase(ActionPhase phase);
+        void BeginBuyPhase(BuyPhase buyPhase);
+        void BeginCleanupPhase(ITurnScope turnScope);
+        void PlayTreasures(CardSet treasuresToPlay, TurnScope turnScope);
+        Turn BeginTurn(Game game);
+        Turn BeginTurn(ITurnScope scope);
+        void Handle(DeckDepletedEvent @event);
+        void Handle(IGameMessage @event, IReactionScope scope);
+        bool CanHandle(IGameMessage @event);
+        void EndGameCleanup(ITurnScope turnScope);
+        int CountScore(ITurnScope turnScope);
+        IEventResponse HandleCommand(ICommand command);
+        void Handle(IGameMessage message, ITurnScope turnScope);
+    }
+
+    public interface IActingPlayer : IHandleInternalEvents
+    {
+        string Name { get; }
+        Hand Hand { get; }
+        void TrashCardFromHand(Card cardToTrash);
+        void GainCardFromSupply(Card card, ITurnScope turnScope);
+        void Discard(CardSet cardsToDiscard, IActionScope turnScope);
+        void ShuffleDiscardPileIntoDeck(IActionScope turnScope);
+        void RevealCard(Card card, IReactionScope externalEventScope);
+        void DrawNewHand(ITurnScope turnScope);
+        void DiscardHand(ITurnScope turnScope);
+        void Draw(int cards, ITurnScope turnScope);
+    }
+
+    public interface IReactingPlayer
+    {
+        
     }
 }

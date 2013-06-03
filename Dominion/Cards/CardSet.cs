@@ -7,20 +7,26 @@ namespace Dominion.Cards
 {
     public class CardSet : IEnumerable<Card>
     {
-        protected List<Card> InnerList;
+        protected List<Card> InnerList = new List<Card>();
 
         public CardSet()
         {
             InnerList = new List<Card>();
         }
 
-        public CardSet(IEnumerable<Card> cards) : this()
+        public CardSet(IEnumerable<Card> cards)
         {
+            if (cards == null)
+                throw new ArgumentNullException("cards");
+
+            InnerList = new List<Card>();
             InnerList.AddRange(cards);
         }
 
-        public CardSet(params Card[] cards) : this(cards.ToList())
+        public CardSet(params Card[] cards)
         {
+            InnerList = new List<Card>();
+            InnerList.AddRange(cards);
         }
 
         public CardSet Actions()

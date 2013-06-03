@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Dominion.PlayerControllers;
+using Dominion.PlayerControllers.Console;
 
 namespace Dominion
 {
@@ -18,18 +19,9 @@ namespace Dominion
 
         public Game Initialize(int players)
         {
-
             Supply supply = _supplyBuilder;
-            //new Supply(new SupplyPile(victoryCards, Victory.Estate),
-            //                    new SupplyPile(victoryCards, Victory.Duchy),
-            //                    new SupplyPile(victoryCards, Victory.Province),
-            //                    new SupplyPile(curseCards, BasicCards.Curse)
-            //);
 
-
-            return new Game(_eventAggregator, supply, BuildPlayers(players))
-                {
-                };            
+            return new Game(_eventAggregator, supply, BuildPlayers(players));            
         }
 
         public Game Initialize(GameSpec spec)
@@ -46,12 +38,13 @@ namespace Dominion
                 switch (playerSpec.PlayerType)
                 {
                     case PlayerType.Console:
+                    default:
                         controller = new ConsolePlayerController();
                         break;
-                    case PlayerType.AI:
-                        default:
-                        controller = new AiPlayerController();
-                        break;
+                    //case PlayerType.AI:
+                    //    default:
+                    //    //controller = new AiPlayerController(playerSpec.Ai);
+                    //    break;
                 }
                 players.Add(_playerBuilder.WithController(controller).WithName(playerSpec.PlayerName));
             }

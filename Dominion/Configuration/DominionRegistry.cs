@@ -1,4 +1,6 @@
 ﻿using Dominion.Cards.BasicSet.Actions.MineAction;
+using Dominion.Cards.BasicSet.Actions.Remodel;
+using Dominion.Cards.BasicSet.Actions.Saga;
 using Dominion.Infrastructure;
 using StructureMap.Configuration.DSL;
 using System;
@@ -15,6 +17,7 @@ namespace Dominion.Configuration
             For<DeckBuilder>().Singleton().EnrichAllWith(x => x.WithSets(7.Coppers(), 3.Estates()));
             For<IBus>().Singleton().Use<Bus>();
             For<IStartedBy<MinePlayedMessage>>().Use<MineSaga>();
+            For<IStartedBy<RemodelPlayedMessage>>().Use<RemodelSaga>();
         }
     }
 }

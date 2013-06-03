@@ -12,7 +12,7 @@ namespace Dominion.Cards.BasicSet.Actions.MineAction
     {
         public MinePlayedMessage(IActionScope scope) : base(scope)
         {
-            Description = String.Format("{0} played Mine", scope.Player.Name);
+            Description = String.Format("{0} played Mine", scope.ActingPlayer.Name);
         }
     }
 }

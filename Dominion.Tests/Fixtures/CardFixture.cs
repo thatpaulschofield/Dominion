@@ -7,6 +7,7 @@ using Dominion.Cards;
 using Dominion.Cards.BasicSet;
 using Dominion.Cards.BasicSet.Actions;
 using Dominion.Cards.BasicSet.Actions.MineAction;
+using Dominion.Cards.BasicSet.Actions.Remodel;
 using Dominion.Cards.BasicSet.Treasures;
 using Dominion.Cards.BasicSet.VictoryCards;
 using Should;

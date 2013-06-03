@@ -11,7 +11,7 @@ namespace Dominion.GameEvents
 
         public override string ToString()
         {
-            return String.Format("{0}'s deck was depleted", TurnScope.Player.Name);
+            return String.Format("{0}'s deck was depleted", TurnScope.ActingPlayer.Name);
         }
     }
 }

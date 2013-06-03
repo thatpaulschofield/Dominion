@@ -8,7 +8,7 @@ namespace Dominion.GameEvents
     {
         public ActionPhase(ITurnScope turnScope, CardSet availableActions) : base(turnScope)
         {
-            Description = String.Format("{0}, select an action to play", turnScope.Player.Name);
+            Description = String.Format("{0}, select an action to play", turnScope.ActingPlayer.Name);
             AvailableActions = availableActions;
             availableActions.ToList().ForEach(actionCard => _availableResponses.Add(new PlayActionResponse(turnScope, actionCard)));
             if (_availableResponses.Any())
@@ -35,7 +35,7 @@ namespace Dominion.GameEvents
         public override string ToString()
         {
             string actions = AvailableActions.Aggregate("", (x, c) => x + " - " + c.Name);
-            return String.Format("Action phase for {0}. Available actions: [{1}]", TurnScope.Player.Name, actions);
+            return String.Format("Action phase for {0}. Available actions: [{1}]", TurnScope.ActingPlayer.Name, actions);
         }
     }
 }

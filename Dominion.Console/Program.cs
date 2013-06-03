@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dominion.Cards;
 using Dominion.Infrastructure;
+using Dominion.PlayerControllers.Console;
 using StructureMap;
 
 namespace Dominion.Console

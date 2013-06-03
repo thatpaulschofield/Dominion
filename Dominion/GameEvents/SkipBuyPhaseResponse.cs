@@ -1,5 +1,4 @@
-﻿using Dominion.AI;
-
+﻿
 namespace Dominion.GameEvents
 {
     public class SkipBuyPhaseResponse : GameEventResponse
@@ -10,6 +9,7 @@ namespace Dominion.GameEvents
 
         public override void Execute()
         {
+            TurnScope.Publish(this);
         }
     }
 }

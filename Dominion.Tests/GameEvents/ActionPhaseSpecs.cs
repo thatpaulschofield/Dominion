@@ -1,5 +1,4 @@
-﻿using Dominion.AI;
-using Dominion.Cards;
+﻿using Dominion.Cards;
 using Dominion.Cards.BasicSet;
 using Dominion.Cards.BasicSet.Actions.MineAction;
 using Dominion.Cards.BasicSet.Treasures;
@@ -10,18 +9,6 @@ using Should;
 
 namespace Dominion.Tests.GameEvents
 {
-    [TestFixture]
-    public class MineSagaSpecs
-    {
-        [Test]
-        public void Can_instantiate_MineSaga()
-        {
-            var saga = new MineSaga(new MockEventAggregator());
-        }
-        
-
-    }
-
     [TestFixture]
     class ActionPhaseSpecs
     {

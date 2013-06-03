@@ -10,7 +10,7 @@ using NUnit.Framework;
 namespace Dominion.Tests.PlayerSpecs
 {
     [TestFixture]
-    class When_a_player_plays_an_attack_card : AbstractPlayerSpec
+    public class When_a_player_plays_an_attack_card : AbstractPlayerSpec
     {
         protected override void When()
         {

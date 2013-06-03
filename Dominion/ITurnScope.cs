@@ -26,5 +26,6 @@ namespace Dominion
         void TrashCard(Card card);
         void GainCardFromSupply(CardType card);
         T GetInstance<T>();
+        CardSet FindCardsEligibleForPurchase(ITurnScope turnScope);
     }
 }

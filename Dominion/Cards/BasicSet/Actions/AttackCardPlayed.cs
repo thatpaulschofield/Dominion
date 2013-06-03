@@ -9,7 +9,7 @@ namespace Dominion.Cards.BasicSet.Actions
 
         public AttackCardPlayed(Card attackCard, ITurnScope turnScope) : base(turnScope)
         {
-            Description = String.Format("{0} played a {1}", turnScope.Player.Name, attackCard.Name);
+            Description = String.Format("{0} played a {1}", turnScope.ActingPlayer.Name, attackCard.Name);
             _attackCard = attackCard;
         }
 

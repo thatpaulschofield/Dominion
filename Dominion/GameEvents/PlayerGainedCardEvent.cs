@@ -1,9 +1,16 @@
-﻿namespace Dominion.GameEvents
+﻿using Dominion.Cards;
+
+namespace Dominion.GameEvents
 {
     public class PlayerGainedCardEvent : GameMessage
     {
-        public PlayerGainedCardEvent(ITurnScope turnScope) : base(turnScope)
+        private readonly CardType _card;
+
+        public PlayerGainedCardEvent(CardType card, ITurnScope turnScope) : base(turnScope)
         {
+            _card = card;
         }
+
+        public Card Card { get { return _card; } }
     }
 }

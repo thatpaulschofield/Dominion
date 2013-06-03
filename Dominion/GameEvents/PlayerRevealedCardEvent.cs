@@ -13,7 +13,7 @@ namespace Dominion.GameEvents
 
         public override string ToString()
         {
-            return ActionScope.Player.Name + " revealed " + _card.Name;
+            return ActionScope.ActingPlayer.Name + " revealed " + _card.Name;
         }
     }
 }

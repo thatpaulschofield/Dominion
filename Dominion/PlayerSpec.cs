@@ -1,4 +1,5 @@
-﻿namespace Dominion
+﻿
+namespace Dominion
 {
     public class PlayerSpec
     {
@@ -17,6 +18,7 @@
         }
 
         public string PlayerName { get; set; }
+
     }
 
     public enum PlayerType

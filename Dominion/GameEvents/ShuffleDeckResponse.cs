@@ -8,7 +8,7 @@
 
         public override void Execute()
         {
-            base.TurnScope.Player.ShuffleDiscardPileIntoDeck(TurnScope);
+            base.TurnScope.ActingPlayer.ShuffleDiscardPileIntoDeck(TurnScope);
         }
     }
 }
