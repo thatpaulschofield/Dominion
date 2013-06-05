@@ -43,5 +43,12 @@ namespace Dominion
 
             return new CardSet(eligibleCards);
         }
+
+        public static Supply FromISupplyBuilder(ISupplyBuilder builder)
+        {
+            return builder.BuildSupply();
+        }
     }
+
+
 }

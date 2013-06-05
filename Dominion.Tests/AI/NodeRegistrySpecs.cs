@@ -1,4 +1,5 @@
 ﻿using Dominion.Ai;
+using Dominion.Ai.Nodes;
 using NUnit.Framework;
 using StructureMap;
 
@@ -9,7 +10,7 @@ namespace Dominion.Tests.AI
         [Test]
         public void NodeRegistry_can_scan_assembly_without_crashing()
         {
-            var registry = new NodeRegistry(new Container());
+            var registry = new NodeRegistry(new Container(), new MockValueProviderRegistry());
         }
     }
 }

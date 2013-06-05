@@ -18,7 +18,7 @@ namespace Dominion.Tests
             IEventAggregator eventAggregator = new MockEventAggregator();
             var deckBuilder = new DeckBuilder(eventAggregator);
             var supplyBuilder = new SupplyBuilder(eventAggregator).BasicGame().WithPlayers(players);
-            Game game = new GameBuilder(supplyBuilder, eventAggregator, new PlayerBuilder(eventAggregator, deckBuilder)).Initialize(players);
+            Game game = new GameBuilder(supplyBuilder, eventAggregator, new PlayerBuilder(eventAggregator, deckBuilder), deckBuilder).Initialize(players);
             game.Supply[Victory.Estate].Count.ShouldEqual(victoryCards, "Wrong number of estates");
             game.Supply[Victory.Duchy].Count.ShouldEqual(victoryCards, "Wrong number of duchies");
             game.Supply[Victory.Province].Count.ShouldEqual(victoryCards, "Wrong number of provinces");

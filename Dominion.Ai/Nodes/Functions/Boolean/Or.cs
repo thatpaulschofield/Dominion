@@ -1,4 +1,6 @@
-﻿namespace Dominion.AI.Functions.Boolean
+﻿using Dominion.AI;
+
+namespace Dominion.Ai.Nodes.Functions.Boolean
 {
     public class Or : Function<bool, bool, bool>
     {

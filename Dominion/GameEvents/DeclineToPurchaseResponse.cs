@@ -1,6 +1,6 @@
 ﻿namespace Dominion.GameEvents
 {
-    public class DeclineToPurchaseResponse : GameEventResponse
+    public class DeclineToPurchaseResponse : GameEventResponse<BuyPhase>
     {
         public DeclineToPurchaseResponse(ITurnScope turnScope) : base(turnScope)
         {

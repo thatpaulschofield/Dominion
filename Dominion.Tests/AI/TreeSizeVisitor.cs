@@ -9,10 +9,5 @@ namespace Dominion.Tests.AI
         {
             _count++;
         }
-
-        public void Visit(IWantToViewCardsSupply node)
-        {
-            Visit(node as INode);
-        }
     }
 }

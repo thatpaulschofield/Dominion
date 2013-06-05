@@ -15,6 +15,8 @@ namespace Dominion.Console
                     cfg.Scan(scan =>
                         {
                             //scan.TheCallingAssembly();
+                            scan.Assembly("Dominion.Cards.BasicSet");
+                            scan.LookForRegistries();
                             scan.AssemblyContainingType<Game>();
                             scan.WithDefaultConventions();
                             //scan.AddAllTypesOf(typeof (GameEventResponse<>));

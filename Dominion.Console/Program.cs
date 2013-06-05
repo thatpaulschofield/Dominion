@@ -20,7 +20,7 @@ namespace Dominion.Console
             {
                 _container = new Bootstrapper().BootstrapApplication();
                 _container.GetInstance<ConsoleEventLogger>();
-                var supplyBuilder = _container.GetInstance<SupplyBuilder>();
+                var supplyBuilder = _container.GetInstance<ISupplyBuilder>();
                 supplyBuilder
                     .BasicGame()
                     .WithSet<FirstGame>()

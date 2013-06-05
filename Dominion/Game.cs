@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Dominion.Cards.BasicSet;
-using Dominion.Cards.BasicSet.VictoryCards;
 using Dominion.GameEvents;
 using StructureMap;
 
@@ -17,27 +15,31 @@ namespace Dominion
         private readonly List<EndGameCondition> _endGameConditions = new List<EndGameCondition>();
         private TrashPile _trash = new TrashPile();
 
-        public Game(IEventAggregator eventAggregator, Supply supply, IEnumerable<Player> players) : this(eventAggregator, supply, players, new Container())
-        {
-        }
-
-        public Game(IEventAggregator eventAggregator, Supply supply, IEnumerable<Player> players, IContainer container)
+        public Game(IEventAggregator eventAggregator, 
+            ISupplyBuilder supplyBuilder, 
+            IEnumerable<Player> players,
+            IEnumerable<EndGameCondition> endGameConditions,
+            IContainer container)
         {
             TurnNumber = 1;
             _eventAggregator = eventAggregator;
             _container = container;
-            Supply = supply;
+            supplyBuilder.WithPlayers(players.Count());
+            Supply = supplyBuilder.BuildSupply();
             Players = players;
             _playerIterator = Players.GetEnumerator();
-            _endGameConditions.Add(new ProvinceStackDepletedEndGameCondition(eventAggregator));
+
+            endGameConditions.ForEach(
+                c => _endGameConditions.Add(c)
+                );
+            _container.GetAllInstances<EndGameCondition>().ForEach(
+                c => _endGameConditions.Add(c)
+                );
+            //_endGameConditions.Add(new ProvinceStackDepletedEndGameCondition(eventAggregator));
             _endGameConditions.Add(new ThreeSupplyPilesDepletedEndGameCondition(eventAggregator));
 
         }
 
-        public static Deck DealStartupDeck()
-        {
-            return new Deck(7.Coppers(), 3.Estates()).Shuffle();
-        }
 
         public Supply Supply { get; private set; }
 

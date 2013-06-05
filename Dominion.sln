@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominion.Console", "Dominio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominion.Ai", "Dominion.Ai\Dominion.Ai.csproj", "{3CC98F5F-DDEB-4A05-A4C5-7413CF11D8D4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominion.Cards.BasicSet", "Dominion.Cards.BasicSet\Dominion.Cards.BasicSet.csproj", "{5FEE6005-E7B0-4161-A8F0-96DC89F29136}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{3CC98F5F-DDEB-4A05-A4C5-7413CF11D8D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CC98F5F-DDEB-4A05-A4C5-7413CF11D8D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CC98F5F-DDEB-4A05-A4C5-7413CF11D8D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FEE6005-E7B0-4161-A8F0-96DC89F29136}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FEE6005-E7B0-4161-A8F0-96DC89F29136}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FEE6005-E7B0-4161-A8F0-96DC89F29136}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FEE6005-E7B0-4161-A8F0-96DC89F29136}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

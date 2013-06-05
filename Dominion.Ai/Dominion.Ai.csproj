@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -24,7 +24,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -47,18 +47,39 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Ai.cs" />
+    <Compile Include="AiBootstrapper.cs" />
     <Compile Include="AiContext.cs" />
+    <Compile Include="AiContextGame.cs" />
     <Compile Include="AiPlayerController.cs" />
     <Compile Include="AiRegistry.cs" />
-    <Compile Include="Nodes\Functions\Numeric\CardsInHandTerminal.cs" />
+    <Compile Include="ConstantValueProviders\AllResponsesProvider.cs" />
+    <Compile Include="AutomapperConfig.cs" />
+    <Compile Include="Nodes\Functions\Boolean\CardSetContainsCard.cs" />
+    <Compile Include="Nodes\Functions\Boolean\Contains.cs" />
+    <Compile Include="Nodes\Functions\Boolean\GreaterThan.cs" />
+    <Compile Include="Nodes\Functions\Boolean\LessThan.cs" />
+    <Compile Include="Nodes\Functions\CardSets\ActionsInCardSetFunction.cs" />
+    <Compile Include="Nodes\Functions\CardSets\AttackCardsInCardSetTerminal.cs" />
+    <Compile Include="Nodes\Functions\CardSets\CardsInHandTerminal.cs" />
+    <Compile Include="Nodes\Functions\CardSets\CardsInPlayTerminal.cs" />
+    <Compile Include="Nodes\Functions\CardSets\CardsInSupplyTerminal.cs" />
+    <Compile Include="Nodes\Functions\CardSets\TreasureCardsInCardSetFunction.cs" />
+    <Compile Include="Nodes\Functions\CardSets\VictoryCardsInCardSetFunction.cs" />
+    <Compile Include="Nodes\Functions\Cards\TheMostExpensiveCard.cs" />
+    <Compile Include="Nodes\Functions\Numeric\AvailableActionsTerminal.cs" />
+    <Compile Include="Nodes\Functions\Numeric\AvailableBuysTerminal.cs" />
+    <Compile Include="Nodes\Functions\Numeric\AvailableCoinsTerminal.cs" />
+    <Compile Include="Nodes\Functions\Numeric\CardSetCountFunction.cs" />
     <Compile Include="Nodes\Functions\Numeric\CardTypeConstant.cs" />
-    <Compile Include="Nodes\Functions\Numeric\CardValueProvider.cs" />
-    <Compile Include="Nodes\Functions\Numeric\IWantToViewAllCardTypes.cs" />
-    <Compile Include="Nodes\Functions\Numeric\IWantToViewPlayerHand.cs" />
+    <Compile Include="ConstantValueProviders\CardValueProvider.cs" />
+    <Compile Include="Nodes\Functions\Numeric\GameEventResponseConstant.cs" />
     <Compile Include="Nodes\Functions\Numeric\NumberOfCardsOfTypeInCardSet.cs" />
-    <Compile Include="Nodes\Functions\Numeric\SupplyTerminal.cs" />
+    <Compile Include="Nodes\Functions\Numeric\NumberOfPlayersTerminal.cs" />
+    <Compile Include="Nodes\Functions\SourceEventGroup.cs" />
+    <Compile Include="Nodes\Functions\TypeExtensions.cs" />
+    <Compile Include="Nodes\Functions\VoteForResponse.cs" />
     <Compile Include="Nodes\PrettyPrinter.cs" />
-    <Compile Include="SupplyValueProvider.cs" />
+    <Compile Include="ConstantValueProviders\SupplyValueProvider.cs" />
     <Compile Include="TreeBuilding\FullTreeStrategy.cs" />
     <Compile Include="Function.cs" />
     <Compile Include="FunctionSet.cs" />
@@ -70,11 +91,9 @@
     <Compile Include="Nodes\Functions\CombineVotes.cs" />
     <Compile Include="Nodes\Functions\Numeric\Minus.cs" />
     <Compile Include="Nodes\Functions\Numeric\Plus.cs" />
-    <Compile Include="TreeBuilding\IInitialValueProvider.cs" />
-    <Compile Include="ISelectResponse.cs" />
+    <Compile Include="ConstantValueProviders\IInitialValueProvider.cs" />
+    <Compile Include="ConstantValueProviders\IntValueProvider.cs" />
     <Compile Include="TreeBuilding\ITreeBuildStrategy.cs" />
-    <Compile Include="IWantToVote.cs" />
-    <Compile Include="IWantTurnScope.cs" />
     <Compile Include="Nodes\Node.cs" />
     <Compile Include="Nodes\NodeRegistry.cs" />
     <Compile Include="Nodes\NodeVisitor.cs" />
@@ -86,14 +105,20 @@
     <Compile Include="Nodes\Terminals\Constant.cs" />
     <Compile Include="Nodes\Terminals\VoteForMostExpensiveTreasure.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ConstantValueProviders\IValueProviderRegistry.cs" />
     <Compile Include="TreeBuilding\TreeBuilder.cs" />
     <Compile Include="TreeBuilding\TreeSpec.cs" />
+    <Compile Include="ConstantValueProviders\ValueProviderRegistry.cs" />
     <Compile Include="TypeSet.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Dominion.Cards.BasicSet\Dominion.Cards.BasicSet.csproj">
+      <Project>{5fee6005-e7b0-4161-a8f0-96dc89f29136}</Project>
+      <Name>Dominion.Cards.BasicSet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Dominion\Dominion.csproj">
       <Project>{495f1640-5633-4cb2-9041-a222b7c9889c}</Project>
       <Name>Dominion</Name>

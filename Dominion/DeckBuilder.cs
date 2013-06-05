@@ -24,7 +24,7 @@ namespace Dominion
             return builder.Build();
         }
 
-        private Deck Build()
+        public Deck Build()
         {
             return new Deck(_cardSets.ToArray());
         }

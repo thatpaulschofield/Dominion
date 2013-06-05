@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Dominion.Ai.Nodes;
+using Dominion.Ai.Nodes.Functions;
 using Dominion.GameEvents;
 
 namespace Dominion.AI
@@ -9,160 +11,93 @@ namespace Dominion.AI
     {
         IEnumerable<INode> Children { get; }
         int Arity { get; }
+        bool HasUnassignedChildNode { get; }
         INode this[int i] { get; set; }
+        int GetIndexOfNextUnassignedChild();
     }
 
     public abstract class Function<TRETURN> : Node<TRETURN>, Function
     {
-        public abstract INode this[int i] { get; set; }
+        public bool HasUnassignedChildNode { get { return _children.Any(n => n != null && n.IsNullNode); } }
+
+        public INode this[int i]
+        {
+            get { return _children[i]; }
+            set
+            {
+                if (value == null)
+                    throw new ArgumentNullException();
+                if (_children[0] == null)
+                    throw new Exception("Child not was not pre-populated");
+                if (_children[i].GetType().BaseType.GenericTypeArgument() != value.GetType().BaseType.GenericTypeArgument())
+                    throw new ArgumentException(String.Format("Cannot replace a node of type [{0}] with a node of type [{1}]>", 
+                        _children[i], value));
+                _children[i] = value;
+            }
+        }
+
+        public int GetIndexOfNextUnassignedChild()
+        {
+            return 
+                HasUnassignedChildNode
+                ? _children.IndexOf(_children.First(n => n != null && n.IsNullNode))
+                : -1;
+        }
+
+        public IEnumerable<INode> Children
+        {
+            get { return _children; }
+        }
+
+
+        public override int Arity
+        {
+            get { return _children.Count; }
+        }
     }
 
     public abstract class Function<TRETURN, TCHILD1> : Function<TRETURN>
     {
-        public override INode this[int i]
+        protected Function()
         {
-            get
-            {
-                INode node;
-                switch (i)
-                {
-                    case 1:
-                        node = Child1 ?? new NullNode<TCHILD1>();
-                        break;
-                    default:
-                        throw new ArgumentException();
-                }
-                return node;
-            }
-            set
-            {
-                switch (i)
-                {
-                    case 1:
-                        Child1 = value as Node<TCHILD1>;
-                        break;
-                    default:
-                        throw new ArgumentException();
-                }
-            }
+            _children.Add(new NullNode<TCHILD1>());
         }
-        
-        public Node<TCHILD1> Child1 { get; set; }
+
+
+
+        public Node<TCHILD1> Child1 { get { return _children[0] as Node<TCHILD1>; } set { _children[0] = value; } }
         public override int Arity { get { return 1; }}
-        public override IEnumerable<INode> Children
-        {
-            get { yield return Child1; }
-        }
     }
 
     public abstract class Function<TRETURN, TCHILD1, TCHILD2> : Function<TRETURN, TCHILD1>
     {
-        public override INode this[int i]
+        protected Function()
         {
-            get
-            {
-                INode node;
-                switch (i)
-                {
-                    case 1:
-                        node = Child1 ?? new NullNode<TCHILD1>();
-                        break;
-                    case 2:
-                        node = Child2 ?? new NullNode<TCHILD2>();
-                        break;
-                    default:
-                        throw new ArgumentException();
-                }
-                return node;
-            }
-            set
-            {
-                switch (i)
-                {
-                    case 1:
-                        Child1 = value as Node<TCHILD1>;
-                        break;
-                    case 2:
-                        Child2 = value as Node<TCHILD2>;
-                        break;
-                    default:
-                        throw new ArgumentException();
-                }
-            }
+            _children.Add(new NullNode<TCHILD2>());
         }
-        
-        public Node<TCHILD2> Child2 { get; set; }
+
+        public Node<TCHILD2> Child2 { get { return _children[1] as Node<TCHILD2>; } set { _children[1] = value; } }
         public override int Arity { get { return 2; } }
 
-        public override System.Collections.Generic.IEnumerable<INode> Children
-        {
-            get { yield return Child1;
-                yield return Child2;
-            }
-        }
     }
 
     public abstract class Function<TRETURN, TCHILD1, TCHILD2, TCHILD3> : Function<TRETURN, TCHILD1, TCHILD2>
     {
-        public override INode this[int i]
+        protected Function()
         {
-            get
-            {
-                INode node;
-                switch (i)
-                {
-                    case 1:
-                        node = Child1 ?? new NullNode<TCHILD1>();
-                        break;
-                    case 2:
-                        node = Child2 ?? new NullNode<TCHILD2>();
-                        break;
-                    case 3:
-                        node = Child3 ?? new NullNode<TCHILD3>();
-                        break;
-                    default:
-                        throw new ArgumentException();
-                }
-                return node;
-            }
-            set
-            {
-                switch (i)
-                {
-                    case 1:
-                        Child1 = value as Node<TCHILD1>;
-                        break;
-                    case 2:
-                        Child2 = value as Node<TCHILD2>;
-                        break;
-                    case 3:
-                        Child3 = value as Node<TCHILD3>;
-                        break;
-                    default:
-                        throw new ArgumentException();
-                }
-            }
+            _children.Add(new NullNode<TCHILD3>());
         }
-        public Node<TCHILD3> Child3 { get; set; }
+
+        public Node<TCHILD3> Child3 { get { return _children[2] as Node<TCHILD3>; } set { _children[2] = value; } }
         public override int Arity { get { return 3; } }
 
-        public override System.Collections.Generic.IEnumerable<INode> Children
-        {
-            get
-            {
-                yield return Child1;
-                yield return Child2;
-                yield return Child3;
-            }
-        }   
-    
     }
 
-    public class NullNode : Node
+    public abstract class NullNode : Node
     {
         public override INode this[int i]
         {
-            get { return new NullNode(); }
+            get { return null; }
             set { }
         }
 
@@ -181,11 +116,14 @@ namespace Dominion.AI
             
         }
 
+        public override bool IsNullNode { get { return true; } }
+
         public override string ToString()
         {
             return "NullNode";
         }
     }
+
     public class NullNode<T> : Node<T>
     {
         public override T Evaluate(IAiContext context)
@@ -196,6 +134,15 @@ namespace Dominion.AI
         public override string ToString()
         {
             return "NullNode<" + typeof (T).Name + ">";
+        
+       }
+
+        public override bool IsNullNode { get { return true; } }
+
+        public static NullNode<T> CreateFromType(Type t)
+        {
+            var nullNodeType = typeof (NullNode<>).GetGenericTypeDefinition().MakeGenericType(t);
+            return Activator.CreateInstance(nullNodeType) as NullNode<T>;
         }
     }
 }

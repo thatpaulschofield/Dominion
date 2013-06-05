@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using Dominion.AI;
-using Dominion.Ai.Nodes;
-using Dominion.Ai.TreeBuilding;
+using Dominion.Ai.ConstantValueProviders;
 using StructureMap;
 
-namespace Dominion.Ai
+namespace Dominion.Ai.Nodes
 {
     public class NodeRegistry
     {
         private readonly IContainer _container;
+        private readonly IValueProviderRegistry _valueProviderRegistry;
         private readonly List<Type> _argumentTypes = new List<Type>();
 
         private readonly List<Type> _nodeTypes = new List<Type>();
@@ -19,10 +19,15 @@ namespace Dominion.Ai
 
         private readonly List<Type> _terminalTypes = new List<Type>();
 
-        public NodeRegistry(IContainer container)
+        public NodeRegistry(IContainer container, IValueProviderRegistry valueProviderRegistry)
         {
             _container = container;
-            this.GetType().Assembly.GetTypes().Where(t => !(t == typeof(NullNode) || t == typeof(NullNode<>))).ForEach(ScanType);
+            _valueProviderRegistry = valueProviderRegistry;
+            this.GetType().Assembly.GetTypes().Where(t => !t.IsAbstract 
+                //&& t.
+                &&  !t.IsGenericType
+                && !(t == typeof(NullNode) 
+                || t == typeof(NullNode<>))).ForEach(ScanType);
         }
 
         private void ScanType(Type type)
@@ -51,10 +56,16 @@ namespace Dominion.Ai
                 RegisterGenericArguments(type.BaseType);
         }
 
+        public void RegisterType(Type type)
+        {
+            RegisterNodeType(type);
+        }
+
         private void RegisterGenericArguments(Type type)
         {
             var args = type.GetGenericArguments();
-            args.Where(t => !t.IsGenericParameter)
+            args
+                //.Where(t => !t.IsGenericParameter)
                 .ForEach(RegisterArgumentType);
         }
 
@@ -75,19 +86,26 @@ namespace Dominion.Ai
         {
             get
             {
-                return _terminalTypes.SelectMany(CloseGenericsAgainstArgumentTypes)
-                    .Where(InitializerIsAvailable)
+                return _terminalTypes
+                    .SelectMany(CloseGenericsAgainstArgumentTypes)
+                    .Where(InitializerIsAvailableIfNeeded)
                     .Select(CreateInstance);
             }
         }
 
-        private bool InitializerIsAvailable(Type type)
+        private bool InitializerIsAvailableIfNeeded(Type type)
         {
+            if (typeof (Terminal).IsAssignableFrom(type))
+                return true;
+
             var terminalValueType = type.BaseType.GetGenericArguments()[0];
-            var initializerType =
-                typeof(IInitialValueProvider<>).GetGenericTypeDefinition().MakeGenericType(new Type[] { terminalValueType });
-            var valueProviders = _container.GetAllInstances(initializerType);
-            return valueProviders.Count > 0;
+            return _valueProviderRegistry.HasProviderFor(terminalValueType);
+
+            //var initializerType =
+            //    typeof(IInitialValueProvider<>).GetGenericTypeDefinition().MakeGenericType(new Type[] { terminalValueType });
+
+            //var valueProviders = _container.GetAllInstances(initializerType);
+            //return valueProviders.Count > 0;
         }
 
         private INode CreateInstance(Type type)

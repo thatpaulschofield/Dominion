@@ -44,6 +44,9 @@ namespace Dominion.PlayerControllers.Console
 
         public IEventResponse HandleGameEvent(IGameMessage @event, ITurnScope scope)
         {
+            if (@event.GetAvailableResponses().Count() == 1)
+                return @event.GetDefaultResponse();
+
             DisplayTurnInfo(scope);
             System.Console.WriteLine(scope.ActingPlayer.Name + ", please respond to " + @event);
             return HandleGameEvent(@event, @event.GetAvailableResponses(), scope);

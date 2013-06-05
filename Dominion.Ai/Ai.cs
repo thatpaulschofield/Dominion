@@ -19,9 +19,4 @@ namespace Dominion.AI
             return votes.Winner;
         }
     }
-
-    public interface IProvideContextFromActionScope
-    {
-        void ViewActionScope(IActionScope scope);
-    }
 }

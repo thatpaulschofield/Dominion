@@ -17,6 +17,7 @@ namespace Dominion
         public int Buys { get; private set; }
         public IEnumerable<Player> PassivePlayers { get; private set; }
         public IEnumerable<IReactionScope> ReactionScopes { get; private set; }
+        public CardSet CardsInPlay { get; private set; }
 
         public EndGameScope()
         {

@@ -3,7 +3,7 @@ using Dominion.Cards;
 
 namespace Dominion.GameEvents
 {
-    public class PlayActionResponse : GameEventResponse
+    public class PlayActionResponse : GameEventResponse<ActionPhase>
     {
         public PlayActionResponse(ITurnScope turnScope, Card card) : base(turnScope)
         {

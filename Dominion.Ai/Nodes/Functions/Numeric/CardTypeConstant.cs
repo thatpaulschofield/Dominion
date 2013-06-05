@@ -10,5 +10,10 @@ namespace Dominion.Ai.Nodes.Functions.Numeric
         {
             return Value;
         }
+
+        public override string ToString()
+        {
+            return "the card type";
+        }
     }
 }

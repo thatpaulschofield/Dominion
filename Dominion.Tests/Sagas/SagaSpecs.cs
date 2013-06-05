@@ -1,5 +1,6 @@
 ﻿using Dominion.Cards.BasicSet.Actions.MineAction;
 using Dominion.Cards.BasicSet.Actions.Saga;
+using Dominion.Cards.Saga;
 using Dominion.Tests.GameEvents;
 using StructureMap;
 

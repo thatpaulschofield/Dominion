@@ -37,7 +37,7 @@ namespace Dominion.GameEvents
         {
             return new CardSet(GetAvailableResponses()
                 .Where(r => r is BuyCardResponse)
-                .Cast<BuyCardResponse>().Select(r => r.CardToPurchase));
+                .Cast<BuyCardResponse>().Select(r => r.Item));
         }
 
         public override string ToString()

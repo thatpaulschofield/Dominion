@@ -1,6 +1,6 @@
 ﻿namespace Dominion.GameEvents
 {
-    public class ShuffleDeckResponse : GameEventResponse
+    public class ShuffleDeckResponse : GameEventResponse<DeckDepletedEvent>
     {
         public ShuffleDeckResponse(ITurnScope turnScope) : base(turnScope)
         {

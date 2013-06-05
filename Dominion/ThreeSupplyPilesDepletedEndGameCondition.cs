@@ -2,7 +2,7 @@
 
 namespace Dominion
 {
-    internal class ThreeSupplyPilesDepletedEndGameCondition : EndGameCondition, IHandleEvents<SupplyPileDepletedEvent>
+    public class ThreeSupplyPilesDepletedEndGameCondition : EndGameCondition, IHandleEvents<SupplyPileDepletedEvent>
     {
         private readonly IEventAggregator _eventAggregator;
         private int _depletedStacksCount;

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Dominion.Cards.BasicSet.Actions.MineAction;
 using Dominion.Cards.BasicSet.Actions.Saga;
+using Dominion.Cards.Saga;
 using Dominion.GameEvents;
 using Should;
 using StructureMap;

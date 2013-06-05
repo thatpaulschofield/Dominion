@@ -2,7 +2,7 @@
 
 namespace Dominion.GameEvents
 {
-    public class PlayNoTreasuresResponse : GameEventResponse
+    public class PlayNoTreasuresResponse : GameEventResponse<SelectTreasuresToPlayCommand>
     {
         public PlayNoTreasuresResponse(ITurnScope turnScope) : base(turnScope)
         {

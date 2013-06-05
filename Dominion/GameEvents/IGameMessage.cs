@@ -8,5 +8,6 @@ namespace Dominion.GameEvents
         Guid Id { get; }
         Guid CorrelationId { get; }
         Guid OriginalEventId { get; }
+        bool IsResponseAvailable(GameEventResponse response);
     }
 }

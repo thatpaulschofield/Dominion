@@ -63,7 +63,8 @@ namespace Dominion
         public int TurnNumber { get; private set; }
 
         public IEnumerable<IReactionScope> ReactionScopes { get { return _reactionScopes; } }
-
+        
+        public CardSet CardsInPlay { get { return new CardSet(_cardsInPlay); } }
 
         public Hand Hand { get { return ActingPlayer.Hand; } }
 

@@ -1,4 +1,5 @@
 ﻿using Dominion.Cards.BasicSet.Actions.Saga;
+using Dominion.Cards.Saga;
 using Dominion.GameEvents;
 using Dominion.Tests.GameEvents;
 using StructureMap;

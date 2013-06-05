@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
-using Dominion.AI;
+﻿using Dominion.AI;
 using Dominion.AI.Functions;
 using Dominion.AI.Functions.Boolean;
 using Dominion.AI.Functions.Numeric;
+using Dominion.Ai;
+using Dominion.Ai.Nodes.Functions;
+using Dominion.Ai.Nodes.Functions.Boolean;
 using Dominion.Ai.Nodes.Functions.Numeric;
 using Dominion.Ai.Nodes.Terminals;
 using Dominion.Cards.BasicSet.Treasures;
@@ -103,7 +105,7 @@ namespace Dominion.Tests.AI
         [Test]
         public void One_should_be_less_than_two()
         {
-            new LessThan<int>
+            new LessThan
                 {
                     Child1 = new Constant<int>(1),
                     Child2 = new Constant<int>(2)
@@ -115,7 +117,7 @@ namespace Dominion.Tests.AI
         [Test]
         public void Two_should_be_greater_than_one()
         {
-            new GreaterThan<int>
+            new GreaterThan
             {
                 Child1 = new Constant<int>(2),
                 Child2 = new Constant<int>(1)
@@ -126,7 +128,7 @@ namespace Dominion.Tests.AI
         [Test]
         public void Four_plus_four_should_be_greater_than_seven()
         {
-            new GreaterThan<int>
+            new GreaterThan
                 {
                     Child1 = new Plus
                         {
@@ -179,21 +181,6 @@ namespace Dominion.Tests.AI
                 Child2 = new Constant<int>(1),
                 Child3 = new Constant<int>(2)
             }.Evaluate(new MockAiContext()).ShouldEqual(2);
-        }
-    }
-
-    public class MockAiContext : IAiContext
-    {
-        public MockAiContext()
-        {
-            AvailableResponses = new List<IEventResponse>();
-        }
-        public IEnumerable<IEventResponse> AvailableResponses { get; set; }
-        public ResponseVotes Votes { get; private set; }
-
-        public ResponseVotes VoteFor(IEventResponse first, int votes)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

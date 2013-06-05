@@ -12,6 +12,7 @@ namespace Dominion.Ai.Nodes
         public INode Parent { get; set; }
         public abstract int Arity { get; }
         public abstract Type ReturnType { get; }
+        public virtual bool IsNullNode { get { return false; } }
 
         protected Node()
         {
@@ -46,19 +47,22 @@ namespace Dominion.Ai.Nodes
         INode Parent { get; set; }
         int Arity { get; }
         Type ReturnType { get; }
+        bool IsNullNode { get; }
     }
 
     public abstract class Node<T> : INode<T>
     {
+        protected IList<INode> _children = new List<INode>();
         public INode Parent { get; set; }
         public virtual int Arity { get { return 1; } }
         public Type ReturnType { get { return typeof (T); } }
+        public virtual bool IsNullNode { get { return false; } }
 
         public abstract T Evaluate(IAiContext context);
         public virtual void Receive(NodeVisitor visitor)
         {
             visitor.Visit(this);
-            Children.ForEach(c =>
+            _children.ForEach(c =>
                 {
                     if (c == null)
                         return;
@@ -71,9 +75,6 @@ namespace Dominion.Ai.Nodes
         {
             throw new NotImplementedException();
         }
-
-
-        public virtual IEnumerable<INode> Children { get { return new INode[]{}; } }
     }
 
     public interface INode<T> : INode

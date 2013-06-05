@@ -4,6 +4,7 @@ using Dominion.Cards.BasicSet.Treasures;
 using Dominion.Cards.BasicSet.VictoryCards;
 using NUnit.Framework;
 using Should;
+using StructureMap;
 
 namespace Dominion.Tests
 {
@@ -15,7 +16,10 @@ namespace Dominion.Tests
         [SetUp]
         public void SetUp()
         {
-            _deck = Game.DealStartupDeck();
+            var container = new Container();
+            container.Configure(cfg => cfg.AddRegistry<BasicSetRegistry>());
+
+            _deck = container.GetInstance<DeckBuilder>().Build();
         }
 
         [Test]

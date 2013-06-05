@@ -10,10 +10,10 @@ namespace Dominion
     {
         private readonly IPlayerController _controller;
 
-        public Player(IPlayerController controller) 
-            : this(Game.DealStartupDeck(), new DiscardPile(), controller)
-        {
-        }
+        //public Player(IPlayerController controller) 
+        //    : this(Game.DealStartupDeck(), new DiscardPile(), controller)
+        //{
+        //}
 
         public Player(Deck deck, DiscardPile discardPile, IPlayerController strategy, string name = "Player")
         {
@@ -49,14 +49,12 @@ namespace Dominion
         {
              var response = _controller.HandleGameEvent(phase, phase.TurnScope);
             response.Execute();
-            //phase.ActionScope.Publish(response);
         }
 
         public void BeginBuyPhase(BuyPhase buyPhase)
         {
             var response = _controller.HandleGameEvent(buyPhase, buyPhase.TurnScope);
             response.Execute();
-            //buyPhase.ActionScope.Publish(response);
         }
 
         public void BeginCleanupPhase(ITurnScope turnScope)

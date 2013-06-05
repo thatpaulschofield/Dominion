@@ -2,7 +2,7 @@
 
 namespace Dominion.GameEvents
 {
-    public class SkipActionPhaseResponse : GameEventResponse
+    public class SkipActionPhaseResponse : GameEventResponse<ActionPhase>
     {
         public SkipActionPhaseResponse(ITurnScope turnScope) : base(turnScope)
         {

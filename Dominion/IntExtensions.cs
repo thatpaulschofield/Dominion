@@ -1,60 +1,12 @@
 using System.Collections.Generic;
 using Dominion.Cards;
 using Dominion.Cards.BasicSet;
-using Dominion.Cards.BasicSet.Treasures;
-using Dominion.Cards.BasicSet.VictoryCards;
 using Action = System.Action;
 
 namespace Dominion
 {
     public static class IntExtensions
     {
-        public static CardSet Coppers(this int count)
-        {
-            return BuildSet(count, Treasure.Copper);
-        }
-        
-        public static CardSet Silvers(this int count)
-        {
-            return BuildSet(count, Treasure.Silver);
-        }
-        
-        public static CardSet Golds(this int count)
-        {
-            return BuildSet(count, Treasure.Gold);
-        }
-
-        public static CardSet Estates(this int count)
-        {
-            return BuildSet(count, Victory.Estate);
-        }
-        
-        public static CardSet Duchies(this int count)
-        {
-            return BuildSet(count, Victory.Duchy);
-        }
-        
-        public static CardSet Provinces(this int count)
-        {
-            return BuildSet(count, Victory.Province);
-        }
-        
-        public static CardSet Curses(this int count)
-        {
-            return BuildSet(count, BasicCards.Curse);
-        }
-
-        public static CardSet Villages(this int count)
-        {
-            return BuildSet(count, BasicCards.Actions.Village);
-        }
-
-        public static CardSet Cellars(this int count)
-        {
-            return BuildSet(count, BasicCards.Actions.Cellar);
-        }
-
-
         public static CardSet BuildSet(int count, CardType card)
         {
             return new CardSet(count.Of(card));

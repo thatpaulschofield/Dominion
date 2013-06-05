@@ -3,23 +3,23 @@ using Dominion.Cards;
 
 namespace Dominion.GameEvents
 {
-    public class BuyCardResponse : GameEventResponse
+    public class BuyCardResponse : GameEventResponseWithItem<Card, BuyPhase>
     {
-        public Card CardToPurchase { get; private set; }
+        //public Card Item { get; private set; }
 
         public BuyCardResponse(ITurnScope turnScope, Card cardToPurchase) : base(turnScope)
         {
-            CardToPurchase = cardToPurchase;
+            Item = cardToPurchase;
         }
 
         public override void Execute()
         {
-            TurnScope.PerformBuy(CardToPurchase.CardType);
+            TurnScope.PerformBuy(Item.CardType);
         }
 
         public override string ToString()
         {
-            return String.Format("{0} intends to buy card {1}", TurnScope.ActingPlayer.Name, CardToPurchase.Name);
+            return String.Format("{0} intends to buy card {1}", TurnScope.ActingPlayer.Name, Item.Name);
         }
     }
 }

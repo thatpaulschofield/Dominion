@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Dominion.AI;
+using Dominion.Ai.ConstantValueProviders;
 using Dominion.Ai.Nodes;
 using Dominion.Ai.Nodes.Terminals;
 
@@ -10,11 +11,14 @@ namespace Dominion.Ai.TreeBuilding
     public class FullTreeStrategy : ITreeBuildStrategy
     {
         private readonly NodeRegistry _nodeRegistry;
+        private readonly IValueProviderRegistry _valueProviderRegistry;
         private TreeSpec _spec;
+        private Random _random = new Random((int)DateTime.Now.Ticks);
 
-        public FullTreeStrategy(NodeRegistry nodeRegistry)
+        public FullTreeStrategy(NodeRegistry nodeRegistry, IValueProviderRegistry valueProviderRegistry)
         {
             _nodeRegistry = nodeRegistry;
+            _valueProviderRegistry = valueProviderRegistry;
         }
 
         public ITreeBuildStrategy WithSpec(TreeSpec spec)
@@ -34,23 +38,23 @@ namespace Dominion.Ai.TreeBuilding
 
             if (!(node is Function))
                 return;
-            PopulateNodeChildren(node as Function, maxDepth <= 1 ?  _nodeRegistry.TerminalSet : _nodeRegistry.FunctionSet, maxDepth);
+            PopulateNodeChildren(node as Function, () => GetAllowableSetOfNodesForDepth(maxDepth), maxDepth);
         }
 
-        private void EnsureInitialValueOfConstantIsPopulated(INode node)
+        IEnumerable<INode> GetAllowableSetOfNodesForDepth(int depth)
         {
-            var constant = node as Constant;
-            if (constant == null)
-                return;
+            if (depth <= 1)
+                return _nodeRegistry.TerminalSet;
+            return _nodeRegistry.FunctionSet.Union(_nodeRegistry.TerminalSet);
         }
 
-        private void PopulateNodeChildren(Function node, IEnumerable<INode> availableChildren, int maxDepth)
+        private void PopulateNodeChildren(Function node, Func<IEnumerable<INode>> availableChildren, int maxDepth)
         {
-            for (int i = 1; i<=node.Arity; i++)
+            while (node.HasUnassignedChildNode)
             {
-                int index = i;
+                int index = node.GetIndexOfNextUnassignedChild();
                 var availableChildNodesOfCorrectReturnType = 
-                    AvailableChildNodesOfCorrectReturnType(node, availableChildren, index);
+                    AvailableChildNodesOfCorrectReturnType(node, availableChildren(), index);
                 node[index] = GetRandomNode(availableChildNodesOfCorrectReturnType);
 
                 if (maxDepth >=0)
@@ -58,19 +62,34 @@ namespace Dominion.Ai.TreeBuilding
             }
         }
 
-        private static IEnumerable<INode> AvailableChildNodesOfCorrectReturnType(Function node, IEnumerable<INode> availableChildren, int index)
+        private void EnsureInitialValueOfConstantIsPopulated(INode node)
         {
-            return availableChildren.Where(n => n.ReturnType == node[index].ReturnType);
+            var constant = node as Constant;
+            if (constant == null)
+                return;
+
+            _valueProviderRegistry
+                .GetProviderFor(constant)
+                .ProvideValue(constant);
+        }
+
+        private IEnumerable<INode> AvailableChildNodesOfCorrectReturnType(Function node, IEnumerable<INode> availableChildren, int index)
+        {
+            var result = availableChildren.Where(n => n.ReturnType == node[index].ReturnType).ToList();
+            if (!result.Any())
+                // use terminal set as a backup if no functions are available that return the desired type
+                result = _nodeRegistry.FunctionSet.Where(n => n.ReturnType == node[index].ReturnType).ToList(); 
+            return result;
         }
 
         private INode GetRandomNode(IEnumerable<INode> functions)
         {
             if (!functions.Any())
-                return new NullNode();
+                return null;
 
             var fList = functions.ToList();
 
-            int index = new Random((int)DateTime.Now.Ticks).Next(0, fList.Count() - 1);
+            int index = _random.Next(0, fList.Count() - 1);
             return fList[index];
 
         }

@@ -13,7 +13,8 @@ namespace Dominion
         int Coins { get; }
         int Actions { get; }
         int Buys { get; }
-        IEnumerable<IReactionScope> ReactionScopes { get; } 
+        IEnumerable<IReactionScope> ReactionScopes { get; }
+        CardSet CardsInPlay { get; }
         void Discard(CardSet cardsToDiscard);
         void PlayTreasures(CardSet treasuresToPlay);
         void Publish(IGameMessage @event);

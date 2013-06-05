@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -26,7 +26,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -53,6 +53,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Dominion.Cards.BasicSet\Dominion.Cards.BasicSet.csproj">
+      <Project>{5fee6005-e7b0-4161-a8f0-96dc89f29136}</Project>
+      <Name>Dominion.Cards.BasicSet</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Dominion\Dominion.csproj">
       <Project>{495f1640-5633-4cb2-9041-a222b7c9889c}</Project>
       <Name>Dominion</Name>

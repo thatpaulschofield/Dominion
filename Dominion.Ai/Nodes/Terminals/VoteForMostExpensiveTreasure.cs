@@ -9,17 +9,11 @@ namespace Dominion.Ai.Nodes.Terminals
         public override ResponseVotes Evaluate(IAiContext context)
         {
             var buyTreasureResponses =
-                context.AvailableResponses.OfType<BuyCardResponse>().OrderByDescending(r => r.CardToPurchase.Coins);
+                context.AvailableResponses.OfType<BuyCardResponse>().OrderByDescending(r => r.Item.Coins);
             if (buyTreasureResponses.Any())
                 return context.VoteFor(buyTreasureResponses.First(), 1);
 
             return context.Votes;
-        }
-
-        public override INode this[int i]
-        {
-            get { throw new System.NotImplementedException(); }
-            set { throw new System.NotImplementedException(); }
         }
     }
 }

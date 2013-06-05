@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Dominion.AI;
+using StructureMap;
 
-namespace Dominion.AI.Functions
+namespace Dominion.Ai.Nodes.Functions
 {
     public class CombineVotes : Function<ResponseVotes,ResponseVotes,ResponseVotes>
     {

@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{5FEE6005-E7B0-4161-A8F0-96DC89F29136}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Dominion.Cards.BasicSet</RootNamespace>
+    <AssemblyName>Dominion.Cards.BasicSet</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Stateless, Version=2.3.1.1, Culture=neutral, PublicKeyToken=93038f0927583c9a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\stateless-4.0.2.3.1.1\lib\net40\Stateless.dll</HintPath>
+    </Reference>
+    <Reference Include="StructureMap, Version=2.6.4.0, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\structuremap.2.6.4.1\lib\net40\StructureMap.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BasicSet\Action.cs" />
+    <Compile Include="BasicSet\Actions\AttackCardPlayed.cs" />
+    <Compile Include="BasicSet\Actions\CanRevealCardEvent.cs" />
+    <Compile Include="BasicSet\Actions\Cellar.cs" />
+    <Compile Include="BasicSet\Actions\DiscardCardResponse.cs" />
+    <Compile Include="BasicSet\Actions\DiscardReactionCommand.cs" />
+    <Compile Include="BasicSet\Actions\Market.cs" />
+    <Compile Include="BasicSet\Actions\Militia.cs" />
+    <Compile Include="BasicSet\Actions\MilitiaAttackEffect.cs" />
+    <Compile Include="BasicSet\Actions\MineAction\CardSelectedToTrashForMineEvent.cs" />
+    <Compile Include="BasicSet\Actions\MineAction\DeclinedToTrashCardForMineEvent.cs" />
+    <Compile Include="BasicSet\Actions\MineAction\Mine.cs" />
+    <Compile Include="BasicSet\Actions\MineAction\MinePlayedMessage.cs" />
+    <Compile Include="BasicSet\Actions\MineAction\MineSaga.cs" />
+    <Compile Include="BasicSet\Actions\MineAction\PickTreasureToUpgradeToForMineCommand.cs" />
+    <Compile Include="BasicSet\Actions\MineAction\TrashCardForMineResponse.cs" />
+    <Compile Include="BasicSet\Actions\MineAction\TrashCardFromHandCommand.cs" />
+    <Compile Include="BasicSet\Actions\MineAction\TreasurePickedToUpgradeToWithMine.cs" />
+    <Compile Include="BasicSet\Actions\Moat.cs" />
+    <Compile Include="BasicSet\Actions\PickTreasureToTrashForMineCommand.cs" />
+    <Compile Include="BasicSet\Actions\Remodel\CardSelectedToRemodelResponse.cs" />
+    <Compile Include="BasicSet\Actions\Remodel\CardSelectedToRemodelToResponse.cs" />
+    <Compile Include="BasicSet\Actions\Remodel\DeclinedToRemodelCardResponse.cs" />
+    <Compile Include="BasicSet\Actions\Remodel\PickCardToRemodelCommand.cs" />
+    <Compile Include="BasicSet\Actions\Remodel\PickCardToRemodelToCommand.cs" />
+    <Compile Include="BasicSet\Actions\Remodel\Remodel.cs" />
+    <Compile Include="BasicSet\Actions\Remodel\RemodelPlayedMessage.cs" />
+    <Compile Include="BasicSet\Actions\Remodel\RemodelSaga.cs" />
+    <Compile Include="BasicSet\Actions\Smithy.cs" />
+    <Compile Include="BasicSet\Actions\Village.cs" />
+    <Compile Include="BasicSet\Actions\Woodcutter.cs" />
+    <Compile Include="BasicSet\Actions\Workshop.cs" />
+    <Compile Include="BasicSet\BasicCards.cs" />
+    <Compile Include="BasicSet\BasicSetRegistry.cs" />
+    <Compile Include="BasicSet\Cards.cs" />
+    <Compile Include="BasicSet\FirstGame.cs" />
+    <Compile Include="BasicSet\ProvinceStackDepletedEndGameCondition.cs" />
+    <Compile Include="BasicSet\SupplyBuilder.cs" />
+    <Compile Include="BasicSet\Treasures\CopperFactory.cs" />
+    <Compile Include="BasicSet\Treasures\GoldFactory.cs" />
+    <Compile Include="BasicSet\Treasures\SilverFactory.cs" />
+    <Compile Include="BasicSet\Treasures\Treasure.cs" />
+    <Compile Include="BasicSet\VictoryCards\DuchyFactory.cs" />
+    <Compile Include="BasicSet\VictoryCards\EstateFactory.cs" />
+    <Compile Include="BasicSet\VictoryCards\ProvinceFactory.cs" />
+    <Compile Include="BasicSet\VictoryCards\Victory.cs" />
+    <Compile Include="IntExtensions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Dominion\Dominion.csproj">
+      <Project>{495f1640-5633-4cb2-9041-a222b7c9889c}</Project>
+      <Name>Dominion</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

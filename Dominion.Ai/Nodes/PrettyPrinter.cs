@@ -15,9 +15,11 @@ namespace Dominion.Ai.Nodes
 
         public void Print(INode node, int indent)
         {
+            if (node == null)
+                return;
+
             try
             {
-                node = node ?? new NullNode();
                 indent.Times(() => builder.Append("  "));
                 builder.AppendLine(node.ToString());
             }
@@ -28,7 +30,13 @@ namespace Dominion.Ai.Nodes
             }
             var function = node as Function;
             if (function != null)
+            {
+                indent.Times(() => builder.Append("  "));
+                builder.AppendLine("{");
                 function.Children.ForEach(c => Print(c, indent + 1));
+                indent.Times(() => builder.Append("  "));
+                builder.AppendLine("}");
+            }
         }
     }
 }

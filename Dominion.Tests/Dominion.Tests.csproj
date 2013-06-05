@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -24,7 +24,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -76,23 +76,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AI\ExpressionSpecs.cs" />
+    <Compile Include="AI\MockAiContext.cs" />
+    <Compile Include="AI\MockValueProviderRegistry.cs" />
+    <Compile Include="AI\NodeEnumerator.cs" />
     <Compile Include="AI\NodeRegistrySpecs.cs" />
     <Compile Include="AI\PopulationSpecs.cs" />
     <Compile Include="AI\TreeSizeVisitor.cs" />
+    <Compile Include="AI\TypeExtensionSpecs.cs" />
     <Compile Include="AutomapperTests.cs" />
     <Compile Include="CardSetSpecs.cs" />
     <Compile Include="Fixtures\CardFixture.cs" />
     <Compile Include="GameEvents\ActionPhaseSpecs.cs" />
     <Compile Include="GameEvents\BuyPhaseSpecs.cs" />
-    <Compile Include="GameEvents\MockEventAggregator.cs" />
     <Compile Include="GameSpecs.cs" />
-    <Compile Include="MockPlayer.cs" />
-    <Compile Include="MockPlayerController.cs" />
-    <Compile Include="MockTurnScope.cs" />
     <Compile Include="PlayerSpecs\AbstractPlayerSpec.cs" />
     <Compile Include="PlayerSpecs\PlayerSpecs.cs" />
     <Compile Include="PlayerSpecs\When_another_players_deck_is_depleted.cs" />
-    <Compile Include="PlayerSpecs\When_a_player_plays_an_attack_card.cs" />
     <Compile Include="PlayerSpecs\When_players_deck_is_depleted.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sagas\ExpectedResponseDsl.cs" />
@@ -115,6 +114,10 @@
     <ProjectReference Include="..\Dominion.Ai\Dominion.Ai.csproj">
       <Project>{3cc98f5f-ddeb-4a05-a4c5-7413cf11d8d4}</Project>
       <Name>Dominion.Ai</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dominion.Cards.BasicSet\Dominion.Cards.BasicSet.csproj">
+      <Project>{5fee6005-e7b0-4161-a8f0-96dc89f29136}</Project>
+      <Name>Dominion.Cards.BasicSet</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dominion\Dominion.csproj">
       <Project>{495F1640-5633-4CB2-9041-A222B7C9889C}</Project>
