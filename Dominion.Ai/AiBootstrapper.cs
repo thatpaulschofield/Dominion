@@ -1,4 +1,5 @@
-﻿using Dominion.GameEvents;
+﻿using Dominion.Cards.BasicSet;
+using Dominion.GameEvents;
 using StructureMap;
 
 namespace Dominion.Ai
@@ -20,6 +21,7 @@ namespace Dominion.Ai
                             s.AssemblyContainingType<Game>();
                             s.AddAllTypesOf<GameEventResponse>();
                         });
+                    cfg.AddRegistry<BasicSetRegistry>();
                     cfg.AddRegistry<AiRegistry>();
                 });
 

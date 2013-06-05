@@ -9,6 +9,7 @@
 
         public override void Execute()
         {
+            TurnScope.Publish(this);
             TurnScope.ChangeState((-TurnScope.Buys).TurnBuys());
         }
     }

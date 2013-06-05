@@ -14,6 +14,7 @@ namespace Dominion.Tests.PlayerSpecs
         private Player _player;
         private MockTurnScope _scope;
         private MockEventAggregator _eventAggregator;
+        private Supply _supply;
 
         protected override void ConfigureContainer(StructureMap.IContainer container)
         {
@@ -35,12 +36,12 @@ namespace Dominion.Tests.PlayerSpecs
         {
             var game = Container.GetInstance<Game>();
 
-            var supply = Container.GetInstance<Supply>();
+            _supply = Container.GetInstance<SupplyBuilder>().BasicGame().WithSet<FirstGame>().WithPlayers(2).BuildSupply();
             _scope = new MockTurnScope
                 {
                     TurnNumber = 1,
                     ActingPlayer = SUT,
-                    Supply = supply,
+                    Supply = _supply,
                     TreasuresInHand = 5.Coppers(),
                     Coins = 5,
                     EventAggregator = _eventAggregator
@@ -57,15 +58,11 @@ namespace Dominion.Tests.PlayerSpecs
         }
 
         [Test]
-        public void Naive_player_should_purchase_a_card()
-        {
-            _scope.PurchasedCards.ShouldContain<Card>(Action.Village); ;
-        }
-
-        [Test]
         public void Purchased_card_should_be_in_the_supply()
         {
-            _scope.PurchasedCards.ShouldContain<Card>(Action.Village);
+            var purchasedCards = new CardSet(_scope.PurchasedCards);
+
+            purchasedCards.ForEach(c => (_supply[c] == null).ShouldBeFalse());
         }
     }
 }

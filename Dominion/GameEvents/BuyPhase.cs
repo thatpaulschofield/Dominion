@@ -13,7 +13,6 @@ namespace Dominion.GameEvents
                     (from card in TurnScope.Supply.FindCardsEligibleForPurchase(turnScope).OrderByDescending(c => c.Cost)
                      select new BuyCardResponse(turnScope, card)
                          {
-                             Description = String.Format("Buy a {0} ({1})  {2} remaining", card.Name, card.Cost, TurnScope.Supply[card].Count)
                          }).Union(new GameEventResponse[] { new DeclineToPurchaseResponse(turnScope) })
                         ;
         }
@@ -22,15 +21,14 @@ namespace Dominion.GameEvents
         {
             if (CardsAvailable().Any())
             {
-                var cardToPurchase = CardsAvailable().VictoryCards()
-                                                        .OrderByDescending(v => v.VictoryPoints)
-                                                        .FirstOrDefault()
-                                     ?? CardsAvailable().Treasures().OrderByDescending(t => t.Coins).FirstOrDefault()
-                                     ?? CardsAvailable()[0];
-                return new BuyCardResponse(TurnScope, cardToPurchase);
+                var cardToPurchase = CardsAvailable().FirstOrDefault(c => c.Name == "Province")
+                                     ?? CardsAvailable().FirstOrDefault(c => c.Name == "Gold")
+                                     ?? CardsAvailable().FirstOrDefault(c => c.Name == "Silver");
+                if (cardToPurchase != null)
+                    return new BuyCardResponse(TurnScope, cardToPurchase);
             }
 
-            return new SkipBuyPhaseResponse(TurnScope);
+            return new DeclineToPurchaseResponse(TurnScope);
         }
 
         private CardSet CardsAvailable()

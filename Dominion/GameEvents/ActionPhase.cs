@@ -9,8 +9,8 @@ namespace Dominion.GameEvents
         public ActionPhase(ITurnScope turnScope, CardSet availableActions) : base(turnScope)
         {
             Description = String.Format("{0}, select an action to play", turnScope.ActingPlayer.Name);
-            AvailableActions = availableActions;
-            availableActions.ToList().ForEach(actionCard => _availableResponses.Add(new PlayActionResponse(turnScope, actionCard)));
+            AvailableActions = new CardSet(availableActions.OrderByDescending(a => a.Cost).ToList());
+            AvailableActions.ToList().ForEach(actionCard => _availableResponses.Add(new PlayActionResponse(turnScope, actionCard)));
             if (_availableResponses.Any())
                 _availableResponses.Add(new SkipActionPhaseResponse(turnScope));
         }

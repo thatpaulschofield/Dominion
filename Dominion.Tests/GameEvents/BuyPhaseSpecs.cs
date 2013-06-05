@@ -21,7 +21,7 @@ namespace Dominion.Tests.GameEvents
             var turnScope = new MockTurnScope {TreasuresInHand = player.Hand, Coins = 0, ActingPlayer = player, Supply = supply, EventAggregator = eventAggregator};
             var buyPhase = new BuyPhase(turnScope);
             player.BeginBuyPhase(buyPhase);
-            eventAggregator.AssertMessageWasSent<SkipBuyPhaseResponse>();
+            eventAggregator.AssertMessageWasSent<DeclineToPurchaseResponse>();
         }
 
         [Test]
@@ -31,9 +31,12 @@ namespace Dominion.Tests.GameEvents
             var discardPile = new DiscardPile();
             var deck = new Deck(7.Coppers(), 3.Estates());
             var player = new Player(deck, discardPile, new NaivePlayerController());
-            player.DrawNewHand(new TurnScope(player, new Supply(new SupplyPile(1, Action.Village, eventAggregator), new SupplyPile(1, Treasure.Copper, eventAggregator)), eventAggregator));
-            var turnScope = new TurnScope(player, new Supply(new SupplyPile(1, Action.Village, eventAggregator), new SupplyPile(1, Treasure.Copper, eventAggregator)), eventAggregator);
-            var buyPhase = new BuyPhase(turnScope);
+            var supply = new Supply(new SupplyPile(1, Treasure.Silver, eventAggregator), new SupplyPile(1, Treasure.Copper, eventAggregator));
+
+            var scope = new TurnScope(player, supply, eventAggregator);
+            player.DrawNewHand(scope);
+            player.PlayTreasures(player.Hand.Treasures(), scope);
+            var buyPhase = new BuyPhase(scope);
             player.BeginBuyPhase(buyPhase);
             eventAggregator.AssertMessageWasSent<PlayerGainedCardEvent>();
         }

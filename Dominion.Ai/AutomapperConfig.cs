@@ -7,7 +7,6 @@ namespace Dominion.Ai
     {
         public static void ConfigureMappings()
         {
-            Mapper.CreateMap<ITurnScope, AiContext>();
         }
 
     }

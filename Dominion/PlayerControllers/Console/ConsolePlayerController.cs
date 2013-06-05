@@ -21,7 +21,7 @@ namespace Dominion.PlayerControllers.Console
             {
                 System.Console.WriteLine("{0} - {1}", response.Index, response.Description);
             }
-            System.Console.WriteLine("[Enter = {0}]", @event.GetDefaultResponse());
+            System.Console.WriteLine("[Enter = {0}]", @event.GetDefaultResponse().Description);
             ConsoleEventResponse consoleEventResponse = null;
             do
             {
