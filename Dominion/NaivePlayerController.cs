@@ -1,4 +1,5 @@
-﻿using Dominion.GameEvents;
+﻿using System;
+using Dominion.GameEvents;
 
 namespace Dominion
 {
@@ -9,7 +10,9 @@ namespace Dominion
             return @event.GetDefaultResponse();
         }
 
-        public IEventResponse HandleGameEvent(IGameMessage @event, ITurnScope scope)
+        public Guid Id { get; set; }
+
+        public IEventResponse HandleGameEvent(IGameMessage @event, IActionScope scope)
         {
             return @event.GetDefaultResponse();
         }

@@ -15,7 +15,7 @@ namespace Dominion.Cards.BasicSet.Actions.MineAction
             }
             _card = card;
 
-            Description = string.Format("{0} trashed {1}", turnScope.ActingPlayer.Name, card.Name);
+            Description = string.Format("{0} trashed {1}", turnScope.Player.Name, card.Name);
         }
 
         public Card CardToTrash

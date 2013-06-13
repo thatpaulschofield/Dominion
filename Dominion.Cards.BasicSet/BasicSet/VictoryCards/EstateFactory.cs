@@ -4,7 +4,7 @@ namespace Dominion.Cards.BasicSet.VictoryCards
     {
         public Card Create()
         {
-            return new Card(Victory.Estate, victoryPoints: 1, cost: 2, isVictory: true, name:"Estate");
+            return new Card(Victory.Estate, baseVictoryPoints:2, baseCost: 2, isVictory: true, name:"Estate");
         }
     }
 }

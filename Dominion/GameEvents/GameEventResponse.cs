@@ -2,12 +2,9 @@
 {
     public abstract class GameEventResponse : GameMessage, IEventResponse
     {
-        protected readonly ITurnScope TurnScope;
-
-        protected GameEventResponse(ITurnScope turnScope)
-            : base(turnScope)
+        protected GameEventResponse(IActionScope scope)
+            : base(scope)
         {
-            TurnScope = turnScope;
         }
 
         public string Description { get; set; }
@@ -22,8 +19,20 @@
 
     public abstract class GameEventResponse<TINRESPONSETO> : GameEventResponse
     {
-        protected GameEventResponse(ITurnScope turnScope) : base(turnScope)
+        protected GameEventResponse(IActionScope scope) : base(scope)
         {
         }
+    }
+
+
+    public abstract class GameEventResponse<TINRESPONSETO, TITEM> : GameEventResponse<TINRESPONSETO>
+    {
+        protected GameEventResponse(IActionScope turnScope, TITEM item)
+            : base(turnScope)
+        {
+            Item = item;
+        }
+
+        public TITEM Item { get; set; }
     }
 }

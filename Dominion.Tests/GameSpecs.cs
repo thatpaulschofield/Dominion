@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Dominion.Cards.BasicSet;
+using Dominion.Cards.BasicSet.BasicSet;
 using Dominion.Cards.BasicSet.Treasures;
 using Dominion.Cards.BasicSet.VictoryCards;
 using Dominion.Configuration;

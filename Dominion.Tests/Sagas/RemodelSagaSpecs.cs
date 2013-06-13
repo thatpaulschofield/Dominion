@@ -1,4 +1,5 @@
 ﻿using Dominion.Cards.BasicSet.Actions.Remodel;
+using Dominion.Cards.BasicSet.BasicSet.Actions.Remodel;
 using Dominion.Cards.BasicSet.Treasures;
 using NUnit.Framework;
 
@@ -19,7 +20,7 @@ namespace Dominion.Tests.Sagas
         public void Card_remodeled_sequence()
         {
             TheSaga.AfterHandling<RemodelPlayedMessage>()
-                .AndHandling(new CardSelectedToRemodelResponse(Treasure.Copper, TurnScope))
+                .AndHandling(new CardSelectedToRemodelResponse(TurnScope, Treasure.Copper))
                 .AndHandling(new CardSelectedToRemodelToResponse(Treasure.Copper, TurnScope))
                 .ShouldBeComplete();
         }

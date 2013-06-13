@@ -16,20 +16,34 @@ namespace Dominion.Tests.AI
     {
         private IContainer _container;
         private INode _tree;
+        private FullTreeStrategy _strategy;
 
-        [SetUp]
-        public void SetUp()
+        [TestFixtureSetUp]
+        public void FixtureSetUp()
         {
             _container = new AiBootstrapper().BootstrapContainer();
-            var strategy = _container.GetInstance<FullTreeStrategy>();
-            var spec = new TreeSpec { MaxDepth = 10 };
+            _container.SetDefaultsToProfile("FunctionalTests");
 
-            strategy.WithSpec(spec);
+            _strategy = _container.GetInstance<FullTreeStrategy>();
+            var spec = new TreeSpec {MaxDepth = 150};
+
+            _strategy.WithSpec(spec);
             var treeBuilder = _container.GetInstance<TreeBuilder>();
-            _tree = treeBuilder.BuildTree<CombineVotes>(strategy);
+            _tree = treeBuilder.BuildTree<CombineVotes>(_strategy);
             var size = new TreeSizeVisitor();
             _tree.Receive(size);
-            
+        }
+
+        [Test]
+        public void NodeBuilder_should_find_all_available_nodes()
+        {
+            Console.WriteLine(_strategy.ToString());
+        }
+
+        [Test]
+        public void FullTreeStrategy_can_build_a_tree()
+        {
+            Console.WriteLine(new PrettyPrinter().Print(_tree));
         }
 
         [Test]
@@ -45,13 +59,5 @@ namespace Dominion.Tests.AI
                       .ShouldBeFalse();
 
         }
-
-        [Test]
-        public void FullTreeStrategy_can_build_a_tree()
-        {
-            Console.WriteLine(new PrettyPrinter().Print(_tree));
-        }
-
-
     }
 }

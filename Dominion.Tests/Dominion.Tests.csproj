@@ -81,18 +81,21 @@
     <Compile Include="AI\NodeEnumerator.cs" />
     <Compile Include="AI\NodeRegistrySpecs.cs" />
     <Compile Include="AI\PopulationSpecs.cs" />
-    <Compile Include="AI\TreeSizeVisitor.cs" />
+    <Compile Include="AI\TournamentSpecs.cs" />
     <Compile Include="AI\TypeExtensionSpecs.cs" />
     <Compile Include="AutomapperTests.cs" />
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="CardSetSpecs.cs" />
     <Compile Include="Fixtures\CardFixture.cs" />
     <Compile Include="GameEvents\ActionPhaseSpecs.cs" />
     <Compile Include="GameEvents\BuyPhaseSpecs.cs" />
     <Compile Include="GameSpecs.cs" />
+    <Compile Include="AI\MatchSpecs.cs" />
     <Compile Include="PlayerSpecs\AbstractPlayerSpec.cs" />
     <Compile Include="PlayerSpecs\PlayerSpecs.cs" />
     <Compile Include="PlayerSpecs\When_another_players_deck_is_depleted.cs" />
     <Compile Include="PlayerSpecs\When_players_deck_is_depleted.cs" />
+    <Compile Include="PopulationBuilderSpecs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sagas\ExpectedResponseDsl.cs" />
     <Compile Include="Sagas\MineSagaSpecs.cs" />
@@ -126,6 +129,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="DominionProject.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Tests\Card Specs.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

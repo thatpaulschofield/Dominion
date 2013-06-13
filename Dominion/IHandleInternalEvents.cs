@@ -4,6 +4,6 @@ namespace Dominion
 {
     public interface IHandleInternalEvents
     {
-        void Handle(IGameMessage message, ITurnScope turnScope);
+        void Handle(IGameMessage message, IActionScope turnScope);
     }
 }

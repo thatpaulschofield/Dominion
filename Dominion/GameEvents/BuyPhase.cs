@@ -8,9 +8,9 @@ namespace Dominion.GameEvents
     {
         public BuyPhase(ITurnScope turnScope) : base(turnScope)
         {
-            Description = String.Format("{0}, select a card to buy", turnScope.ActingPlayer.Name);
+            Description = String.Format("{0}, select a card to buy", turnScope.Player.Name);
             GetAvailableResponses = () =>
-                    (from card in TurnScope.Supply.FindCardsEligibleForPurchase(turnScope).OrderByDescending(c => c.Cost)
+                    (from card in TurnScope.Supply.FindCardsEligibleForPurchase(turnScope).OrderByDescending(c => c.BaseCost)
                      select new BuyCardResponse(turnScope, card)
                          {
                          }).Union(new GameEventResponse[] { new DeclineToPurchaseResponse(turnScope) })
@@ -41,7 +41,7 @@ namespace Dominion.GameEvents
         public override string ToString()
         {
             string purchases = CardsAvailable().Aggregate("", (x, c) => x + " - " + c.Name);
-            return String.Format("{0}: Buys ({1}), available cards: [{2}]", TurnScope.ActingPlayer.Name, TurnScope.Buys, purchases);
+            return String.Format("{0}: Buys ({1}), available cards: [{2}]", TurnScope.Player.Name, TurnScope.Buys, purchases);
         }
     }
 }

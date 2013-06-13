@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominion.Ai", "Dominion.Ai\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominion.Cards.BasicSet", "Dominion.Cards.BasicSet\Dominion.Cards.BasicSet.csproj", "{5FEE6005-E7B0-4161-A8F0-96DC89F29136}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominion.Cards.Intrigue", "Dominion.Cards.Intrigue\Dominion.Cards.Intrigue.csproj", "{C74B8689-6070-4BC1-B265-23D05FA9234B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{5FEE6005-E7B0-4161-A8F0-96DC89F29136}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FEE6005-E7B0-4161-A8F0-96DC89F29136}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FEE6005-E7B0-4161-A8F0-96DC89F29136}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C74B8689-6070-4BC1-B265-23D05FA9234B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C74B8689-6070-4BC1-B265-23D05FA9234B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C74B8689-6070-4BC1-B265-23D05FA9234B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C74B8689-6070-4BC1-B265-23D05FA9234B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

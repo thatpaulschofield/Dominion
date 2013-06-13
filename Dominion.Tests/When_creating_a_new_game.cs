@@ -1,9 +1,13 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Dominion.Cards;
 using Dominion.Cards.BasicSet;
 using Dominion.Cards.BasicSet.VictoryCards;
+using Dominion.Infrastructure;
 using Dominion.Tests.GameEvents;
 using NUnit.Framework;
 using Should;
+using StructureMap;
 
 namespace Dominion.Tests
 {
@@ -16,9 +20,16 @@ namespace Dominion.Tests
         public void NewGame(int players, int victoryCards, int curseCards)
         {
             IEventAggregator eventAggregator = new MockEventAggregator();
-            var deckBuilder = new DeckBuilder(eventAggregator);
-            var supplyBuilder = new SupplyBuilder(eventAggregator).BasicGame().WithPlayers(players);
-            Game game = new GameBuilder(supplyBuilder, eventAggregator, new PlayerBuilder(eventAggregator, deckBuilder), deckBuilder).Initialize(players);
+            var deckBuilder = new DeckBuilder();
+            var supplyBuilder = new SupplyBuilder(eventAggregator);
+            var playerBuilder = new PlayerBuilder(eventAggregator, deckBuilder);
+            var scope = new GameScope(eventAggregator, supplyBuilder, playerBuilder, new List<EndGameCondition>(), new MockBus(), new Container());
+            GameSpec gameSpec = new GameSpec()
+                .BasicGame()
+                .WithSet<FirstGame>()
+                .WithPlayer(players.Times(()=>new PlayerSpec()));
+
+            Game game = new GameBuilder().Initialize(gameSpec, scope);
             game.Supply[Victory.Estate].Count.ShouldEqual(victoryCards, "Wrong number of estates");
             game.Supply[Victory.Duchy].Count.ShouldEqual(victoryCards, "Wrong number of duchies");
             game.Supply[Victory.Province].Count.ShouldEqual(victoryCards, "Wrong number of provinces");
@@ -27,4 +38,7 @@ namespace Dominion.Tests
         }
     }
 
+    public class MockBus : IBus
+    {
+    }
 }

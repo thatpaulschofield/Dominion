@@ -22,13 +22,14 @@ namespace Dominion.Tests.PlayerSpecs
                 cfg.For<Deck>().Singleton().Use(new Deck(7.Coppers(), 3.Estates()));
                 cfg.For<DiscardPile>().Use<DiscardPile>();
                 cfg.For<Player>().Use<Player>().Ctor<string>().Is("Test player");
+                cfg.For<Guid>().Use(Guid.NewGuid);
             });
             _eventAggregator = container.GetInstance<IEventAggregator>() as MockEventAggregator;
         }
 
         protected override void When()
         {
-            SUT.Handle(new DeckDepletedEvent(new MockTurnScope { ActingPlayer = SUT, EventAggregator = _eventAggregator }));
+            SUT.Handle(new DeckDepletedEvent(new MockTurnScope { Player = SUT, EventAggregator = _eventAggregator }));
         }
 
         [Test]

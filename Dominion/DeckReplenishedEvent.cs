@@ -11,7 +11,7 @@ namespace Dominion
         }
         public override string ToString()
         {
-            return String.Format("{0} shuffled deck.", ActionScope.ActingPlayer.Name);
+            return String.Format("{0} shuffled deck.", ActionScope.Player.Name);
         }
     }
 }

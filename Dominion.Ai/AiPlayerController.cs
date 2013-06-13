@@ -1,4 +1,6 @@
-﻿using Dominion.GameEvents;
+﻿using System;
+using System.Linq;
+using Dominion.GameEvents;
 
 namespace Dominion.Ai
 {
@@ -11,8 +13,13 @@ namespace Dominion.Ai
             _ai = ai;
         }
 
-        public IEventResponse HandleGameEvent(IGameMessage @event, ITurnScope scope)
+        public Guid Id { get { return _ai.Id; } }
+
+        public IEventResponse HandleGameEvent(IGameMessage @event, IActionScope scope)
         {
+            if (!@event.GetAvailableResponses().Any())
+                return @event.GetDefaultResponse(); 
+            
             return _ai.HandleGameEvent(@event, scope);
         }
 

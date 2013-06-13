@@ -8,7 +8,7 @@ namespace Dominion.GameEvents
         IEventResponse GetDefaultResponse();
         IActionScope ActionScope { get; }
         Func<IEnumerable<IEventResponse>> GetAvailableResponses { get; }
-        IEnumerable<IEventResponse> GetAvailableReactions(IReactionScope scope);
+        //IEnumerable<IEventReaction> GetAvailableReactions(IReactionScope scope);
         string Description { get; }
         ITurnScope TurnScope { get; }
         bool IsExternalToPlayer(Player player);

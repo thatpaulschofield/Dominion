@@ -1,4 +1,6 @@
-﻿namespace Dominion
+﻿using System;
+
+namespace Dominion
 {
     public class PlayerBuilder
     {
@@ -6,17 +8,13 @@
         private readonly DeckBuilder _deckBuilder;
         private IPlayerController _controller;
         private string _playerName;
+        private PlayerSpec _spec;
+        private Guid _id;
 
         public PlayerBuilder(IEventAggregator eventAggregator, DeckBuilder deckBuilder)
         {
             _eventAggregator = eventAggregator;
             _deckBuilder = deckBuilder;
-        }
-
-        public PlayerBuilder WithController(IPlayerController controller)
-        {
-            _controller = controller;
-            return this;
         }
 
         public static implicit operator Player(PlayerBuilder builder)
@@ -26,12 +24,23 @@
 
         private Player Build()
         {
-            return new Player(_deckBuilder, new DiscardPile(), _controller, name: _playerName);
+            return new Player(_deckBuilder.Build(), new DiscardPile(), _controller, name: _playerName, id: _id);
         }
 
         public PlayerBuilder WithName(string playerName)
         {
             _playerName = playerName;
+            return this;
+        }
+
+        public PlayerBuilder ForSpec(PlayerSpec playerSpec)
+        {
+            if (playerSpec.PlayerId == null)
+                throw new ArgumentNullException("playerSpec.PlayerId");
+            _spec = playerSpec;
+            _playerName = playerSpec.PlayerName;
+            _controller = playerSpec.Controller;
+            _id = playerSpec.PlayerId;
             return this;
         }
     }

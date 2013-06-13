@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Dominion.Cards;
 
 namespace Dominion
 {
@@ -12,10 +13,32 @@ namespace Dominion
 
         public List<PlayerSpec> Players { get; private set; }
 
-        public GameSpec WithConsolePlayer(string playerName)
+
+        public GameSpec WithPlayer(params PlayerSpec[] playerSpecs)
         {
-            Players.Add(new PlayerSpec().WithPlayerType(PlayerType.Console).WithPlayerName(playerName));
+            playerSpecs.ForEach(spec => Players.Add(spec));
             return this;
         }
+
+        public GameSpec BasicGame()
+        {
+            IsBasicGame = true;
+            return this;
+        }
+
+        public bool IsBasicGame { get; set; }
+
+        public DeckSet DeckSet { get; private set; }
+
+        public GameSpec WithSet<T>() where T : DeckSet, new()
+        {
+            DeckSet = new T();
+            return this;
+        }
+    }
+
+    public class Competitor
+    {
+
     }
 }

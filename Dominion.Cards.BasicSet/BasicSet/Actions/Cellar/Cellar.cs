@@ -10,11 +10,14 @@ namespace Dominion.Cards.BasicSet.Actions
 
         public override void PlayAsAction(ITurnScope turnScope)
         {
-            turnScope.ActingPlayer.Handle(new OptionallyDiscard(turnScope), turnScope);
+            turnScope.ChangeState(1.TurnActions());
+            turnScope.Player.Handle(new OptionallyDiscard(turnScope), turnScope);
         }
 
         public override bool Equals(object obj)
         {
+            if (obj == null)
+                return false;
             return obj.GetType() == this.GetType();
         }
     }

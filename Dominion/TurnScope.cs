@@ -7,16 +7,37 @@ using StructureMap;
 
 namespace Dominion
 {
-    public class TurnScope : ITurnScope, IHandleEvents
+    public class TurnScope : AbstractActionScope, ITurnScope, IHandleEvents
     {
         private readonly TrashPile _trash;
         private readonly IContainer _container;
-        private readonly Player _player;
-        private readonly IEventAggregator _eventAggregator;
         private readonly List<IReactionScope> _reactionScopes = new List<IReactionScope>();
-
         private readonly CardSet _cardsInPlay = new CardSet();
         private TurnState _turnState;
+
+        public TurnScope(Player player, 
+                         Supply supply, 
+                         IEventAggregator eventAggregator = null, 
+                         TrashPile trash = null)
+            : this(player, supply, 1, eventAggregator, trash)
+        {
+        }
+
+        public TurnScope(Player player, 
+                         Supply supply, 
+                         int turnNumber, 
+                         IEventAggregator eventAggregator, 
+                         TrashPile trashPile) : base(supply, eventAggregator, trashPile, turnNumber)
+        {
+            _turnState = TurnState.NewTurn();
+            if (supply == null)
+                throw new ArgumentNullException("Supply cannot be null.");
+
+            _player = player;
+            Deck = _player.Deck;
+            DiscardPile = _player.DiscardPile;
+            _eventAggregator.Register(this);
+        }
 
         public TurnScope(Player player, 
             Supply supply, 
@@ -25,48 +46,27 @@ namespace Dominion
             IEnumerable<Player> reactingPlayers, 
             TrashPile trash, 
             IContainer container) 
-            : this(player, supply, turnNumber, eventAggregator)
+            : this(player, supply, turnNumber, eventAggregator, trash)
         {
-            _trash = trash;
             container.Configure(cfg => cfg.For<ITurnScope>().Use(this));
             _container = container;
-            reactingPlayers.ForEach(p => _reactionScopes.Add(new ReactionScope(eventAggregator, player, p, this)));
+            reactingPlayers.ForEach(p => _reactionScopes.Add(new ReactionScope(eventAggregator, player, p, this, trash, supply)));
         }
 
-        public TurnScope(Player player, Supply supply, IEventAggregator eventAggregator)
-            : this(player, supply, 1, eventAggregator)
-        {
-        }
-
-        public TurnScope(Player player, 
-            Supply supply, 
-            int turnNumber, 
-            IEventAggregator eventAggregator)
-        {
-            _turnState = new TurnState(1, 1, 0);
-            if (supply == null)
-                throw new ArgumentNullException("Supply cannot be null.");
-
-            _player = player;
-            _eventAggregator = eventAggregator;
-            _eventAggregator.Register(this);
-            Supply = supply;
-            TurnNumber = turnNumber;
-        }
-
-        public Supply Supply { get; private set; }
         public ITurnScope GetTurnScope { get { return this; } }
 
-        public IActingPlayer ActingPlayer {
-            get { return _player; }
+        public Card RevealCardFromDeck()
+        {
+            return Player.RevealCardFromTopOfDeck(this);
         }
-        public int TurnNumber { get; private set; }
 
         public IEnumerable<IReactionScope> ReactionScopes { get { return _reactionScopes; } }
         
         public CardSet CardsInPlay { get { return new CardSet(_cardsInPlay); } }
+        public CardSet Deck { get; private set; }
+        public CardSet DiscardPile { get; private set; }
 
-        public Hand Hand { get { return ActingPlayer.Hand; } }
+        public Hand Hand { get { return Player.Hand; } }
 
         public void Discard(CardSet cardsToDiscard)
         {
@@ -98,7 +98,7 @@ namespace Dominion
                 throw new OutOfBuysException();
 
             Discard(Supply.AcquireCard(cardToPurchase, this));
-            _turnState = _turnState.RegisterBuy(cardToPurchase.Create().Cost);
+            _turnState = _turnState.RegisterBuy(cardToPurchase.Create().BaseCost);
             _eventAggregator.Publish(new PlayerGainedCardEvent(cardToPurchase, this));
         }
 
@@ -113,17 +113,11 @@ namespace Dominion
 
         public int Coins { get { return _turnState.Coins; } }
 
-        public CardSet TreasuresInHand { get { return ActingPlayer.Hand.Treasures(); } }
-
-        public void Publish(IGameMessage @event)
-        {
-            _eventAggregator.Publish(@event);
-        }
+        public CardSet TreasuresInHand { get { return Player.Hand.Treasures(); } }
 
         public void PlayAction(Card action)
         {
-            Hand.Remove(action);
-            _cardsInPlay.Add(action, this);
+            PutCardFromHandIntoPlay(action);
             ChangeState((-1).TurnActions());
             action.PlayAsAction(this);
         }
@@ -137,17 +131,23 @@ namespace Dominion
 
         public override string ToString()
         {
-            return String.Format("Player {0}: {1} Actions, {2} Buys, ({3}) Coins. H: {4}, P: {5}, Di: {6}, Dk {7}", ActingPlayer.Name, Actions, Buys, Coins, Hand.Count(), _cardsInPlay.Count(), _player.DiscardPile.Count(), _player.Deck.Count());
+            return String.Format("{0}: {1}/{2}/({3})  H: {4}, P: {5}, Di: {6}, Dk {7}", Player.Name, Actions, Buys, Coins, Hand.Count(), _cardsInPlay.Count(),                                        _player.DiscardPile.Count(), _player.Deck.Count());
         }
 
-        public void TrashCard(Card card)
+        public void TrashCardFromHand(Card card)
         {
-            ActingPlayer.Hand.TrashCard(card, _trash, this);
+            Player.Hand.TrashCard(card, _trash, this);
         }
 
         public void GainCardFromSupply(CardType card)
         {
-            ActingPlayer.GainCardFromSupply(card, this);
+            Player.GainCardFromSupply(card, this);
+        }
+
+        public Money GetPrice(Card card)
+        {
+            var aggregatedAdjustment = _costModifiers.Aggregate(0.Coins(), (m, e) => m + e.CalculateCostAdjustment(card, this));
+            return card.BaseCost + aggregatedAdjustment;
         }
 
         public T GetInstance<T>()
@@ -160,15 +160,94 @@ namespace Dominion
             return Supply.FindCardsEligibleForPurchase(turnScope);
         }
 
+        public void PutCardFromHandIntoPlay(Card card)
+        {
+            if (!Hand.Contains(card))
+                throw new ArgumentOutOfRangeException("Hand does not contain the card " + card);
+
+            Hand.Remove(card);
+            _cardsInPlay.Add(card, this);
+        }
+
+        public void GainCardFromSupplyOntoTopOfDeck(Card card)
+        {
+            this.Player.PlaceCardOnTopOfDeck(Supply[card].Draw(this));
+        }
+
+        public void RevealCard(Card card)
+        {
+            Publish(new PlayerRevealedCardEvent(this, card));
+        }
+
+        public void PutCardOnTopOfDeck(Card card)
+        {
+            Player.PlaceCardOnTopOfDeck(card);
+        }
+
+        public void PutCardInTrash(Card card)
+        {
+            _trashPile.Add(card, this);
+            Publish(new PlayerTrashedCardEvent(this, card));
+        }
+
+        public void PutCardFromHandOnTopOfDeck(Card card)
+        {
+            Hand.Remove(card);
+            Player.PlaceCardOnTopOfDeck(card);
+        }
+
+        public Card DrawCard()
+        {
+            return Player.DrawIntoHand(1, this).Single();
+        }
+
+        public Card RevealCardFromTopOfDeck()
+        {
+            return Player.RevealCardFromTopOfDeck(this);
+        }
+
+        public void PutCardsIntoHand(CardSet cards)
+        {
+            Player.PlaceCardsIntoHand(cards);
+        }
+
+        public void PutCardsIntoDiscardPile(CardSet cards)
+        {
+            Player.PlaceCardsInDiscardPile(cards);
+        }
+
+        public void DrawCardsIntoHand(int count)
+        {
+            Player.DrawIntoHand(4, this);
+        }
+
+        public void DrawCardIntoCardset(CardSet cardSet)
+        {
+            var cards = Player.TakeCardsFromTopOfDeck(1, this);
+            cards.ForEach(card => cardSet.Add(card, this));
+        }
+
+        public CardSet MoveCardsFrom(CardSet currentLocation)
+        {
+            var cards = new CardSet(currentLocation);
+            cards.ForEach(currentLocation.Remove);
+            return cards;
+        }
+
+        public void TrashCardInPlay(CardType cardType)
+        {
+            var card = _cardsInPlay.FirstOrDefault(c => c.CardType == cardType);
+            if (card == null)
+                return;
+
+            _cardsInPlay.Remove(card);
+            PutCardInTrash(card);
+        }
+
         public void Dispose()
         {
             _eventAggregator.Unregister(this);
             _reactionScopes.ForEach(s => s.Dispose());
-        }
-
-        public void Handle(IGameMessage @event)
-        {
-            ActingPlayer.Handle(@event, this);
         }
 
         public bool CanHandle(IGameMessage @event)

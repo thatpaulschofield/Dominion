@@ -11,14 +11,13 @@ namespace Dominion.Cards.BasicSet.Actions
 
         public override void PlayAsAction(ITurnScope turnScope)
         {
-            turnScope.ActingPlayer.Draw(2, turnScope);
+            turnScope.Player.DrawIntoHand(2, turnScope);
         }
 
         public void Handle(IGameMessage @event, IReactionScope scope)
         {
             if (@event is AttackCardPlayed)
             {
-                
                 @event.ActionScope.Publish(new CanRevealCardEvent(this, scope));
             }
         }

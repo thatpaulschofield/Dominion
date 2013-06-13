@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Dominion.GameEvents;
 
-namespace Dominion.Tests
+namespace Dominion
 {
     public class MockPlayerController : IPlayerController
     {
@@ -23,7 +23,9 @@ namespace Dominion.Tests
             return new NullResponse(@event.ActionScope);
         }
 
-        public IEventResponse HandleGameEvent(IGameMessage @event, ITurnScope scope)
+        public Guid Id { get; private set; }
+
+        public IEventResponse HandleGameEvent(IGameMessage @event, IActionScope scope)
         {
             throw new NotImplementedException();
         }

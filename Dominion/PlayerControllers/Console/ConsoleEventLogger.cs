@@ -11,13 +11,16 @@ namespace Dominion.PlayerControllers.Console
 
         public void Handle(IGameMessage @event)
         {
-            System.Console.WriteLine("\t[{0}]", @event.ActionScope);
+            //System.Console.WriteLine("\t[{0}]", @event.ActionScope);
             System.Console.WriteLine("\t[{0}]", @event);
 
             if (@event is GameEndedEvent)
             {
-                System.Console.WriteLine("Press a key to continue...");
-                System.Console.ReadKey();
+                if (!System.Console.IsOutputRedirected)
+                {
+                    System.Console.WriteLine("Press a key to continue...");
+                    System.Console.ReadKey();
+                }
             }
         }
 

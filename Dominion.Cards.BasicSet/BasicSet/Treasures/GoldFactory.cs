@@ -4,7 +4,7 @@ namespace Dominion.Cards.BasicSet.Treasures
     {
         public Card Create()
         {
-            return new Card(coins: 3, isTreasure: true, cost: 6, type: Treasure.Gold, name: "Gold");
+            return new Card(coins: 3, isTreasure: true, baseCost: 6, type: Treasure.Gold, name: "Gold");
         }
     }
 }

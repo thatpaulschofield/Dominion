@@ -9,7 +9,7 @@ namespace Dominion.Cards.BasicSet.Actions
 
         public override void PlayAsAction(ITurnScope turnScope)
         {
-            turnScope.ActingPlayer.Draw(1, turnScope);
+            turnScope.Player.DrawIntoHand(1, turnScope);
             turnScope.ChangeState(2.TurnActions());
         }
     }

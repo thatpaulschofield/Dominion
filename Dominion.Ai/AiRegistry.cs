@@ -6,6 +6,7 @@ using Dominion.Ai.Nodes.Functions.Numeric;
 using Dominion.Ai.TreeBuilding;
 using Dominion.Cards;
 using Dominion.Cards.BasicSet;
+using Dominion.Cards.BasicSet.BasicSet;
 using Dominion.GameEvents;
 using Dominion.Tests;
 using Dominion.Tests.GameEvents;
@@ -17,25 +18,41 @@ namespace Dominion.Ai
     {
         public AiRegistry()
         {
-            base.IncludeRegistry<BasicSetRegistry>();
             For<FullTreeStrategy>().Use<FullTreeStrategy>();
-            For<NodeRegistry>().Singleton().Use<NodeRegistry>();
+            For<NodeRegistry>().Use<NodeRegistry>();
             
             For<IInitialValueProvider>().AlwaysUnique().Use<IntValueProvider>();
-            For<IInitialValueProvider>().Singleton().Use<CardTypeValueProvider>();
-            For<IInitialValueProvider>().Use<AllResponsesProvider>();
-            For<IInitialValueProvider>().Singleton()
+            For<IInitialValueProvider>().AlwaysUnique().Use<CardTypeValueProvider>();
+            For<IInitialValueProvider>().AlwaysUnique().Use<CardValueProvider>();
+            For<IInitialValueProvider>().Use<EventResponseCriteriaProvider>();
+            For<IInitialValueProvider>().Use<ResponseVotesValueProvider>();
+            For<IInitialValueProvider>()
                 .Use(new InitialValueProvider<bool>
                     { ProvideValueInitializer = () => new Random((int) DateTime.Now.Ticks).Next(0, 1) == 0 });
-            For<IValueProviderRegistry>().Singleton().Use<ValueProviderRegistry>();
-            For<ITurnScope>().Singleton().Use<MockTurnScope>();
-            For<IEventAggregator>().Singleton().Use<MockEventAggregator>();
+            For<IValueProviderRegistry>().Use<ValueProviderRegistry>();
+            
+            For<ITurnScope>().Use<TurnScope>();
+            For<IEventAggregator>().Use<EventAggregator>();
+            For<Random>().Singleton().Use(ctx => new Random((int) DateTime.Now.Ticks));
+            Profile("UnitTests", p =>
+                {
+                    var unitTestRandom = new Random();
+                    p.For<Random>().Use(ctx => unitTestRandom);
+                    p.For<ITurnScope>().Use<MockTurnScope>();
+                    p.For<IEventAggregator>().Use<MockEventAggregator>();
+                });
+            Profile("FunctionalTests", p =>
+                {
+                    var unitTestRandom = new Random((int) DateTime.Now.Ticks);
+                    p.For<Random>().Use(ctx => unitTestRandom);
+                });
             For<CardTypeValueProvider>().AlwaysUnique().Use<CardTypeValueProvider>();
             For<Card>().Use(ctx => 
                 ctx.GetInstance<CardTypeValueProvider>().ProduceValue() as CardType
                 );
             For<int>().Use(ctx => (int) ctx.GetInstance<IntValueProvider>().ProduceValue());
             For<ResponseVotes>().Use<ResponseVotes>();
+
         }
     }
 }

@@ -5,25 +5,23 @@ namespace Dominion.Cards
 {
     public class Card
     {
-        public Card(CardType type, int coins = 0, bool isAction = false, bool isAttack = false, bool isTreasure = false, int victoryPoints = 0, bool isVictory = false, int cost = 0, string name=null)
+        public Card(CardType type, int coins = 0, bool isAction = false, bool isAttack = false, bool isTreasure = false, int baseVictoryPoints = 0, bool isVictory = false, int baseCost = 0, string name=null)
         {
-            if (String.IsNullOrEmpty(name))
-                throw new ArgumentNullException("name");
             this.CardType = type;
             Coins = coins;
             IsAction = isAction;
             IsAttack = isAttack;
             IsTreasure = isTreasure;
             IsVictory = isVictory;
-            VictoryPoints = victoryPoints;
-            Cost = cost;
-            Name = name;
+            BaseVictoryPoints = baseVictoryPoints;
+            BaseCost = baseCost;
+            Name = String.IsNullOrEmpty(name) ? this.ToString() : name;
         }
 
         public CardType CardType { get; protected set; }
-        public int VictoryPoints { get; protected set; }
+        public int BaseVictoryPoints { get; protected set; }
         public Money Coins { get; protected set; }
-        public Money Cost { get; protected set; }
+        public Money BaseCost { get; protected set; }
         public bool IsTreasure { get; protected set; }
         public string Name { get; protected set; }
         public bool IsAction { get; protected set; }
@@ -47,7 +45,7 @@ namespace Dominion.Cards
 
         public virtual int Score(ITurnScope turnScope)
         {
-            return this.VictoryPoints;
+            return this.BaseVictoryPoints;
         }
 
         protected bool Equals(Card other)

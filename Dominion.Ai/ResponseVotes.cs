@@ -8,7 +8,11 @@ namespace Dominion.AI
     {
         IList<ResponseScore> _votes = new List<ResponseScore>();
 
-        public IEventResponse Winner { get { return _votes.OrderByDescending(v => v.Score).FirstOrDefault().Response; } }
+        public IEventResponse Winner { get
+        {
+            var winningScope = _votes.OrderByDescending(v => v.Score).FirstOrDefault();
+            return winningScope.Response;
+        } }
 
         public ResponseVotes VoteFor(IEventResponse response, int count)
         {
@@ -35,12 +39,18 @@ namespace Dominion.AI
 
         public static ResponseVotes operator +(ResponseVotes v1, ResponseVotes v2)
         {
-            var sum = new ResponseVotes
-                {
-                    _votes = v1._votes.Union(v2._votes)
-                               .GroupBy(x => x.Response)
-                               .Select(z => new ResponseScore(z.Sum(y => y.Score), z.Key)).ToList()
-                };
+            var v1Votes = v1 == null || v1._votes == null 
+                ? new ResponseScore[]{}
+                : v1._votes.Where(v => v != null);
+            var v2Votes = v2 == null || v2._votes == null
+                ? new ResponseScore[] { }
+                : v2._votes.Where(v => v != null);
+            
+            var combinedVotes = v1Votes.Union(v2Votes)
+                                       .GroupBy(x => x.Response)
+                                       .Select(z => new ResponseScore(z.Sum(y => y.Score), z.Key)).ToList();
+
+            var sum = new ResponseVotes { _votes = combinedVotes };
             return sum;
         }
     }

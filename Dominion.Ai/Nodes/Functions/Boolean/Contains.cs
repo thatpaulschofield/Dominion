@@ -8,7 +8,12 @@ namespace Dominion.Ai.Nodes.Functions.Boolean
     {
         public override bool Evaluate(IAiContext context)
         {
-            return Child1.Evaluate(context).Contains(Child2.Evaluate(context));
+            var cardSet = Child1.Evaluate(context);
+            var card = Child2.Evaluate(context);
+            if (cardSet == null || card == null)
+                return false;
+
+            return cardSet.Contains(card);
         }
 
         public override string ToString()

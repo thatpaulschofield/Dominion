@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Dominion.GameEvents;
 
@@ -14,13 +15,7 @@ namespace Dominion.Cards.BasicSet.Actions
 
             GetAvailableResponses =
                 () => 
-                _receiverScope.ReceivingPlayer.Hand.Select(c => new DiscardCardReaction(_receiverScope, c));
+                _receiverScope.ReactingPlayer.Hand.Select(c => new DiscardCardReaction(_receiverScope, c));
         }
-
-        public override System.Collections.Generic.IEnumerable<IEventResponse> GetAvailableReactions(IReactionScope scope)
-        {
-            return scope.ReceivingPlayer.Hand.Select(c => new DiscardCardReaction(_receiverScope, c));
-        }
-
     }
 }

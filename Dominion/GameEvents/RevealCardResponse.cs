@@ -23,7 +23,7 @@ namespace Dominion.Cards.BasicSet.Actions
 
         public override void Execute()
         {
-            _externalEventScope.ReceivingPlayer.RevealCard(_card, _externalEventScope);
+            _externalEventScope.ReactingPlayer.RevealCard(_card, _externalEventScope);
         }
 
         public override string ToString()

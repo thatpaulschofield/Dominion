@@ -1,30 +1,28 @@
 ﻿using System;
-using System.Linq;
-using Dominion.GameEvents;
+using Dominion.Ai.Nodes;
 using StructureMap;
 
 namespace Dominion.Ai.ConstantValueProviders
 {
-    public class AllResponsesProvider : InitialValueProvider<GameEventResponse>
+    public class ResponseCriteriaWithItemBuilder : ResponseCriteriaBuilder
     {
-        private readonly IContainer _container;
-
-        public AllResponsesProvider(IContainer container)
+        private Type _closedCriteriaType;
+        public ResponseCriteriaWithItemBuilder(Type responseType, IContainer container) : base(responseType, container)
         {
-            _container = container;
-
-            ProvideValueInitializer = SelectRandomResponse;
+            var itemType = responseType.BaseType.GetGenericArguments()[0];
+            var inResponseTo = responseType.BaseType.GetGenericArguments()[1];
+            var openCriteriaType = typeof(EventResponseWithItemCriteria<,,>);
+            _closedCriteriaType = openCriteriaType.GetGenericTypeDefinition().MakeGenericType(inResponseTo, responseType, itemType);
         }
 
-        private GameEventResponse SelectRandomResponse()
+        public override EventResponseCriteria BuildCriteria()
         {
-            var allResponses = _container.GetAllInstances<GameEventResponse>();
-            if (allResponses.Any())
-            {
-                var index = new Random((int)DateTime.Now.Ticks).Next(0, allResponses.Count - 1);
-                return allResponses[index];
-            }
-            return null;
+            return _container.GetInstance(_closedCriteriaType) as EventResponseCriteria;
+        }
+
+        public override string ToString()
+        {
+            return "ResponseCriteriaWithItemBuilder: " + _closedCriteriaType.Name;
         }
     }
 }

@@ -1,16 +1,14 @@
+using Dominion.Cards.BasicSet.Actions.Remodel;
 using Dominion.GameEvents;
 
-namespace Dominion.Cards.BasicSet.Actions.Remodel
+namespace Dominion.Cards.BasicSet.BasicSet.Actions.Remodel
 {
-    public class CardSelectedToRemodelResponse : GameEventResponse<PickCardToRemodelCommand>
-
+    public class CardSelectedToRemodelResponse : GameEventResponseWithItem<Card, PickCardToRemodelCommand>
     {
-        public Card Card { get; set; }
-
-        public CardSelectedToRemodelResponse(Card card, ITurnScope scope) : base(scope)
+        public CardSelectedToRemodelResponse(ITurnScope scope, Card card) : base(card, scope)
         {
             Description = card.Name;
-            Card = card;
+            Item = card;
         }
 
         public override void Execute()

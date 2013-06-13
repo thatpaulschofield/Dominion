@@ -6,7 +6,7 @@ using Stateless;
 namespace Dominion.Cards.BasicSet.Actions.MineAction
 {
     public class MineSaga : Saga<MineSaga.State, MineSaga.Trigger>, 
-        IStartedBy<MinePlayedMessage>,
+        IStartedBy<Mine.MinePlayedMessage>,
         IRespondTo<CardSelectedToTrashForMineEvent>,
         IRespondTo<DeclinedToTrashCardForMineResponse>
     {
@@ -15,9 +15,9 @@ namespace Dominion.Cards.BasicSet.Actions.MineAction
         public MineSaga() : base(State.Initial)
         {
             Configure(State.Initial)
-                .PermitDynamic(Event<MinePlayedMessage>(), m => State.MinePlayed);
+                .PermitDynamic(Event<Mine.MinePlayedMessage>(), m => State.MinePlayed);
             Configure(State.MinePlayed)
-                .OnEntryFrom(Event<MinePlayedMessage>(), RequestSelectionOfTreasureToTrash)
+                .OnEntryFrom(Event<Mine.MinePlayedMessage>(), RequestSelectionOfTreasureToTrash)
                 .PermitDynamic(Event<CardSelectedToTrashForMineEvent>(), m => State.CardSelectedToTrash)
                 .PermitDynamic(Event<DeclinedToTrashCardForMineResponse>(), m => State.Complete);
             Configure(State.CardSelectedToTrash)
@@ -28,7 +28,7 @@ namespace Dominion.Cards.BasicSet.Actions.MineAction
             CompletedState = State.Complete;
         }
 
-        private void RequestSelectionOfTreasureToTrash(MinePlayedMessage message)
+        private void RequestSelectionOfTreasureToTrash(Mine.MinePlayedMessage message)
         {
             Id = message.CorrelationId;
             message.TurnScope.Publish(new PickTreasureToTrashForMineCommand(message.TurnScope) { Id = Id, CorrelationId = Id, OriginalEventId = Id });
@@ -37,14 +37,14 @@ namespace Dominion.Cards.BasicSet.Actions.MineAction
         private void SelectCardToUpgradeTo(CardSelectedToTrashForMineEvent @event)
         {
             _cardToTrash = @event.CardToTrash;
-            @event.TurnScope.Publish(new PickTreasureToUpgradeToForMineCommand(@event.CardToTrash.Cost + 3, @event.TurnScope){ Id = Guid.NewGuid(), CorrelationId = @event.OriginalEventId, OriginalEventId = @event.OriginalEventId});            
+            @event.TurnScope.Publish(new PickTreasureToUpgradeToForMineCommand(@event.CardToTrash.BaseCost + 3, @event.TurnScope){ Id = Guid.NewGuid(), CorrelationId = @event.OriginalEventId, OriginalEventId = @event.OriginalEventId});            
         }
 
         private void PerformUpgrade(TreasurePickedToUpgradeToWithMine @event)
         {
             //@event.TurnScope.Publish(new TrashCardFromHandCommand(_cardToTrash, @event.TurnScope));
-            @event.TurnScope.ActingPlayer.TrashCardFromHand(_cardToTrash);
-            @event.TurnScope.ActingPlayer.GainCardFromSupply(@event.CardToUpgradeTo, @event.TurnScope);
+            @event.TurnScope.Player.TrashCardFromHand(_cardToTrash, @event.TurnScope);
+            @event.TurnScope.Player.GainCardFromSupply(@event.CardToUpgradeTo, @event.TurnScope);
         }
 
         public enum State
@@ -64,7 +64,7 @@ namespace Dominion.Cards.BasicSet.Actions.MineAction
             TreasurePickedToUpgradeToWithMine
         }
 
-        public void Handle(MinePlayedMessage message)
+        public void Handle(Mine.MinePlayedMessage message)
         {
             RequestSelectionOfTreasureToTrash(message);
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Dominion.Ai.Nodes.Terminals;
 using StructureMap;
 
@@ -13,7 +14,9 @@ namespace Dominion.Ai.ConstantValueProviders
         public ValueProviderRegistry(IContainer container)
         {
             _providers = new Lazy<IList<IInitialValueProvider>>(() =>
-                new List<IInitialValueProvider>(container.GetAllInstances<IInitialValueProvider>()));
+                new List<IInitialValueProvider>(
+                    container.GetAllInstances<IInitialValueProvider>()
+                    ));
         }
         public IInitialValueProvider GetProviderFor(Constant constant)
         {
@@ -26,5 +29,12 @@ namespace Dominion.Ai.ConstantValueProviders
         }
 
         public IEnumerable<IInitialValueProvider> AllProviders { get { return _providers.Value; } }
+        public string WhatDoIHave()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("ValueProviderRegistry:");
+            AllProviders.ForEach(p => sb.AppendLine(p.ToString()));
+            return sb.ToString();
+        }
     }
 }

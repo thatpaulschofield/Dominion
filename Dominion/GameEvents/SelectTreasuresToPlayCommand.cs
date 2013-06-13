@@ -6,7 +6,7 @@ namespace Dominion.GameEvents
     {
         public SelectTreasuresToPlayCommand(ITurnScope turnScope) : base(turnScope)
         {
-            Description = String.Format("{0}, select treasures to play", turnScope.ActingPlayer.Name);
+            Description = String.Format("{0}, select treasures to play", turnScope.Player.Name);
             _availableResponses.Add(new PlayAllTreasuresResponse(turnScope));
             _availableResponses.Add(new PlayNoTreasuresResponse(turnScope));
         }

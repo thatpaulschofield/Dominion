@@ -1,6 +1,8 @@
-﻿using Dominion.GameEvents;
+﻿using System;
+using Dominion.GameEvents;
 using Dominion.Tests.GameEvents;
 using NUnit.Framework;
+using Should;
 using SpecsFor;
 using StructureMap;
 
@@ -10,23 +12,50 @@ namespace Dominion.Tests.PlayerSpecs
     {
         private MockEventAggregator _eventAggregator;
         private IContainer _container;
+        private Exception _thrown;
 
-        protected override void ConfigureContainer(StructureMap.IContainer container)
+        protected override void ConfigureContainer(IContainer container)
         {
-            container.Configure(cfg =>
+            try
+            {
+                _container = container;
+                container.Configure(cfg =>
                 {
                     cfg.For<IEventAggregator>().Singleton().Use<MockEventAggregator>();
                     cfg.For<Deck>().Singleton().Use(new Deck(7.Coppers(), 3.Estates()));
                     cfg.For<DiscardPile>().Use<DiscardPile>();
                     cfg.For<Player>().Use<Player>().Ctor<string>().Is("Test player");
+                    cfg.For<Guid>().Use(Guid.NewGuid);
                 });
-            _container = container;
-            _eventAggregator = container.GetInstance<IEventAggregator>() as MockEventAggregator;
+                _eventAggregator = container.GetInstance<IEventAggregator>() as MockEventAggregator;
+            }
+            catch (Exception ex)
+            {
+                _thrown = ex;
+            }
         }
 
         protected override void When()
         {
-            SUT.Handle(new DeckDepletedEvent(new MockTurnScope {ActingPlayer = _container.GetInstance<Player>()}));
+            try
+            {
+                SUT.Handle(new DeckDepletedEvent(new MockTurnScope { Player = _container.GetInstance<Player>(), EventAggregator = _eventAggregator }));
+            }
+            catch (Exception)
+            {
+                
+                throw;
+            }
+        }
+
+        [Test]
+        public void Test_setup_should_succeed()
+        {
+            if (_thrown != null)
+            {
+                Console.WriteLine(_thrown);
+                _thrown.ShouldBeNull();
+            }
         }
 
         [Test]

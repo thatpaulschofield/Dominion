@@ -81,5 +81,10 @@ namespace Dominion
             }
         }
         #endregion
+
+        public static TurnState NewTurn()
+        {
+            return new TurnState(1, 1, 0);
+        }
     }
 }

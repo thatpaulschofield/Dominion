@@ -8,7 +8,7 @@ namespace Dominion
     {
         public readonly CardType Type;
 
-        public SupplyPileDepletedEvent(CardType type, ITurnScope turnScope) : base(turnScope)
+        public SupplyPileDepletedEvent(CardType type, IActionScope turnScope) : base(turnScope)
         {
             Type = type;
         }

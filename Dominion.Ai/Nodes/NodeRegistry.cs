@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Dominion.AI;
 using Dominion.Ai.ConstantValueProviders;
+using Dominion.Ai.Nodes.Terminals;
 using StructureMap;
 
 namespace Dominion.Ai.Nodes
@@ -23,11 +25,10 @@ namespace Dominion.Ai.Nodes
         {
             _container = container;
             _valueProviderRegistry = valueProviderRegistry;
-            this.GetType().Assembly.GetTypes().Where(t => !t.IsAbstract 
-                //&& t.
+            GetType().Assembly.GetTypes().Where(t => !t.IsAbstract 
                 &&  !t.IsGenericType
-                && !(t == typeof(NullNode) 
-                || t == typeof(NullNode<>))).ForEach(ScanType);
+                && !(t == typeof(NullNode) || t == typeof(NullNode<>)))
+                .ForEach(ScanType);
         }
 
         private void ScanType(Type type)
@@ -139,6 +140,19 @@ namespace Dominion.Ai.Nodes
             return
                 !type.GetGenericArguments()
                     .All(arg => arg.GetGenericParameterConstraints().All(t => argType.IsAssignableFrom(arg)));
+        }
+
+        public string WhatDoIHave()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("NodeRegistry:");
+            sb.AppendLine("=============");
+            sb.AppendLine("Functions:");
+            _functionTypes.ForEach(t => sb.AppendLine(t.Name));
+            sb.AppendLine("=============");
+            sb.AppendLine("Terminals:");
+            _terminalTypes.ForEach(t => sb.AppendLine(t.Name));
+            return sb.ToString();
         }
     }
 }

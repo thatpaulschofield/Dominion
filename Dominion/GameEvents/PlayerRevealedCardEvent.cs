@@ -1,3 +1,4 @@
+using System;
 using Dominion.Cards;
 
 namespace Dominion.GameEvents
@@ -8,12 +9,15 @@ namespace Dominion.GameEvents
 
         public PlayerRevealedCardEvent(IActionScope actionScope, Card card) : base(actionScope)
         {
+            if (card == null)
+                throw new ArgumentNullException("card");
+
             _card = card;
         }
 
         public override string ToString()
         {
-            return ActionScope.ActingPlayer.Name + " revealed " + _card.Name;
+            return ActionScope.Player.Name + " revealed " + _card.Name;
         }
     }
 }

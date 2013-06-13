@@ -10,7 +10,7 @@ namespace Dominion.Tests
         [Test]
         public void Copper_should_cost_0()
         {
-            Treasure.Copper.Create().Cost.ShouldEqual(0.Coins());
+            Treasure.Copper.Create().BaseCost.ShouldEqual(0.Coins());
         }
 
         [Test]
@@ -22,7 +22,7 @@ namespace Dominion.Tests
         [Test]
         public void Silver_should_cost_3_coins()
         {
-            Treasure.Silver.Create().Cost.ShouldEqual(3.Coins());
+            Treasure.Silver.Create().BaseCost.ShouldEqual(3.Coins());
         }
 
         [Test]
@@ -34,7 +34,7 @@ namespace Dominion.Tests
         [Test]
         public void Gold_should_cost_6_coins()
         {
-            Treasure.Gold.Create().Cost.ShouldEqual(6.Coins());
+            Treasure.Gold.Create().BaseCost.ShouldEqual(6.Coins());
         }
 
         [Test]

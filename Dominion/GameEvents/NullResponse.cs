@@ -10,6 +10,7 @@ namespace Dominion.GameEvents
         public NullResponse(IActionScope turnScope) : base(turnScope)
         {
             Description = "No option was available...";
+            
         }
 
         public void Execute()

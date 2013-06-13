@@ -14,7 +14,7 @@ namespace Dominion
             this.Type = cardType;
         }
 
-        public Card Draw(ITurnScope turnScope)
+        public Card Draw(IActionScope turnScope)
         {
             if (Count > 0)
             {

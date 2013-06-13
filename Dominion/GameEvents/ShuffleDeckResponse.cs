@@ -2,13 +2,13 @@
 {
     public class ShuffleDeckResponse : GameEventResponse<DeckDepletedEvent>
     {
-        public ShuffleDeckResponse(ITurnScope turnScope) : base(turnScope)
+        public ShuffleDeckResponse(IActionScope scope) : base(scope)
         {
         }
 
         public override void Execute()
         {
-            base.TurnScope.ActingPlayer.ShuffleDiscardPileIntoDeck(TurnScope);
+            ActionScope.Player.ShuffleDiscardPileIntoDeck(ActionScope);
         }
     }
 }

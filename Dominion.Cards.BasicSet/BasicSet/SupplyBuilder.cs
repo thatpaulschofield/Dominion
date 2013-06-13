@@ -35,6 +35,12 @@ namespace Dominion
             return this;
         }
 
+        public ISupplyBuilder WithSet(DeckSet deckSet)
+        {
+            _set = deckSet;
+            return this;
+        }
+
         public ISupplyBuilder WithSet<T>() where T: DeckSet, new()
         {
             _set = new T();
@@ -67,6 +73,16 @@ namespace Dominion
                 _set.Build(this);
             }
             return new Supply(_types.ToArray());
+        }
+
+        public ISupplyBuilder WithGameSpec(GameSpec spec)
+        {
+            if (spec.IsBasicGame)
+                this.BasicGame();
+
+            this.WithSet(spec.DeckSet).WithPlayers(spec.Players.Count);
+
+            return this;
         }
 
         public static implicit operator Supply(SupplyBuilder builder)

@@ -1,9 +1,12 @@
-﻿using NUnit.Framework;
+﻿using System;
+using System.IO;
+using NUnit.Framework;
 using StoryTeller.Execution;
+using StoryTeller.Workspace;
 
 namespace Dominion.Tests
 {
-    [TestFixture, Explicit]
+    [TestFixture]
     public class Template
     {
         private ProjectTestRunner runner;
@@ -11,7 +14,11 @@ namespace Dominion.Tests
         [TestFixtureSetUp]
         public void SetupRunner()
         {
-            runner = new ProjectTestRunner(@"DominionProject.st2");
+            var project = new Project("DominionProject.xml");
+            project.BinaryFolder = ".";
+            runner = new ProjectTestRunner(project);
+            var results = runner.GetResults();
+            Console.WriteLine(results);
         }
 
 
@@ -19,7 +26,14 @@ namespace Dominion.Tests
         [TestFixtureTearDown]
         public void TeardownRunner()
         {
-            runner.Dispose();
+            try
+            {
+                runner.Dispose();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

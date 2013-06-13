@@ -9,5 +9,6 @@ namespace Dominion.Ai.ConstantValueProviders
         IInitialValueProvider GetProviderFor(Constant constant);
         bool HasProviderFor(Type value);
         IEnumerable<IInitialValueProvider> AllProviders { get; }
+        string WhatDoIHave();
     }
 }

@@ -11,7 +11,7 @@ namespace Dominion.Cards.BasicSet.Actions
         {
             Description = "Select a treasure to trash [Mine]";
             GetAvailableResponses =
-                () => scope.ActingPlayer.Hand.Treasures()
+                () => scope.Player.Hand.Treasures()
                            .Select(
                                t =>
                                new TrashCardForMineResponse(scope)

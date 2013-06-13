@@ -19,15 +19,21 @@ namespace Dominion.Tests.AI
             return new ResponseVotes();
         }
 
-        public CardSet Hand { get; private set; }
-        public CardSet Supply { get; private set; }
-        public IEnumerable<Card> CardsInPlay { get; private set; }
-        public int Actions { get; private set; }
-        public int Buys { get; private set; }
-        public int Coins { get; private set; }
-        public AiContextGame Game { get; private set; }
+        public CardSet Hand { get;  set; }
+        public CardSet Supply { get;  set; }
+        public IEnumerable<Card> CardsInPlay { get;  set; }
+        public int Actions { get;  set; }
+        public int Buys { get;  set; }
+        public int Coins { get;  set; }
+        public AiContextGame Game { get;  set; }
 
         public bool ResponseIsAvailable(GameEventResponse response)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public IActionScope ActionScope { get; set; }
+        public Money GetPrice(Card card)
         {
             throw new System.NotImplementedException();
         }

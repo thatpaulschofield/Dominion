@@ -6,6 +6,12 @@ namespace Dominion.Tests
 {
     public class MockPlayer : IPlayer
     {
+        public MockPlayer()
+        {
+            Hand = new Hand();
+            Deck = new Deck();
+            DiscardPile = new DiscardPile();
+        }
         public Hand Hand { get; private set; }
         public Deck Deck { get; private set; }
         public DiscardPile DiscardPile { get; private set; }
@@ -66,17 +72,53 @@ namespace Dominion.Tests
             return true;
         }
 
-        public void EndGameCleanup(ITurnScope turnScope)
+        public void EndGameCleanup(Game game)
         {
         }
 
-        public int CountScore(ITurnScope turnScope)
+        public int CountScore(Game game)
         {
             return 0;
         }
 
-        public void Draw(int cards, ITurnScope turnScope)
+        public CardSet DrawIntoHand(int cards, ITurnScope turnScope)
         {
+            throw new NotImplementedException();
+        }
+
+        public void PlaceCardOnTopOfDeck(Card card)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Card RevealCardFromTopOfDeck(IActionScope turnScope)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void PlaceCardsIntoHand(CardSet cards)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void PlaceCardsInDiscardPile(CardSet cards)
+        {
+            throw new NotImplementedException();
+        }
+
+        public CardSet TakeCardsFromTopOfDeck(int count, IActionScope scope)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void PutCardInTrash(Card item, IActionScope turnScope)
+        {
+            throw new NotImplementedException();
+        }
+
+        public CardSet TakeCardsFromTopOfDeck(int count)
+        {
+            throw new NotImplementedException();
         }
 
         public IEventResponse HandleCommand(ICommand command)
@@ -88,15 +130,15 @@ namespace Dominion.Tests
         {
         }
 
-        public void Handle(IGameMessage message, ITurnScope turnScope)
+        public void Handle(IGameMessage message, IActionScope turnScope)
         {
         }
 
-        public void GainCardFromSupply(Card card, TurnScope turnScope)
+        public void GainCardFromSupply(Card card, IActionScope turnScope)
         {
         }
 
-        public void TrashCardFromHand(Card cardToTrash)
+        public void TrashCardFromHand(Card cardToTrash, IActionScope scope)
         {
         }
 

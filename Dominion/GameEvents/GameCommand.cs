@@ -2,9 +2,10 @@
 {
     public class GameCommand : GameMessage, ICommand
     {
-        public GameCommand(ITurnScope turnScope) : base(turnScope)
+        public GameCommand(IActionScope scope)
+            : base(scope)
         {
-            TurnScope = turnScope;
+            TurnScope = scope.GetTurnScope;
         }
 
         public ITurnScope TurnScope { get; private set; }

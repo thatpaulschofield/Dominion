@@ -43,7 +43,7 @@ namespace Dominion.Tests.Fixtures
         [return: AliasAs("Cost")]
         public int CheckingCardCost(string cardName)
         {
-            return AllCards().Single(c => c.Name == cardName).Cost;
+            return AllCards().Single(c => c.Name == cardName).BaseCost;
         }
 
         public override string Description

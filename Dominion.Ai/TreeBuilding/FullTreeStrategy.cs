@@ -38,7 +38,7 @@ namespace Dominion.Ai.TreeBuilding
 
             if (!(node is Function))
                 return;
-            PopulateNodeChildren(node as Function, () => GetAllowableSetOfNodesForDepth(maxDepth), maxDepth);
+             PopulateNodeChildren(node as Function, () => GetAllowableSetOfNodesForDepth(maxDepth), maxDepth);
         }
 
         IEnumerable<INode> GetAllowableSetOfNodesForDepth(int depth)
@@ -91,7 +91,11 @@ namespace Dominion.Ai.TreeBuilding
 
             int index = _random.Next(0, fList.Count() - 1);
             return fList[index];
+        }
 
+        public override string ToString()
+        {
+            return _nodeRegistry.WhatDoIHave() + _valueProviderRegistry.WhatDoIHave();
         }
     }
 }

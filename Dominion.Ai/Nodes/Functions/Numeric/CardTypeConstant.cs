@@ -4,6 +4,14 @@ using Dominion.Cards;
 
 namespace Dominion.Ai.Nodes.Functions.Numeric
 {
+    public class ResponseVotesConstant : Constant<ResponseVotes>
+    {
+        public override string ToString()
+        {
+            return "zero votes";
+        }
+    }
+
     public class CardTypeConstant : Constant<CardType>
     {
         public override CardType Evaluate(IAiContext context)
@@ -13,7 +21,7 @@ namespace Dominion.Ai.Nodes.Functions.Numeric
 
         public override string ToString()
         {
-            return "the card type";
+            return "the card type [" + ((Value == null) ? "N/A" : Value.ToString()) + "]";
         }
     }
 }

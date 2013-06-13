@@ -27,17 +27,12 @@ namespace Dominion.GameEvents
 
         public Func<IEnumerable<IEventResponse>> GetAvailableResponses { get; protected set; }
 
-        public virtual IEnumerable<IEventResponse> GetAvailableReactions(IReactionScope scope)
-        {
-            return new List<IEventResponse>();
-        }
-
         public string Description { get; protected set; }
         public ITurnScope TurnScope { get { return ActionScope.GetTurnScope; } }
 
         public bool IsExternalToPlayer(Player player)
         {
-            return !ReferenceEquals(player, ActionScope.ActingPlayer);
+            return !ReferenceEquals(player, ActionScope.Player);
         }
 
         public override string ToString()

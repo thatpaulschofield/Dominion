@@ -2,6 +2,6 @@
 {
     public class AiContextGame
     {
-        public int NumberOfPlayers { get; private set; }
+        public int NumberOfPlayers { get; set; }
     }
 }

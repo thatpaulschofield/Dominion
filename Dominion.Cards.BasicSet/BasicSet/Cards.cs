@@ -4,7 +4,7 @@ namespace Dominion.Cards.BasicSet
     {
         public Card Create()
         {
-            return new Card(BasicCards.Curse, victoryPoints: -1, name:"Curse");
+            return new Card(BasicCards.Curse, baseVictoryPoints: -1, name:"Curse");
         }
     }
 }

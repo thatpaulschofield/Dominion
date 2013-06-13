@@ -15,7 +15,7 @@ namespace Dominion.GameEvents
 
         public override string ToString()
         {
-            return string.Format("{0}: no buy", TurnScope.ActingPlayer.Name);
+            return string.Format("{0}: no buy", TurnScope.Player.Name);
         }
     }
 }

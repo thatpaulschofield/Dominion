@@ -5,13 +5,7 @@ namespace Dominion
 {
     public class DeckBuilder
     {
-        private readonly IEventAggregator _eventAggregator;
-        private List<CardSet> _cardSets = new List<CardSet>();
-
-        public DeckBuilder(IEventAggregator eventAggregator)
-        {
-            _eventAggregator = eventAggregator;
-        }
+        private readonly List<CardSet> _cardSets = new List<CardSet>();
 
         public DeckBuilder WithSets(params CardSet[] cardSets)
         {

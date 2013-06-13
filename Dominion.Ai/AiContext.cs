@@ -10,26 +10,28 @@ namespace Dominion.AI
         IEnumerable<IEventResponse> AvailableResponses { get; }
         ResponseVotes Votes { get; }
         ResponseVotes VoteFor(IEventResponse first, int votes);
-        CardSet Hand { get; }
-        CardSet Supply { get; }
+        CardSet Hand { get; set; }
+        CardSet Supply { get; set; }
         IEnumerable<Card> CardsInPlay { get; }
-        int Actions { get; }
-        int Buys { get; }
-        int Coins { get; }
-        AiContextGame Game { get; }
+        int Actions { get; set; }
+        int Buys { get; set; }
+        int Coins { get; set; }
+        AiContextGame Game { get; set; }
         bool ResponseIsAvailable(GameEventResponse response);
+        IActionScope ActionScope { get; set; }
+        Money GetPrice(Card card);
     }
 
     public class AiContext : IAiContext
     {
-        private readonly IGameMessage _message;
+        protected readonly IGameMessage _message;
 
         public AiContext(IGameMessage message)
         {
             _message = message;
         }
 
-        public IEnumerable<IEventResponse> AvailableResponses
+        public virtual IEnumerable<IEventResponse> AvailableResponses
         {
             get { return _message.GetAvailableResponses(); }
         }
@@ -42,17 +44,30 @@ namespace Dominion.AI
             return new ResponseVotes().VoteFor(first, votes);
         }
 
-        public CardSet Hand { get { return new CardSet(_message.TurnScope.Hand);} }
-        public CardSet Supply { get { return new CardSet(_message.TurnScope.Supply.Select(p => p.Value.Type.Create()).ToArray());} }
-        public IEnumerable<Card> CardsInPlay { get{ return new CardSet(_message.TurnScope.CardsInPlay);} }
-        public int Actions { get { return _message.TurnScope.Actions; } }
-        public int Buys { get { return _message.TurnScope.Buys; } }
-        public int Coins { get { return _message.TurnScope.Coins; } }
-        public AiContextGame Game { get; private set; }
+        public CardSet Hand { get; set; }
+
+        public CardSet Supply { get; set; }
+
+        public IEnumerable<Card> CardsInPlay { get; set; }
+
+
+        public int Actions { get; set; }
+
+        public int Buys { get; set; }
+
+        public int Coins { get; set; }
+
+        public AiContextGame Game { get; set; }
 
         public bool ResponseIsAvailable(GameEventResponse response)
         {
             return _message.IsResponseAvailable(response);
+        }
+
+        public IActionScope ActionScope { get; set; }
+        public Money GetPrice(Card card)
+        {
+            return ActionScope.GetPrice(card);
         }
     }
 }

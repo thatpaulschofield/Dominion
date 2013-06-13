@@ -14,7 +14,7 @@ namespace Dominion.Tests
         [Test]
         public void Automapper_configuration_should_be_valid()
         {
-            AutomapperConfig.ConfigureMappings();
+            AutomapperConfig.ConfigureMappings(new AiBootstrapper().BootstrapContainer());
             Mapper.AssertConfigurationIsValid();
         }
     }

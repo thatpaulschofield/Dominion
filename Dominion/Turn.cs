@@ -24,9 +24,12 @@ namespace Dominion
             CleanupPhase();
         }
 
-        private void CleanupPhase()
+        private void ActionPhase()
         {
-            _player.BeginCleanupPhase(_scope);
+            while (_scope.Actions > 0)
+            {
+                _player.BeginActionPhase(new ActionPhase(_scope, _player.Hand.Actions()));
+            }
         }
 
         private void BuyPhase()
@@ -38,17 +41,14 @@ namespace Dominion
             }
         }
 
+        private void CleanupPhase()
+        {
+            _player.BeginCleanupPhase(_scope);
+        }
+
         private void PlayTreasures()
         {
             _player.HandleCommand(new SelectTreasuresToPlayCommand(_scope)).Execute();
-        }
-
-        private void ActionPhase()
-        {
-            while (_scope.Actions > 0)
-            {
-                _player.BeginActionPhase(new ActionPhase(_scope, _player.Hand.Actions()));
-            }
         }
 
         private void EnsureFirstHandIsDrawn()

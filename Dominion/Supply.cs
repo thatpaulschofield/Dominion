@@ -16,20 +16,20 @@ namespace Dominion
             piles.ToList().ForEach(p => this.Add(p.Type, p));
         }
 
-        public Card AcquireCard(CardType cardType, ITurnScope turnScope)
+        public Card AcquireCard(CardType cardType, IActionScope turnScope)
         {
             return this[cardType].Draw(turnScope);
         }
 
         public CardSet FindCardsEligibleForPurchase(ITurnScope turnScope)
         {
-            return FindCardsCostingUpTo(turnScope.Coins);
+            return FindCardsCostingUpTo(turnScope.Coins, turnScope);
         }
 
-        public CardSet FindCardsCostingUpTo(Money maxCost)
+        public CardSet FindCardsCostingUpTo(Money maxCost, IActionScope scope)
         {
             var eligibleCards = this.Select(x => x.Value)
-                                    .Where(t => t.Type.Create().Cost <= maxCost && t.Count > 0)
+                                    .Where(t => t.Type.Create().BaseCost <= maxCost && t.Count > 0)
                                     .Select(z => z.Type.Create());
 
             return new CardSet(eligibleCards);
@@ -38,7 +38,7 @@ namespace Dominion
         public CardSet FindCardsCostingExactly(Money cost)
         {
             var eligibleCards = this.Select(x => x.Value)
-                                    .Where(t => t.Type.Create().Cost == cost && t.Count > 0)
+                                    .Where(t => t.Type.Create().BaseCost == cost && t.Count > 0)
                                     .Select(z => z.Type.Create());
 
             return new CardSet(eligibleCards);

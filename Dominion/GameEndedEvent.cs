@@ -11,5 +11,12 @@ namespace Dominion
         {
             _scores = scores;
         }
+
+        public override string ToString()
+        {
+            string s = "Game ended.  Scores:\n";
+            _scores.ForEach(sc => s = s + sc + "\n");
+            return s;
+        }
     }
 }

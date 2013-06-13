@@ -1,6 +1,6 @@
 ﻿using Dominion.Ai.Nodes;
 
-namespace Dominion.Tests.AI
+namespace Dominion.Ai.TreeBuilding
 {
     public class TreeSizeVisitor : NodeVisitor
     {

@@ -4,7 +4,7 @@ using Dominion.GameEvents;
 
 namespace Dominion.Ai.Nodes.Terminals
 {
-    public class VoteForMostExpensiveTreasure : Function<ResponseVotes>
+    public class VoteForMostExpensiveTreasure : Terminal<ResponseVotes>
     {
         public override ResponseVotes Evaluate(IAiContext context)
         {
@@ -14,6 +14,11 @@ namespace Dominion.Ai.Nodes.Terminals
                 return context.VoteFor(buyTreasureResponses.First(), 1);
 
             return context.Votes;
+        }
+
+        public override string ToString()
+        {
+            return "vote to buy the most expensive treasure I can";
         }
     }
 }

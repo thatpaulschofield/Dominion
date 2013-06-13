@@ -46,7 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ai.cs" />
+    <Compile Include="AiBuilder.cs" />
+    <Compile Include="AiStrategy.cs" />
     <Compile Include="AiBootstrapper.cs" />
     <Compile Include="AiContext.cs" />
     <Compile Include="AiContextGame.cs" />
@@ -54,6 +55,21 @@
     <Compile Include="AiRegistry.cs" />
     <Compile Include="ConstantValueProviders\AllResponsesProvider.cs" />
     <Compile Include="AutomapperConfig.cs" />
+    <Compile Include="ConstantValueProviders\EventResponseCriteriaProvider.cs" />
+    <Compile Include="ConstantValueProviders\ResponseCriteriaBuilder.cs" />
+    <Compile Include="ConstantValueProviders\ResponseVotesValueProvider.cs" />
+    <Compile Include="ConstantValueProviders\TypeExtensions.cs" />
+    <Compile Include="Matches\ITournamentBuilder.cs" />
+    <Compile Include="Matches\Match.cs" />
+    <Compile Include="Matches\PlayerSeriesResult.cs" />
+    <Compile Include="Matches\Round.cs" />
+    <Compile Include="Matches\RoundResults.cs" />
+    <Compile Include="Matches\Series.cs" />
+    <Compile Include="Matches\SeriesResults.cs" />
+    <Compile Include="Matches\SeriesScores.cs" />
+    <Compile Include="Matches\Tournament.cs" />
+    <Compile Include="Matches\TournamentBuilder.cs" />
+    <Compile Include="Matches\TournamentResults.cs" />
     <Compile Include="Nodes\Functions\Boolean\CardSetContainsCard.cs" />
     <Compile Include="Nodes\Functions\Boolean\Contains.cs" />
     <Compile Include="Nodes\Functions\Boolean\GreaterThan.cs" />
@@ -63,6 +79,8 @@
     <Compile Include="Nodes\Functions\CardSets\CardsInHandTerminal.cs" />
     <Compile Include="Nodes\Functions\CardSets\CardsInPlayTerminal.cs" />
     <Compile Include="Nodes\Functions\CardSets\CardsInSupplyTerminal.cs" />
+    <Compile Include="Nodes\Functions\CardSets\CardsOfTypeFunction.cs" />
+    <Compile Include="Nodes\Functions\CardSets\CountOfCardsInSetFunction.cs" />
     <Compile Include="Nodes\Functions\CardSets\TreasureCardsInCardSetFunction.cs" />
     <Compile Include="Nodes\Functions\CardSets\VictoryCardsInCardSetFunction.cs" />
     <Compile Include="Nodes\Functions\Cards\TheMostExpensiveCard.cs" />
@@ -73,6 +91,8 @@
     <Compile Include="Nodes\Functions\Numeric\CardTypeConstant.cs" />
     <Compile Include="ConstantValueProviders\CardValueProvider.cs" />
     <Compile Include="Nodes\Functions\Numeric\GameEventResponseConstant.cs" />
+    <Compile Include="Nodes\Functions\VoteToBuyTheCard.cs" />
+    <Compile Include="Nodes\GameEventResponseType.cs" />
     <Compile Include="Nodes\Functions\Numeric\NumberOfCardsOfTypeInCardSet.cs" />
     <Compile Include="Nodes\Functions\Numeric\NumberOfPlayersTerminal.cs" />
     <Compile Include="Nodes\Functions\SourceEventGroup.cs" />
@@ -80,6 +100,9 @@
     <Compile Include="Nodes\Functions\VoteForResponse.cs" />
     <Compile Include="Nodes\PrettyPrinter.cs" />
     <Compile Include="ConstantValueProviders\SupplyValueProvider.cs" />
+    <Compile Include="Populations\Population.cs" />
+    <Compile Include="Populations\PopulationBuilder.cs" />
+    <Compile Include="AiPlayerBuilder.cs" />
     <Compile Include="TreeBuilding\FullTreeStrategy.cs" />
     <Compile Include="Function.cs" />
     <Compile Include="FunctionSet.cs" />
@@ -97,7 +120,6 @@
     <Compile Include="Nodes\Node.cs" />
     <Compile Include="Nodes\NodeRegistry.cs" />
     <Compile Include="Nodes\NodeVisitor.cs" />
-    <Compile Include="Population.cs" />
     <Compile Include="ResponseScore.cs" />
     <Compile Include="ResponseVotes.cs" />
     <Compile Include="Nodes\Terminal.cs" />
@@ -107,6 +129,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConstantValueProviders\IValueProviderRegistry.cs" />
     <Compile Include="TreeBuilding\TreeBuilder.cs" />
+    <Compile Include="TreeBuilding\TreeSizeVisitor.cs" />
     <Compile Include="TreeBuilding\TreeSpec.cs" />
     <Compile Include="ConstantValueProviders\ValueProviderRegistry.cs" />
     <Compile Include="TypeSet.cs" />

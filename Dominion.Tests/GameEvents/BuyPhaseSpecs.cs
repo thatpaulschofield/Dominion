@@ -18,7 +18,7 @@ namespace Dominion.Tests.GameEvents
 
                 new SupplyPile(1, Action.Village, eventAggregator));
 
-            var turnScope = new MockTurnScope {TreasuresInHand = player.Hand, Coins = 0, ActingPlayer = player, Supply = supply, EventAggregator = eventAggregator};
+            var turnScope = new MockTurnScope {TreasuresInHand = player.Hand, Coins = 0, Player = player, Supply = supply, EventAggregator = eventAggregator};
             var buyPhase = new BuyPhase(turnScope);
             player.BeginBuyPhase(buyPhase);
             eventAggregator.AssertMessageWasSent<DeclineToPurchaseResponse>();

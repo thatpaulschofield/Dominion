@@ -1,4 +1,6 @@
-﻿namespace Dominion.GameEvents
+﻿using System.Linq;
+
+namespace Dominion.GameEvents
 {
     public abstract class GameEventReaction : GameMessage, IEventReaction
     {
@@ -20,5 +22,25 @@
         {
             return Description;
         }
+    }
+
+    public abstract class GameEventReaction<TINRESPONSETO> : GameEventReaction
+    {
+        protected GameEventReaction(IReactionScope scope) : base(scope)
+        {
+        }
+    }
+
+
+    public abstract class GameEventReaction<TINRESPONSETO, TITEM> : GameEventReaction<TINRESPONSETO>
+    {
+        protected GameEventReaction(IReactionScope scope, TITEM item)
+            : base(scope)
+        {
+            Item = item;
+        }
+
+        public TITEM Item { get; protected set; }
+
     }
 }

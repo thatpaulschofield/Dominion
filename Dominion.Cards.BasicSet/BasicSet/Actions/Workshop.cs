@@ -23,7 +23,7 @@ namespace Dominion.Cards.BasicSet.Actions
         {
             Description = "Select a card costing up to " + maxCost + ".";
             GetAvailableResponses = () =>
-                                    turnScope.Supply.FindCardsCostingUpTo(maxCost).OrderByDescending(c => c.Cost)
+                                    turnScope.Supply.FindCardsCostingUpTo(maxCost, turnScope).OrderByDescending(c => c.BaseCost)
                                              .Select(c => new CardSelectedToGainResponse(c, turnScope));
         }
         

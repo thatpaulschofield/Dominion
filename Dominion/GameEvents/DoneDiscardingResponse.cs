@@ -13,7 +13,7 @@ namespace Dominion.Cards.BasicSet.Actions
 
         public override void Execute()
         {
-            TurnScope.ActingPlayer.Draw(_discardedCount, TurnScope);
+            TurnScope.Player.DrawIntoHand(_discardedCount, TurnScope);
         }
 
         public void IncrementDiscardedCount()

@@ -1,20 +1,21 @@
 ﻿namespace Dominion
 {
-    internal class PlayerScore
+    public class PlayerScore
     {
         public PlayerScore(Player player, int countScore)
         {
-            this.Player = player.Name;
+            this.Player = player;
+            this.PlayerName = player.Name;
             this.Score = countScore;
         }
 
         public int Score { get; private set; }
-
-        public string Player { get; private set; }
+        public Player Player { get; set; }
+        public string PlayerName { get; private set; }
 
         public override string ToString()
         {
-            return Player + ": " + Score + " victory points";
+            return "    " + PlayerName + ": " + Score + " victory points";
         }
     }
 }

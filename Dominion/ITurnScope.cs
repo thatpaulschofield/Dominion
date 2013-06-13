@@ -7,7 +7,6 @@ namespace Dominion
 {
     public interface ITurnScope : IActionScope, IDisposable
     {
-        Supply Supply { get; }
         CardSet TreasuresInHand { get; }
         int TurnNumber { get; }
         int Coins { get; }
@@ -15,6 +14,8 @@ namespace Dominion
         int Buys { get; }
         IEnumerable<IReactionScope> ReactionScopes { get; }
         CardSet CardsInPlay { get; }
+        CardSet Deck { get; }
+        CardSet DiscardPile { get; }
         void Discard(CardSet cardsToDiscard);
         void PlayTreasures(CardSet treasuresToPlay);
         void Publish(IGameMessage @event);
@@ -24,9 +25,22 @@ namespace Dominion
         void ChangeState(params TurnState[] deltas);
         void CleanUp();
         string ToString();
-        void TrashCard(Card card);
+        void TrashCardFromHand(Card card);
         void GainCardFromSupply(CardType card);
         T GetInstance<T>();
         CardSet FindCardsEligibleForPurchase(ITurnScope turnScope);
+        void PutCardFromHandIntoPlay(Card card);
+        void GainCardFromSupplyOntoTopOfDeck(Card card);
+        void RevealCard(Card card);
+        void PutCardOnTopOfDeck(Card card);
+        void PutCardFromHandOnTopOfDeck(Card card);
+        Card DrawCard();
+        Card RevealCardFromTopOfDeck();
+        void PutCardsIntoHand(CardSet cards);
+        void PutCardsIntoDiscardPile(CardSet cardSet);
+        void DrawCardsIntoHand(int count);
+        void DrawCardIntoCardset(CardSet cardSet);
+        CardSet MoveCardsFrom (CardSet currentLocation);
+        void TrashCardInPlay(CardType cardType);
     }
 }

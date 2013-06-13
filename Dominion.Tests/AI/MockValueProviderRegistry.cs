@@ -19,5 +19,9 @@ namespace Dominion.Tests.AI
         }
 
         public IEnumerable<IInitialValueProvider> AllProviders { get; private set; }
+        public string WhatDoIHave()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -18,11 +18,11 @@ namespace Dominion
             get { return this.ToList().Any(); }
         }
 
-        public Card Draw(ITurnScope turnScope)
+        public Card Draw(IActionScope turnScope)
         {
             if (!InnerList.Any())
             {
-                turnScope.ActingPlayer.Handle(new DeckDepletedEvent(turnScope), turnScope);
+                turnScope.Player.Handle(new DeckDepletedEvent(turnScope), turnScope);
             }
             if (InnerList.Any())
             {
@@ -50,7 +50,7 @@ namespace Dominion
             return shuffled;
         }
 
-        public CardSet Draw(int cardCount, ITurnScope turnScope)
+        public CardSet Draw(int cardCount, IActionScope turnScope)
         {
             var cardSet = new CardSet();
             cardCount.Times(() => cardSet.Add(Draw(turnScope), turnScope));
@@ -60,6 +60,11 @@ namespace Dominion
         public void Handle(IGameMessage @event, IReactionScope scope)
         {
             this.OfType<IHandleExternalEvents>().ForEach(c => c.Handle(@event, scope));
+        }
+
+        public void PlaceCardsOnTop(CardSet cards)
+        {
+            InnerList.InsertRange(0, cards);
         }
     }
 }

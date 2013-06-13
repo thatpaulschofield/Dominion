@@ -9,7 +9,10 @@ namespace Dominion
     {
         ITurnScope OriginatingTurnScope { get; }
         Player OriginatingPlayer { get; }
-        Player ReceivingPlayer { get; }
+        Player ReactingPlayer { get; }
         void RegisterEventFilter(ExternalEventFilter filter);
+        void RevealCard(Card card);
+        void PutCardFromHandOnTopOfDeck(Card card);
+        void DrawCardsIntoHand(int count);
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Dominion.GameEvents
 {
-    public interface IEventReaction
+    public interface IEventReaction : IEventResponse
     {
     }
 }

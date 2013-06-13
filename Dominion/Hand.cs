@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Dominion.Cards;
 using Dominion.Cards.BasicSet.Actions;
@@ -7,6 +8,15 @@ namespace Dominion
 {
     public class Hand : CardSet, IHandleExternalEvents, IHandleInternalEvents
     {
+        public Hand() : base()
+        {
+        }
+
+        public Hand(IEnumerable<Card> cards) : base(cards)
+        {
+            
+        }
+
         public void Draw(Card card)
         {
             InnerList.Add(card);
@@ -26,12 +36,12 @@ namespace Dominion
             }
         }
 
-        public void Discard(DiscardPile discardPile, ITurnScope turnScope)
+        public void Discard(DiscardPile discardPile, IActionScope turnScope)
         {
             InnerList.ToList().ForEach(c => Discard(c, discardPile, turnScope));
         }
 
-        public void PlayCard(Card cardToPlay, CardSet cardsInPlay, ITurnScope turnScope)
+        public void PlayCard(Card cardToPlay, CardSet cardsInPlay, IActionScope turnScope)
         {
             if (this.Contains(cardToPlay))
             {
@@ -79,9 +89,9 @@ namespace Dominion
             this.OfType<IHandleExternalEvents>().ForEach(card => card.Handle(@event, scope));
         }
 
-        public void Handle(IGameMessage @event, ITurnScope scope)
+        public void Handle(IGameMessage @event, IActionScope scope)
         {
-            this.OfType<IHandleInternalEvents>().ForEach(card => card.Handle(@event, scope));
+            this.ToList().OfType<IHandleInternalEvents>().ForEach(card => card.Handle(@event, scope));
         }
         #endregion
     }

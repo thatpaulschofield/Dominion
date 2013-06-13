@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Dominion.GameEvents;
+using Dominion.Infrastructure;
 using StructureMap;
 
 namespace Dominion
@@ -24,20 +25,18 @@ namespace Dominion
             TurnNumber = 1;
             _eventAggregator = eventAggregator;
             _container = container;
-            supplyBuilder.WithPlayers(players.Count());
-            Supply = supplyBuilder.BuildSupply();
             Players = players;
+            Supply = supplyBuilder.BuildSupply();
             _playerIterator = Players.GetEnumerator();
 
-            endGameConditions.ForEach(
-                c => _endGameConditions.Add(c)
-                );
-            _container.GetAllInstances<EndGameCondition>().ForEach(
-                c => _endGameConditions.Add(c)
-                );
-            //_endGameConditions.Add(new ProvinceStackDepletedEndGameCondition(eventAggregator));
-            _endGameConditions.Add(new ThreeSupplyPilesDepletedEndGameCondition(eventAggregator));
+            endGameConditions.ForEach(c => _endGameConditions.Add(c));
 
+        }
+
+        public Game(GameScope gameScope, IEnumerable<Player> players)
+            : this(gameScope.EventAggregator, gameScope.SupplyBuilder, players, gameScope.EndGameConditions, gameScope.Container)
+        {
+            
         }
 
 
@@ -49,7 +48,7 @@ namespace Dominion
             private set { _players = value.ToList(); }
         }
 
-        public void Start()
+        public GameScore Start()
         {
             do
             {
@@ -58,19 +57,20 @@ namespace Dominion
                 if (GameOver)
                     break;
             } while (!GameOver);
-            GameEnd();
+            return GameEnd();
         }
 
-        private void GameEnd()
+        private GameScore GameEnd()
         {
-            var scores = new List<PlayerScore>();
+            var scores = new GameScore();
             var scope = new EndGameScope();
             foreach (var player in Players)
             {
-                player.EndGameCleanup(scope);
-                scores.Add(new PlayerScore(player, player.CountScore(scope)));
+                player.EndGameCleanup(this);
+                scores.Add(new PlayerScore(player, player.CountScore(this)));
             }
             _eventAggregator.Publish(new GameEndedEvent(scores, scope));
+            return scores;
         }
 
         public int TurnNumber { get; private set; }

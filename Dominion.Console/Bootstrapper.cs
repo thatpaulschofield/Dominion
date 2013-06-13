@@ -1,4 +1,5 @@
-﻿using Dominion.Cards.BasicSet.Actions.MineAction;
+﻿using Dominion.Ai;
+using Dominion.Cards.BasicSet.Actions.MineAction;
 using Dominion.Configuration;
 using StructureMap;
 
@@ -14,19 +15,16 @@ namespace Dominion.Console
                     cfg.AddRegistry<DominionRegistry>();
                     cfg.Scan(scan =>
                         {
-                            //scan.TheCallingAssembly();
                             scan.Assembly("Dominion.Cards.BasicSet");
+                            scan.Assembly("Dominion.Cards.Intrigue");
+                            scan.Assembly("Dominion.Ai");
                             scan.LookForRegistries();
                             scan.AssemblyContainingType<Game>();
-                            scan.WithDefaultConventions();
-                            //scan.AddAllTypesOf(typeof (GameEventResponse<>));
-
-                            //scan.AddAllTypesOf<Saga>();
-                            //scan.ConnectImplementationsToTypesClosing(typeof (IStartedBy<>));
+                            //scan.WithDefaultConventions();
+                            scan.Convention<DefaultCtorParameterConvention>();
                         });
-                    
                 });
-
+            AutomapperConfig.ConfigureMappings(container);
             return container;
         }
     }

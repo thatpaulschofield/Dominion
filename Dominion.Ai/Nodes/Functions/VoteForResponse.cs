@@ -1,23 +1,20 @@
-﻿using Dominion.AI;
+﻿using System.Linq;
+using Dominion.AI;
 using Dominion.GameEvents;
 
 namespace Dominion.Ai.Nodes.Functions
 {
-    public class VoteForResponseFunction : Function<ResponseVotes, GameEventResponse, int, bool>
+    public class VoteForResponseFunction<TINRESPONSETO, TRESPONSE, TITEM> 
+        : Function<ResponseVotes, EventResponseWithItemCriteria<TINRESPONSETO, TRESPONSE, TITEM>, int, bool> 
+            where TRESPONSE : GameEventResponseWithItem<TINRESPONSETO, TITEM>
     {
         public override ResponseVotes Evaluate(IAiContext context)
         {
             var votes = new ResponseVotes();
 
-            if (Child3.Evaluate(context) && context.ResponseIsAvailable(Response(context)))
-                votes.VoteFor(Response(context), Child2.Evaluate(context));
-
+            var matchingResponses = context.AvailableResponses.OfType<TRESPONSE>().Where(r => Child1.Evaluate(context).IsMatch(r));
+            matchingResponses.ForEach(response => context.VoteFor(response, Child2.Evaluate(context)));
             return votes;
-        }
-
-        protected GameEventResponse Response(IAiContext context)
-        {
-            return Child1.Evaluate(context); 
         }
 
         public override string ToString()
@@ -25,4 +22,4 @@ namespace Dominion.Ai.Nodes.Functions
             return "vote for the {1} response {2} times if {3}";
         }
     }
-}
+}// EventResponseCriteria<TINRESPONSETO, TRESPONSE, TITEM>

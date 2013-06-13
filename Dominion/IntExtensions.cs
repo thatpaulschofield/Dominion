@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Dominion.Cards;
 using Dominion.Cards.BasicSet;
@@ -31,6 +32,16 @@ namespace Dominion
             {
                 action();
             }
+        }
+
+        public static T[] Times<T>(this int count, Func<T> action)
+        {
+            var items = new List<T>();
+            for (int i = 0; i < count; i++)
+            {
+                items.Add(action());
+            }
+            return items.ToArray();
         }
 
         public static Money Coins(this int coins)

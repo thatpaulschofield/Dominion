@@ -1,9 +1,20 @@
 using System;
 using Dominion.Cards.BasicSet.Actions.Saga;
+using Dominion.Cards.BasicSet.BasicSet.Actions.Remodel;
 using Dominion.Cards.Saga;
+using Stateless;
 
 namespace Dominion.Cards.BasicSet.Actions.Remodel
 {
+    public static class StateConfigurationExtensions
+    {
+        public static StateMachine<STATE, TRIGGER>.StateConfiguration TransitionOnEvent<STATE, TRIGGER, TEVENT>(
+            this StateMachine<STATE, TRIGGER>.StateConfiguration config, StateMachine<STATE, TRIGGER>.TriggerWithParameters<TEVENT> @event, Func<TEVENT, STATE> newState)
+        {
+            return config.PermitDynamic(@event, newState);
+        }
+    }
+
     public class RemodelSaga : Saga<RemodelSaga.State,RemodelSaga.Trigger>,
         IStartedBy<RemodelPlayedMessage>,
         IRespondTo<CardSelectedToRemodelResponse>,
@@ -14,7 +25,7 @@ namespace Dominion.Cards.BasicSet.Actions.Remodel
         public RemodelSaga() : base(State.Initial, State.Complete)
         {
             Configure(State.Initial)
-                .PermitDynamic(Event<RemodelPlayedMessage>(), m => State.RemodelPlayed);
+                .TransitionOnEvent(Event<RemodelPlayedMessage>(), m => State.RemodelPlayed);
             Configure(State.RemodelPlayed)
                 .OnEntryFrom(Event<RemodelPlayedMessage>(), RequestCardToRemodel)
                 .PermitDynamic(Event<CardSelectedToRemodelResponse>(), m => State.CardSelectedToRemodel);
@@ -34,12 +45,13 @@ namespace Dominion.Cards.BasicSet.Actions.Remodel
 
         private void RequestCardToRemodelTo(CardSelectedToRemodelResponse message)
         {
-            message.TurnScope.Publish(new PickCardToRemodelToCommand(message.Card.Cost + 2, message.TurnScope){Id = Guid.NewGuid(), CorrelationId = message.CorrelationId, OriginalEventId = message.OriginalEventId});
+            _cardToRemodel = message.Item;
+            message.TurnScope.Publish(new PickCardToRemodelToCommand(message.TurnScope.GetPrice(message.Item) + 2.Coins(), message.TurnScope) { Id = Guid.NewGuid(), CorrelationId = message.CorrelationId, OriginalEventId = message.OriginalEventId });
         }
 
         private void PerformRemodel(CardSelectedToRemodelToResponse message)
         {
-            message.TurnScope.TrashCard(_cardToRemodel);
+            message.TurnScope.TrashCardFromHand(_cardToRemodel);
             message.TurnScope.GainCardFromSupply(message.Item);
         }
 

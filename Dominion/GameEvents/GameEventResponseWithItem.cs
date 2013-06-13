@@ -44,7 +44,7 @@
         }
     }
 
-    public class GameEventResponseWithItem<TITEM, TINRESPONSETO> :GameEventResponseWithItem<TITEM> where TINRESPONSETO:IMessage
+    public class GameEventResponseWithItem<TITEM, TINRESPONSETO> :GameEventResponseWithItem<TITEM>
     {
         public GameEventResponseWithItem(ITurnScope turnScope) : base(turnScope)
         {

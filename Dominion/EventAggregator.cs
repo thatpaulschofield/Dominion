@@ -14,17 +14,20 @@ namespace Dominion
 
         public void Register(IHandleEvents handler)
         {
-            _subscribers.Add(handler);
+            lock(_subscribers)
+                _subscribers.Add(handler);
         }
 
         public void Unregister(IHandleEvents handler)
         {
-            _subscribers.Remove(handler);
+            lock (_subscribers)
+                _subscribers.Remove(handler);
         }
 
         public void Publish(IGameMessage @event)
         {
-            _subscribers.ForEach(
+            lock (_subscribers)
+                _subscribers.ForEach(
                 s =>
                     {
                         if (s.CanHandle(@event))

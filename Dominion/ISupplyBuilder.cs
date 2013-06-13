@@ -10,5 +10,6 @@ namespace Dominion
         ISupplyBuilder WithSet<T>() where T: DeckSet, new();
         ISupplyBuilder BasicGame();
         Supply BuildSupply();
+        ISupplyBuilder WithGameSpec(GameSpec spec);
     }
 }

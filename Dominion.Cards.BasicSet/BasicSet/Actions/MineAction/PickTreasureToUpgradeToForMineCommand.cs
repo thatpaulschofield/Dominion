@@ -11,8 +11,8 @@ namespace Dominion.Cards.BasicSet.Actions.MineAction
             Description = String.Format("Pick a treasure costing {0} to upgrade to [Mine]", cost);
             GetAvailableResponses =
                 () =>
-                scope.Supply.FindCardsCostingUpTo(cost)
-                     .Treasures().OrderByDescending(t => t.Cost)
+                scope.Supply.FindCardsCostingUpTo(cost, scope)
+                     .Treasures().OrderByDescending(scope.GetPrice)
                      .Select(t => new TreasurePickedToUpgradeToWithMine(t, scope));
         }
     }

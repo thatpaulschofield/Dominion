@@ -19,14 +19,15 @@ namespace Dominion.Cards
             if (cards == null)
                 throw new ArgumentNullException("cards");
 
-            InnerList = new List<Card>();
-            InnerList.AddRange(cards);
+            cards = cards.ToList();
+
+            InnerList = new List<Card>(cards);
         }
 
         public CardSet(params Card[] cards)
         {
             InnerList = new List<Card>();
-            InnerList.AddRange(cards);
+            InnerList.AddRange(cards.ToList());
         }
 
         public CardSet Actions()
@@ -120,7 +121,12 @@ namespace Dominion.Cards
 
         public override string ToString()
         {
-            return String.Format("Cards: [{0}]", this.Aggregate(String.Empty, (s, card) => s + " " + card.Name));
+            return String.Format("Cards: [{0}]", this.Aggregate(String.Empty, (s, card) => s + ", " + card.Name));
+        }
+
+        public bool IsSupersetOf(CardSet other)
+        {
+            return other.All(this.Contains);
         }
     }
 }

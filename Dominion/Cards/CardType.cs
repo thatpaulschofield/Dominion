@@ -76,5 +76,10 @@ namespace Dominion.Cards
         {
             return Create().Name;
         }
+
+        public static CardType Of<T>() where T : Card, new()
+        {
+            return new CardType<T>();
+        }
     }
 }

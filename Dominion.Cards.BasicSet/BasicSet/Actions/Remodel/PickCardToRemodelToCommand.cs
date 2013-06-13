@@ -11,7 +11,7 @@ namespace Dominion.Cards.BasicSet.Actions.Remodel
             Description = String.Format("Select a card that costs up to {0} coins to remodel to.", cost);
             GetAvailableResponses = 
                 () =>
-                    turnScope.Supply.FindCardsCostingUpTo(cost).Select
+                    turnScope.Supply.FindCardsCostingUpTo(cost, turnScope).Select
                         (c => new CardSelectedToRemodelToResponse(c, TurnScope));
         }
 

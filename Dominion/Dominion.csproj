@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractActionScope.cs" />
     <Compile Include="Cards\IAttackEffect.cs" />
     <Compile Include="Cards\IFilterExternalGameEvents.cs" />
     <Compile Include="Cards\IHandleExternalEvents.cs" />
@@ -72,9 +73,14 @@
     <Compile Include="GameEvents\EnumerableExtensions.cs" />
     <Compile Include="GameEvents\ExternalEventFilter.cs" />
     <Compile Include="GameEvents\GameEventResponseWithItem.cs" />
+    <Compile Include="GameEvents\ICardCostModifierEffect.cs" />
     <Compile Include="GameEvents\OptionalDiscardResponse.cs" />
     <Compile Include="GameEvents\OptionallyDiscard.cs" />
+    <Compile Include="GameEvents\PlayerTrashedCardEvent.cs" />
     <Compile Include="GameEvents\RevealCardResponse.cs" />
+    <Compile Include="GameScope.cs" />
+    <Compile Include="GameScore.cs" />
+    <Compile Include="Id.cs" />
     <Compile Include="IntExtensions.cs" />
     <Compile Include="ISupplyBuilder.cs" />
     <Compile Include="MockEventAggregator.cs" />
@@ -110,7 +116,7 @@
     <Compile Include="IActionScope.cs" />
     <Compile Include="IEvent.cs" />
     <Compile Include="IEventAggregator.cs" />
-    <Compile Include="IExternalEventScope.cs" />
+    <Compile Include="IReactionScope.cs" />
     <Compile Include="IGameBuilder.cs" />
     <Compile Include="IHandleEvents.cs" />
     <Compile Include="IHandleInternalEvents.cs" />

@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Dominion.AI;
+using Dominion.Ai;
+using Dominion.Ai.Nodes.Functions;
+using Dominion.Ai.TreeBuilding;
 using Dominion.Cards;
-using Dominion.Infrastructure;
+using Dominion.Cards.Intrigue.DeckSets;
 using Dominion.PlayerControllers.Console;
 using StructureMap;
 
@@ -18,24 +18,47 @@ namespace Dominion.Console
         {
             try
             {
+                int aiPlayerCount = AskForAiPlayerCount();
                 _container = new Bootstrapper().BootstrapApplication();
-                _container.GetInstance<ConsoleEventLogger>();
-                var supplyBuilder = _container.GetInstance<ISupplyBuilder>();
-                supplyBuilder
-                    .BasicGame()
-                    .WithSet<FirstGame>()
-                    .WithPlayers(2);
-                var gameBuilder = _container.GetInstance<GameBuilder>();
-                var gameSpec = new GameSpec().WithConsolePlayer("Bob").WithConsolePlayer("Ted");
 
-                _container.GetInstance<IBus>();
-                Game game = gameBuilder.Initialize(gameSpec);
+                var aiPlayerBuilder = _container.GetInstance<AiPlayerBuilder>();
+
+                var gameSpec = new GameSpec()
+                    .BasicGame()
+                    //.WithSet<FirstGame>()
+                    //.WithSet<BigMoney>()
+                    //.WithSet<Interaction>()
+                    //.WithSet<SizeDistortion>()
+                    .WithSet<Deconstruction>()
+                    .WithPlayer(_container.GetInstance<PlayerSpec<ConsolePlayerController>>().WithPlayerName("You"))
+                    ;
+                var i = 0;
+                aiPlayerCount.Times(() =>
+                    {
+                        gameSpec.WithPlayer(aiPlayerBuilder.WithTreeSpec(new TreeSpec{MaxDepth = 100}).BuildAiPlayer("AI - " + ++i));
+                    });
+                var gameBuilder = new GameBuilder();
+                var scope = _container.GetInstance<GameScope>();
+                new ConsoleEventLogger(scope.EventAggregator);
+                Game game = gameBuilder.Initialize(gameSpec, scope);
+
                 game.Start();
             }
             catch (Exception)
             {
                 throw;
             }
+        }
+
+        private static int AskForAiPlayerCount()
+        {
+            System.Console.WriteLine("How many AI players would you like to play against?");
+            int players = 0;
+            do
+            {
+                Int32.TryParse(System.Console.ReadLine(), out players);
+            } while (players < 1 && players > 4 );
+            return players;
         }
     }
 }

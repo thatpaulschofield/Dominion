@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dominion.AI;
 using Dominion.Cards;
+using Dominion.Cards.BasicSet.Treasures;
 
 namespace Dominion.Ai.Nodes.Functions.Cards
 {
@@ -12,12 +13,15 @@ namespace Dominion.Ai.Nodes.Functions.Cards
     {
         public override Card Evaluate(IAiContext context)
         {
-            return Child1.Evaluate(context).OrderByDescending(c => c.Cost).FirstOrDefault();
+            var cardSet = Child1.Evaluate(context);
+
+            return cardSet
+                .OrderByDescending(c => c.BaseCost).FirstOrDefault();
         }
 
         public override string ToString()
         {
-            return "the most expensive card in {1}";
+            return "the most expensive card in the set";
         }
     }
 }

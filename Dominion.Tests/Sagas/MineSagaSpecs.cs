@@ -15,7 +15,7 @@ namespace Dominion.Tests.Sagas
         public void Should_start_by_asking_for_a_treasure_to_trash()
         {
             TheSaga
-                .ShouldRespondTo<MinePlayedMessage>()
+                .ShouldRespondTo<Mine.MinePlayedMessage>()
                 .With<PickTreasureToTrashForMineCommand>()
                 .Test();
         }
@@ -24,7 +24,7 @@ namespace Dominion.Tests.Sagas
         public void Card_trashed_sequence()
         {
             TheSaga
-                .AfterHandling<MinePlayedMessage>()
+                .AfterHandling<Mine.MinePlayedMessage>()
                 .AndHandling(new CardSelectedToTrashForMineEvent(Treasure.Copper, TurnScope))
                 .AndHandling(new TreasurePickedToUpgradeToWithMine(Treasure.Copper, TurnScope))
                 .ShouldBeComplete();
@@ -34,7 +34,7 @@ namespace Dominion.Tests.Sagas
         public void Card_not_trashed_sequence()
         {
             TheSaga
-                .AfterHandling<MinePlayedMessage>()
+                .AfterHandling<Mine.MinePlayedMessage>()
                 .AndHandling<DeclinedToTrashCardForMineResponse>()
                 .ShouldBeComplete();
         }

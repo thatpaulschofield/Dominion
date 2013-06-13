@@ -53,9 +53,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Dominion.Ai\Dominion.Ai.csproj">
+      <Project>{3cc98f5f-ddeb-4a05-a4c5-7413cf11d8d4}</Project>
+      <Name>Dominion.Ai</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Dominion.Cards.BasicSet\Dominion.Cards.BasicSet.csproj">
       <Project>{5fee6005-e7b0-4161-a8f0-96dc89f29136}</Project>
       <Name>Dominion.Cards.BasicSet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Dominion.Cards.Intrigue\Dominion.Cards.Intrigue.csproj">
+      <Project>{c74b8689-6070-4bc1-b265-23d05fa9234b}</Project>
+      <Name>Dominion.Cards.Intrigue</Name>
     </ProjectReference>
     <ProjectReference Include="..\Dominion\Dominion.csproj">
       <Project>{495f1640-5633-4cb2-9041-a222b7c9889c}</Project>

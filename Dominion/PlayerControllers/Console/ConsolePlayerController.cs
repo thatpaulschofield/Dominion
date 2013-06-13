@@ -22,6 +22,7 @@ namespace Dominion.PlayerControllers.Console
                 System.Console.WriteLine("{0} - {1}", response.Index, response.Description);
             }
             System.Console.WriteLine("[Enter = {0}]", @event.GetDefaultResponse().Description);
+            System.Console.WriteLine("{0}", @event.TurnScope);
             ConsoleEventResponse consoleEventResponse = null;
             do
             {
@@ -39,23 +40,25 @@ namespace Dominion.PlayerControllers.Console
                     consoleEventResponse = responses.FirstOrDefault(r => r.Index == index);
                 }
             } while (consoleEventResponse == null);
-                    return consoleEventResponse.Response;
+                    
+            
+            return consoleEventResponse.Response;
         }
 
-        public IEventResponse HandleGameEvent(IGameMessage @event, ITurnScope scope)
+        public Guid Id { get; private set; }
+
+        public IEventResponse HandleGameEvent(IGameMessage @event, IActionScope scope)
         {
             if (@event.GetAvailableResponses().Count() == 1)
                 return @event.GetDefaultResponse();
 
-            DisplayTurnInfo(scope);
-            System.Console.WriteLine(scope.ActingPlayer.Name + ", please respond to " + @event);
+            //DisplayTurnInfo(scope);
             return HandleGameEvent(@event, @event.GetAvailableResponses(), scope);
         }
 
         public IEventResponse HandleGameEvent(IGameMessage @event, IReactionScope scope)
         {
-            System.Console.WriteLine(scope.ReceivingPlayer.Name + ", please respond to " + @event + " from " + scope.OriginatingPlayer.Name);
-            return HandleGameEvent(@event, @event.GetAvailableReactions(scope), scope);
+            return HandleGameEvent(@event, @event.GetAvailableResponses(), scope);
         }
 
         private void DisplayTurnInfo(IActionScope actionScope)

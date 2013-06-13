@@ -48,25 +48,33 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BasicSet\Action.cs" />
+    <Compile Include="BasicSet\Actions\Adventurer.cs" />
     <Compile Include="BasicSet\Actions\AttackCardPlayed.cs" />
+    <Compile Include="BasicSet\Actions\BureaucratCard\Bureaucrat.cs" />
     <Compile Include="BasicSet\Actions\CanRevealCardEvent.cs" />
-    <Compile Include="BasicSet\Actions\Cellar.cs" />
+    <Compile Include="BasicSet\Actions\Cellar\Cellar.cs" />
+    <Compile Include="BasicSet\Actions\Chancellor\Chancellor.cs" />
+    <Compile Include="BasicSet\Actions\CouncilRoom.cs" />
     <Compile Include="BasicSet\Actions\DiscardCardResponse.cs" />
     <Compile Include="BasicSet\Actions\DiscardReactionCommand.cs" />
+    <Compile Include="BasicSet\Actions\Feast.cs" />
+    <Compile Include="BasicSet\Actions\Festival.cs" />
+    <Compile Include="BasicSet\Actions\Laboratory.cs" />
+    <Compile Include="BasicSet\Actions\Library.cs" />
     <Compile Include="BasicSet\Actions\Market.cs" />
-    <Compile Include="BasicSet\Actions\Militia.cs" />
-    <Compile Include="BasicSet\Actions\MilitiaAttackEffect.cs" />
+    <Compile Include="BasicSet\Actions\Militia\Militia.cs" />
+    <Compile Include="BasicSet\Actions\Militia\MilitiaAttackEffect.cs" />
     <Compile Include="BasicSet\Actions\MineAction\CardSelectedToTrashForMineEvent.cs" />
     <Compile Include="BasicSet\Actions\MineAction\DeclinedToTrashCardForMineEvent.cs" />
     <Compile Include="BasicSet\Actions\MineAction\Mine.cs" />
-    <Compile Include="BasicSet\Actions\MineAction\MinePlayedMessage.cs" />
     <Compile Include="BasicSet\Actions\MineAction\MineSaga.cs" />
     <Compile Include="BasicSet\Actions\MineAction\PickTreasureToUpgradeToForMineCommand.cs" />
     <Compile Include="BasicSet\Actions\MineAction\TrashCardForMineResponse.cs" />
     <Compile Include="BasicSet\Actions\MineAction\TrashCardFromHandCommand.cs" />
     <Compile Include="BasicSet\Actions\MineAction\TreasurePickedToUpgradeToWithMine.cs" />
     <Compile Include="BasicSet\Actions\Moat.cs" />
-    <Compile Include="BasicSet\Actions\PickTreasureToTrashForMineCommand.cs" />
+    <Compile Include="BasicSet\Actions\Moneylender.cs" />
+    <Compile Include="BasicSet\Actions\MineAction\PickTreasureToTrashForMineCommand.cs" />
     <Compile Include="BasicSet\Actions\Remodel\CardSelectedToRemodelResponse.cs" />
     <Compile Include="BasicSet\Actions\Remodel\CardSelectedToRemodelToResponse.cs" />
     <Compile Include="BasicSet\Actions\Remodel\DeclinedToRemodelCardResponse.cs" />
@@ -76,14 +84,22 @@
     <Compile Include="BasicSet\Actions\Remodel\RemodelPlayedMessage.cs" />
     <Compile Include="BasicSet\Actions\Remodel\RemodelSaga.cs" />
     <Compile Include="BasicSet\Actions\Smithy.cs" />
+    <Compile Include="BasicSet\Actions\Spy.cs" />
+    <Compile Include="BasicSet\Actions\Thief.cs" />
+    <Compile Include="BasicSet\Actions\ThroneRoom.cs" />
     <Compile Include="BasicSet\Actions\Village.cs" />
+    <Compile Include="BasicSet\Actions\Witch.cs" />
     <Compile Include="BasicSet\Actions\Woodcutter.cs" />
     <Compile Include="BasicSet\Actions\Workshop.cs" />
     <Compile Include="BasicSet\BasicCards.cs" />
     <Compile Include="BasicSet\BasicSetRegistry.cs" />
+    <Compile Include="BasicSet\DeckSets\BigMoney.cs" />
     <Compile Include="BasicSet\Cards.cs" />
-    <Compile Include="BasicSet\FirstGame.cs" />
+    <Compile Include="BasicSet\Actions\Chapel.cs" />
+    <Compile Include="BasicSet\DeckSets\FirstGame.cs" />
+    <Compile Include="BasicSet\DeckSets\Interaction.cs" />
     <Compile Include="BasicSet\ProvinceStackDepletedEndGameCondition.cs" />
+    <Compile Include="BasicSet\DeckSets\SizeDistortion.cs" />
     <Compile Include="BasicSet\SupplyBuilder.cs" />
     <Compile Include="BasicSet\Treasures\CopperFactory.cs" />
     <Compile Include="BasicSet\Treasures\GoldFactory.cs" />
@@ -91,8 +107,10 @@
     <Compile Include="BasicSet\Treasures\Treasure.cs" />
     <Compile Include="BasicSet\VictoryCards\DuchyFactory.cs" />
     <Compile Include="BasicSet\VictoryCards\EstateFactory.cs" />
+    <Compile Include="BasicSet\VictoryCards\Gardens.cs" />
     <Compile Include="BasicSet\VictoryCards\ProvinceFactory.cs" />
     <Compile Include="BasicSet\VictoryCards\Victory.cs" />
+    <Compile Include="BasicSet\DeckSets\VillageSquare.cs" />
     <Compile Include="IntExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -105,6 +123,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
